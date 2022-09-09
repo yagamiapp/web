@@ -9,7 +9,7 @@
 			event.clientX * -0.01 +
 			"px, " +
 			event.clientY * -0.01 +
-			"px) scale(1.2)";
+			"px)";
 	}
 </script>
 
@@ -23,16 +23,13 @@
 	<div class="bottom" />
 </section>
 
-<!-- sect.underdec
-<h1>Welcome to SvelteKit</h1>
-<p>
-	Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-</p> -->
 <style>
 	section {
 		min-height: 100vh;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		font-size: 3em;
+		align-items: center;
 	}
 
 	section#home {
@@ -47,7 +44,7 @@
 	#home video {
 		position: absolute;
 		filter: blur(10px);
-		transform: scale(1.2);
+		/* transform: scale(1.2); */
 		min-height: 100%;
 		min-width: 100%;
 		z-index: -1;
