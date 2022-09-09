@@ -11,7 +11,7 @@
 		break!
 	</h3>
 	<div class="links">
-		<img src={logo} alt="" />
+		<a href="/"><img src={logo} alt="" /></a>
 		<a href="/discord">Discord</a>
 		<a href="/twitter">Twitter</a>
 		<a href="/invite">Invite</a>
@@ -45,9 +45,15 @@
 	a {
 		font-size: 18px;
 		text-decoration: none;
+		/* background: green; */
+		padding: 10px;
 		color: rgba(255, 255, 255, 0.4);
+		box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+		transition: 0.1s ease-in-out;
 	}
 	a:hover {
-		text-decoration: underline;
+		transform: translate(-5px, -5px);
+		background: rgba(255, 255, 255, 0.05);
+		box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
 	}
 </style>
