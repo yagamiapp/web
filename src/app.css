@@ -1,0 +1,17 @@
+@font-face {
+    font-family: MavenPro;
+    src: url("./fonts/MavenPro-VariableFont_wght.ttf");
+}
+
+:root {
+    --background-color: #000405;
+    /* --background-color: #aaa */
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: MavenPro, sans-serif;
+    color: white;
+    background-color: var(--background-color);
+}
