@@ -1,6 +1,6 @@
 <script>
 	import CautionTape from "./CautionTape.svelte";
-	import logo from "../assets/yagami_mask.svg";
+	import logo from "../assets/icons/white.svg";
 </script>
 
 <CautionTape />
@@ -33,7 +33,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		background-color: #001620;
+		background-color: var(--background-color);
 	}
 	.links {
 		width: 100%;

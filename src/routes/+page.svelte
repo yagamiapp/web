@@ -1,5 +1,5 @@
 <script>
-	import banner from "../assets/banner.png";
+	import banner from "../assets/home-logo.png";
 	import bgVideo from "../assets/clip.webm";
 
 	let bg;
