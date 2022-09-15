@@ -6,7 +6,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY ./build ./build
+COPY . .
+
+RUN npm run build
 
 ENV PORT=3000
 
