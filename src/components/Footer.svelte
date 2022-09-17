@@ -33,7 +33,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		background-color: var(--background-color);
+		background-color: var(--bg1);
 	}
 	.links {
 		width: 100%;

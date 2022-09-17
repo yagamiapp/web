@@ -1,9 +1,17 @@
 <script>
 	import Tournament from "../Tournament.svelte";
 	export let data;
-
-	let e = JSON.stringify(data);
 </script>
 
-<Tournament {...data.tournament} />
-<div>{e}</div>
+<div class="wrap">
+	<Tournament {data} />
+</div>
+
+<style>
+	.wrap {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>

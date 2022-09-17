@@ -4,8 +4,13 @@
 }
 
 :root {
-    --background-color: #080808;
-    /* --background-color: #aaa */
+    --bg1: hsl(0, 0%, 6%);
+    --bg2: #151515;
+    --bg3: #1f1f1f;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -13,7 +18,7 @@ body {
     margin: 0;
     font-family: MavenPro, sans-serif;
     color: white;
-    background-color: var(--background-color);
+    background-color: var(--bg1);
 }
 
 main {

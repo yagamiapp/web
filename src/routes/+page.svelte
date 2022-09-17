@@ -39,12 +39,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 0 100px 100px black inset;
+		box-shadow: 0 0 10vw 10vw black inset;
 	}
 	#home video {
 		position: absolute;
 		filter: blur(10px);
-		/* transform: scale(1.2); */
 		min-height: 100%;
 		min-width: 100%;
 		z-index: -1;
@@ -61,7 +60,7 @@
 		left: 0;
 		height: 50%;
 		width: 100%;
-		background-color: var(--background-color);
-		background: linear-gradient(180deg, #00000000, var(--background-color));
+		background-color: var(--g1);
+		background: linear-gradient(180deg, #00000000, var(--bg1));
 	}
 </style>

@@ -1,6 +1,6 @@
 <script>
 	import { page } from "$app/stores";
-	import logo from "../assets/yagami var.png";
+	import logo from "../assets/icons/gradient.svg";
 	import bg from "../assets/blue bg.png";
 </script>
 
@@ -8,7 +8,7 @@
 	<title>{$page.status} - {$page.error.message}</title>
 </svelte:head>
 
-<div>
+<div class="wrap">
 	<div class="bg-wrap">
 		<img class="bg" src={bg} alt="background" />
 	</div>
@@ -34,11 +34,12 @@
 	img.logo {
 		width: 500px;
 	}
-	div {
+	.wrap {
 		width: 100%;
-		height: 100%;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 	}
 </style>
