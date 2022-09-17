@@ -1,6 +1,6 @@
 <script>
-	import clipMinus from "../../assets/clipboard-minus.svg";
-	import clipCheck from "../../assets/clipboard-check.svg";
+	import clipMinus from "../assets/clipboard-minus.svg";
+	import clipCheck from "../assets/clipboard-check.svg";
 	export let map;
 
 	let colors = {
@@ -38,12 +38,32 @@
 	let clip = clipMinus;
 	const copy = (ev) => {
 		// I'm doing node gymnastics to find the beatmap ID because I'm lazy
-		let banner = ev.target.parentNode.parentNode ?? ev.target.parentNode;
+		console.log(ev);
+		let banner = ev.target.parentNode.parentNode;
+		if (!banner.children[1].href) {
+			banner = ev.target.parentNode;
+		}
 		let link = banner.children[1].href;
+
 		let id = link.match(/https:\/\/osu\.ppy\.sh\/b\/(\d+)/)[1];
 		navigator.clipboard.writeText(id);
-		clip = clipCheck;
-		console.log(ev);
+		{
+			let id = banner.children[1].children[0].children[2].lastChild;
+			id.style.color = "rgba(150,255,150,0.5)";
+
+			let text = banner.children[2].children[0];
+			text.textContent = "Copied!";
+			clip = clipCheck;
+		}
+		setTimeout(() => {
+			let id = banner.children[1].children[0].children[2].lastChild;
+			id.style.color = "rgba(255,255,255,0.5)";
+
+			let text = banner.children[2].children[0];
+			text.textContent = "Copy ID";
+
+			clip = clipMinus;
+		}, 3000);
 	};
 </script>
 
@@ -112,6 +132,7 @@
 	}
 	.id {
 		color: rgba(255, 255, 255, 0.5);
+		transition: all 0.3s ease;
 	}
 	.banner-wrap {
 		position: absolute;
@@ -138,9 +159,14 @@
 	.banner-wrap .bg {
 		min-width: 100%;
 		min-height: 100%;
-		filter: blur(5px) brightness(0.5);
+		filter: blur(0px) brightness(0.5);
 		transform: scale(1.2);
 	}
+
+	.banner-wrap .bg:hover {
+		filter: blur(10px);
+	}
+
 	.identifier {
 		width: 75px;
 		height: 100%;
@@ -160,7 +186,7 @@
 		top: 0;
 		left: 0;
 		/* Some weird shenanigans with CSS makes it so I can't make this 100% */
-		width: calc(100% - 100px);
+		width: calc(100% - 100px - 75px);
 		height: 100%;
 		padding: 10px;
 		overflow: hidden;
@@ -172,9 +198,11 @@
 		position: absolute;
 		top: 0;
 		right: 75px;
+		width: 200px;
 		padding: 10px;
 		text-align: right;
-		color: rgba(255, 255, 255, 0.3);
+		background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.6));
+		color: rgba(255, 255, 255, 0.5);
 	}
 	.copy {
 		position: absolute;
@@ -184,20 +212,21 @@
 		align-items: center;
 		top: 0;
 		right: 0;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.75);
 		width: 75px;
 		height: 75px;
 		text-align: center;
 		font-size: 0.8em;
 		z-index: 5;
 		cursor: pointer;
-		transition: background-color 0.1s ease;
+		transition: background-color 0.3s ease;
 	}
 	.copy img {
 		margin-top: 10px;
 		fill: #ffffff;
 	}
 	.copy:hover {
-		background-color: rgba(0, 0, 0, 0.75);
+		background-color: rgba(0, 0, 0, 0.9);
+		backdrop-filter: blur(5px);
 	}
 </style>

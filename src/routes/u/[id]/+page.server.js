@@ -12,7 +12,5 @@ export async function load({ params }) {
 		throw error(404, "Not found");
 	}
 
-	console.log(user);
-
-	return user;
+	return { user };
 }

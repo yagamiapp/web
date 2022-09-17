@@ -1,12 +1,12 @@
 <script>
 	import Header from "./TournamentHeader.svelte";
-	import Rules from "./TournamentRules.svelte";
 	import Mappools from "./TournamentMappools.svelte";
+	import Teams from "./TournamentTeams.svelte";
 	import Default from "../../assets/icons/white.svg";
 
 	export let data;
-	let { tournament, rounds } = data;
-	let { banner, name, acronym, icon_url, id, color } = tournament;
+	let { tournament, rounds, teams } = data;
+	let { name, acronym, id, color, team_size } = tournament;
 
 	// banner =
 	// 	"http://www.newdesignfile.com/postpic/2010/09/free-abstract-banner-backgrounds_117038.jpg";
@@ -21,19 +21,22 @@
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
 	</div>
-	<Header {banner} {name} icon={icon_url} />
+	<Header {tournament} />
 	<div class="sticky">
 		<nav>
 			<a href="/t/{id}#home">home</a>
-			<a href="/t/{id}#rules">rules</a>
 			<a href="/t/{id}#mappools">mappools</a>
-			<a href="/t/{id}#teams">teams</a>
+			{#if team_size == 1}
+				<a href="/t/{id}#players">players</a>
+			{:else}
+				<a href="/t/{id}#teams">teams</a>
+			{/if}
 			<a href="/t/{id}#matches">matches</a>
 		</nav>
 		<div class="line" />
 	</div>
-	<Rules {tournament} />
 	<Mappools {rounds} />
+	<Teams {tournament} {teams} />
 	<div class="big" />
 </div>
 

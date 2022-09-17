@@ -1,10 +1,13 @@
 <script>
-	import User from "../User.svelte";
+	import User from "../../../components/UserCard.svelte";
 	export let data;
+	let { user } = data;
+
+	console.log(user.osu_username);
 </script>
 
 <svelte:head>
-	<title>{data.osu_username}'s userpage</title>
+	<title>{user.osu_username}'s userpage</title>
 </svelte:head>
 
-<User {...data} />
+<User {user} />

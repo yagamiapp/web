@@ -60,5 +60,66 @@ export async function load({ params }) {
 			}
 		}
 	}
-	return { tournament, rounds };
+
+	let teams = await prisma.team.findMany({
+		where: {
+			tournamentId: tournament.id,
+		},
+	});
+	if (teams.length > 0) {
+		for (let i = 0; i < teams.length; i++) {
+			let team = teams[i];
+
+			let usersInTeam = await prisma.userInTeam.findMany({
+				where: {
+					teamId: team.id,
+				},
+				orderBy: {
+					member_order: "asc",
+				},
+			});
+			for (let j = 0; j < usersInTeam.length; j++) {
+				let player = usersInTeam[j];
+
+				let user = await prisma.user.findUnique({
+					where: {
+						discord_id: player.discordId,
+					},
+				});
+
+				player.user = user;
+				usersInTeam[j] = player;
+			}
+
+			teams[i].members = usersInTeam;
+		}
+
+		// Sort teams by average rank
+		teams.sort((a, b) => {
+			let aAvg = 0;
+			let bAvg = 0;
+
+			for (let i = 0; i < a.members.length; i++) {
+				let user = a.members[i].user;
+				if (user.osu_pp_rank) {
+					aAvg += user.osu_pp_rank;
+				}
+			}
+
+			for (let i = 0; i < b.members.length; i++) {
+				let user = b.members[i].user;
+				if (user.osu_pp_rank) {
+					bAvg += user.osu_pp_rank;
+				}
+			}
+
+			aAvg /= a.members.length;
+			bAvg /= b.members.length;
+
+			a.avgRank = aAvg;
+			b.avgRank = bAvg;
+			return aAvg - bAvg;
+		});
+	}
+	return { tournament, rounds, teams };
 }

@@ -1,21 +1,28 @@
 <script>
-	export let osu_username;
-	export let osu_id;
-	export let osu_pp_rank;
-	export let osu_cover_url;
-	export let osu_country_code;
-	export let osu_pp;
-	export let osu_hit_accuracy;
+	export let user;
+	export let color = "rgba(255, 255, 255, 0.5)";
+
+	let {
+		osu_username,
+		osu_id,
+		osu_pp_rank,
+		osu_cover_url,
+		osu_country_code,
+		osu_pp,
+		osu_hit_accuracy,
+	} = user;
 
 	let rank = `#${osu_pp_rank.toLocaleString()}`;
 	let pfp = `https://s.ppy.sh/a/${osu_id}`;
 	let flag = `https://osu.ppy.sh/images/flags/${osu_country_code}.png`;
-	("https://osu.ppy.sh/images/flags/US.png");
-	let pp = osu_pp.toFixed(0).toLocaleString();
+	let pp = parseInt(osu_pp.toFixed(0)).toLocaleString();
 </script>
 
-<div class="card" style="--cover={osu_id}">
-	<img src={osu_cover_url} alt="cover background" class="bg" />
+<div class="card" style="--cover={osu_id}; --color:{color}">
+	<div class="bg-wrap">
+		<img src={osu_cover_url} alt="cover background" class="bg" />
+	</div>
+
 	<div class="pfp-wrap">
 		<img src={pfp} alt="osu pfp" class="pfp" />
 	</div>
@@ -42,18 +49,29 @@
 	.card {
 		position: relative;
 		display: flex;
-		width: 400px;
+		max-width: 500px;
 		height: 125px;
 		overflow: hidden;
 		margin: 5px;
 		border-radius: 15px;
-		/* align-items: center; */
+		z-index: 1;
 	}
-	.bg {
+	.bg-wrap {
 		position: absolute;
 		top: 0;
-		left: 0;
-		height: 150px;
+		right: 0;
+		z-index: -1;
+		background: var(--bg1);
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+	.bg {
+		min-width: 100%;
+		min-height: 100%;
 		filter: blur(5px) brightness(0.5);
 		z-index: -1;
 	}
@@ -105,7 +123,7 @@
 	}
 	.label-wrap div::after {
 		content: "";
-		background: rgba(255, 255, 255, 0.5);
+		background: var(--color);
 		position: absolute;
 		bottom: -7px;
 		left: calc((100% - 85%) / 2);

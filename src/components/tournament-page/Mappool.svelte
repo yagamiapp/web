@@ -1,5 +1,5 @@
 <script>
-	import Map from "./Map.svelte";
+	import Map from "../Map.svelte";
 	export let round;
 
 	const switchClosed = (ev) => {
@@ -12,6 +12,14 @@
 <div class="closed details" style="--count:{maps.length}">
 	<div class="summary" on:click={switchClosed}>
 		{round.name}
+		<div class="rules">
+			Best of {round.best_of},
+			{#if round.bans != 1}
+				{round.bans} bans
+			{:else}
+				{round.bans} ban
+			{/if}
+		</div>
 		<span class="icon">▲</span>
 	</div>
 
@@ -37,28 +45,41 @@
 		height: 60px;
 	}
 
+	.rules {
+		position: absolute;
+		top: 0;
+		right: 60px;
+		font-size: 0.75em;
+		font-weight: normal;
+		display: grid;
+		place-items: center;
+		color: rgba(255, 255, 255, 0.5);
+		height: 60px;
+		pointer-events: none;
+	}
+
 	.icon {
 		position: absolute;
 		top: 0;
 		right: 0;
 		height: 60px;
-		width: 40px;
+		width: 60px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		pointer-events: none;
 		transition: transform 0.5s ease;
-		transform: rotate(180deg);
+		transform: rotate(0deg);
 	}
 
 	.closed .icon {
-		transform: rotate(90deg);
+		transform: rotate(180deg);
 	}
 
 	.details {
 		position: relative;
 		background-color: var(--bg3);
-		height: calc(var(--count) * (20px + 75px) + 60px);
+		height: calc(var(--count) * (20px + 75px) + (60px + 20px));
 		overflow: hidden;
 		transition: height 0.5s ease-in-out;
 		margin-bottom: 30px;

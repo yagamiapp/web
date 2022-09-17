@@ -1,5 +1,5 @@
 <script>
-	import Tournament from "../Tournament.svelte";
+	import Tournament from "../../../components/tournament-page/Tournament.svelte";
 	export let data;
 </script>
 
