@@ -62,6 +62,7 @@
 	.sticky {
 		position: sticky;
 		top: 0;
+		z-index: 100;
 	}
 
 	/* This is a development class */
