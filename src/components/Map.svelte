@@ -109,7 +109,6 @@
 <style>
 	.map {
 		display: flex;
-		color: white;
 		text-decoration: none;
 		position: relative;
 		overflow: hidden;
@@ -120,7 +119,7 @@
 		z-index: 1;
 	}
 	.link {
-		color: white;
+		color: var(--fontColor);
 	}
 	.banner {
 		position: relative;
@@ -128,10 +127,10 @@
 		height: 100%;
 	}
 	.mapper {
-		color: rgba(255, 255, 255, 0.75);
+		opacity: 0.75;
 	}
 	.id {
-		color: rgba(255, 255, 255, 0.5);
+		opacity: 0.5;
 		transition: all 0.3s ease;
 	}
 	.banner-wrap {
@@ -201,8 +200,8 @@
 		width: 200px;
 		padding: 10px;
 		text-align: right;
-		background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.6));
-		color: rgba(255, 255, 255, 0.5);
+		background: linear-gradient(90deg, transparent, var(--bg1));
+		opacity: 0.6;
 	}
 	.copy {
 		position: absolute;
@@ -212,21 +211,24 @@
 		align-items: center;
 		top: 0;
 		right: 0;
-		background-color: rgba(0, 0, 0, 0.75);
+		background-color: var(--bg1);
 		width: 75px;
 		height: 75px;
 		text-align: center;
 		font-size: 0.8em;
 		z-index: 5;
 		cursor: pointer;
-		transition: background-color 0.3s ease;
+		transition: opacity 0.3s ease;
+		opacity: 0.7;
+	}
+
+	.lightmode .copy img {
+		filter: invert(1);
 	}
 	.copy img {
 		margin-top: 10px;
-		fill: #ffffff;
 	}
 	.copy:hover {
-		background-color: rgba(0, 0, 0, 0.9);
-		backdrop-filter: blur(5px);
+		opacity: 0.9;
 	}
 </style>

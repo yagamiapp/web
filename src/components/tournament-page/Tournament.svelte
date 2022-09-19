@@ -2,13 +2,14 @@
 	import Header from "./TournamentHeader.svelte";
 	import Mappools from "./TournamentMappools.svelte";
 	import Teams from "./TournamentTeams.svelte";
+	import Matches from "./TournamentMatches.svelte";
 	import Default from "../../assets/icons/white.svg";
 
 	export let data;
-	let { tournament, rounds, teams } = data;
+	let { tournament, rounds, teams, matches } = data;
 	let { name, acronym, id, color, team_size } = tournament;
 
-	// banner =
+	// tournament.banner =
 	// 	"http://www.newdesignfile.com/postpic/2010/09/free-abstract-banner-backgrounds_117038.jpg";
 </script>
 
@@ -37,6 +38,7 @@
 	</div>
 	<Mappools {rounds} />
 	<Teams {tournament} {teams} />
+	<Matches {tournament} {matches} />
 	<div class="big" />
 </div>
 
@@ -57,6 +59,9 @@
 		height: 60px;
 	}
 
+	.lightmode .top .icon {
+		opacity: 1;
+	}
 	.top .icon {
 		height: 60%;
 		padding: 1.125%;
@@ -77,10 +82,10 @@
 		align-items: center;
 		justify-content: space-evenly;
 		height: 2em;
-		background-color: #151515;
+		background-color: var(--bg2);
 	}
 	nav a {
-		color: white;
+		color: var(--fontColor);
 		text-decoration: none;
 		text-transform: uppercase;
 	}

@@ -53,6 +53,7 @@
 		height: 125px;
 		overflow: hidden;
 		margin: 5px;
+		color: white;
 		border-radius: 15px;
 		z-index: 1;
 	}
@@ -61,7 +62,7 @@
 		top: 0;
 		right: 0;
 		z-index: -1;
-		background: var(--bg1);
+		background: #111111;
 		width: 100%;
 		height: 100%;
 		display: flex;
@@ -73,6 +74,7 @@
 		min-width: 100%;
 		min-height: 100%;
 		filter: blur(5px) brightness(0.5);
+		scale: 1.1;
 		z-index: -1;
 	}
 	.pfp-wrap {

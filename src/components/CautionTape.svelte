@@ -14,8 +14,8 @@
 <style>
 	.tape {
 		position: relative;
-		background-color: rgb(231, 231, 40);
-		height: 30px;
+		background-color: rgb(228, 228, 22);
+		height: 10px;
 		overflow: hidden;
 		display: flex;
 		align-items: center;

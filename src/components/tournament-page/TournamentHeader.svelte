@@ -89,6 +89,7 @@
 		left: 180px;
 		padding: 10px;
 		font-size: 3em;
+		color: white;
 		font-weight: bold;
 		white-space: nowrap;
 	}

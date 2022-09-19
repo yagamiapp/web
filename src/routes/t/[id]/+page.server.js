@@ -1,7 +1,8 @@
 import prisma from "$lib/prisma";
 import { error } from "@sveltejs/kit";
 
-// export const prerender = true;
+export const prerender = true;
+export const ssr = true;
 
 export async function load({ params }) {
 	let tournamentId = parseInt(params.id);
@@ -58,6 +59,8 @@ export async function load({ params }) {
 				pool.maps = maps;
 				rounds[i].mappool = pool;
 			}
+
+			let matches =
 		}
 	}
 
@@ -121,5 +124,8 @@ export async function load({ params }) {
 			return aAvg - bAvg;
 		});
 	}
+
+	let matches = [1];
+	rounds[0].matches = matches;
 	return { tournament, rounds, teams };
 }
