@@ -1,6 +1,15 @@
 <script>
 	import CautionTape from "./CautionTape.svelte";
 	import logo from "../assets/icons/white.svg";
+	import Switch from "./ToggleSwitch.svelte";
+
+	const switchTheme = ({ detail }) => {
+		if (detail) {
+			document.body.classList.add("lightmode");
+		} else {
+			document.body.classList.remove("lightmode");
+		}
+	};
 </script>
 
 <CautionTape />
@@ -10,6 +19,7 @@
 		This website is under heavy construction, expect things to change and
 		break!
 	</h3>
+	<Switch on:check={switchTheme} />
 	<div class="links">
 		<a href="/"><img src={logo} alt="" /></a>
 		<a href="/discord">Discord</a>

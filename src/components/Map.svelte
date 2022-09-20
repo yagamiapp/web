@@ -78,6 +78,7 @@
 				src={coverImage}
 				alt="{map.identifier} background"
 				class="bg"
+				onerror="this.style.display='none'"
 			/>
 		</div>
 		<a href="https://osu.ppy.sh/b/{map.mapId}" class="link">

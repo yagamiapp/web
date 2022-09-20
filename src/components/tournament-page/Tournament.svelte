@@ -6,7 +6,7 @@
 	import Default from "../../assets/icons/white.svg";
 
 	export let data;
-	let { tournament, rounds, teams, matches } = data;
+	let { tournament, rounds, teams } = data;
 	let { name, acronym, id, color, team_size } = tournament;
 
 	// tournament.banner =
@@ -38,8 +38,7 @@
 	</div>
 	<Mappools {rounds} />
 	<Teams {tournament} {teams} />
-	<Matches {tournament} {matches} />
-	<div class="big" />
+	<Matches {tournament} {rounds} />
 </div>
 
 <style>
@@ -71,11 +70,6 @@
 		position: sticky;
 		top: 0;
 		z-index: 100;
-	}
-
-	/* This is a development class */
-	.big {
-		height: 150vh;
 	}
 	nav {
 		display: flex;

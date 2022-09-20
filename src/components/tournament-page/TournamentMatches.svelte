@@ -1,25 +1,26 @@
 <script>
-	import Match from "../Match.svelte";
+	import MatchList from "./MatchList.svelte";
 	import Switch from "../ToggleSwitch.svelte";
 
 	export let tournament;
-	export let matches;
-
-	let match;
+	export let rounds;
+	let section;
 
 	function toggleScoreVis(e) {
 		if (e.detail) {
-			match.classList.add("spoilered");
+			section.classList.add("spoilered");
 			return;
 		}
 
-		match.classList.remove("spoilered");
+		section.classList.remove("spoilered");
 	}
 </script>
 
-<section id="matches" class="spoilered">
+<section id="matches" class="spoilered" bind:this={section}>
 	<h1>Matches</h1>
-	<div class="spoiler">
+
+	The match page is a work in progress.
+	<!-- <div class="spoiler">
 		<span>Only show score on hover:</span>
 		<Switch
 			on:check={toggleScoreVis}
@@ -30,10 +31,10 @@
 		/>
 	</div>
 	<div class="list">
-		{#each matches as match}
-			<Match {match} bind:this={match} />
+		{#each rounds as round}
+			<MatchList {round} />
 		{/each}
-	</div>
+	</div> -->
 </section>
 
 <style>

@@ -20,7 +20,12 @@
 
 <div class="card" style="--cover={osu_id}; --color:{color}">
 	<div class="bg-wrap">
-		<img src={osu_cover_url} alt="cover background" class="bg" />
+		<img
+			src={osu_cover_url}
+			alt="cover background"
+			class="bg"
+			onerror="this.style.display='none'"
+		/>
 	</div>
 
 	<div class="pfp-wrap">

@@ -16,7 +16,6 @@
 	export let checked = false;
 
 	onMount(() => {
-		console.log(checkbox.checked);
 		checkbox.checked = checked;
 	});
 </script>

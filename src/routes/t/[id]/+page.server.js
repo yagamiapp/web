@@ -60,7 +60,50 @@ export async function load({ params }) {
 				rounds[i].mappool = pool;
 			}
 
-			let matches =
+			// let matches = await prisma.match.findMany({
+			// 	where: {
+			// 		Round: {
+			// 			id: round.id,
+			// 		},
+			// 	},
+			// });
+			// for (let j = 0; j < matches.length; j++) {
+			// 	let teams = await prisma.teamInMatch.findMany({
+			// 		where: {
+			// 			matchId: matches[j].id,
+			// 		},
+			// 	});
+
+			// 	if (teams.length == 0) {
+			// 		console.log(matches[j]);
+			// 	}
+			// 	for (let k = 0; k < teams.length; k++) {
+			// 		let team = await prisma.team.findUnique({
+			// 			where: {
+			// 				id: teams[k].teamId,
+			// 			},
+			// 		});
+
+			// 		let picks = await prisma.mapInMatch.findMany({
+			// 			where: {
+			// 				pickedByTeamId: teams[k].teamId,
+			// 				matchId: matches[j].id,
+			// 			},
+			// 		});
+
+			// 		let bans = await prisma.mapInMatch.findMany({
+			// 			where: {
+			// 				bannedByTeamId: teams[k].teamId,
+			// 				matchId: matches[j].id,
+			// 			},
+			// 		});
+			// 		teams[k].data = team;
+			// 		teams[k].picks = picks;
+			// 		teams[k].bans = bans;
+			// 	}
+			// 	matches[j].teams = teams;
+			// }
+			// rounds[i].matches = matches;
 		}
 	}
 
@@ -125,7 +168,5 @@ export async function load({ params }) {
 		});
 	}
 
-	let matches = [1];
-	rounds[0].matches = matches;
 	return { tournament, rounds, teams };
 }
