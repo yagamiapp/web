@@ -1,13 +1,17 @@
 <script>
 	import CautionTape from "./CautionTape.svelte";
-	import logo from "../assets/icons/white.svg";
+	import logoWhite from "../assets/icons/white.svg";
+	import logoDark from "../assets/icons/black.png";
 	import Switch from "./ToggleSwitch.svelte";
 
+	let img;
 	const switchTheme = ({ detail }) => {
 		if (detail) {
-			document.body.classList.add("lightmode");
-		} else {
 			document.body.classList.remove("lightmode");
+			img.src = logoWhite;
+		} else {
+			document.body.classList.add("lightmode");
+			img.src = logoDark;
 		}
 	};
 </script>
@@ -16,12 +20,14 @@
 <div class="foot">
 	<h1>Warning</h1>
 	<h3>
-		This website is under heavy construction, expect things to change and
-		break!
+		This website is under heavy construction, expect things to change, move
+		or break!
 	</h3>
-	<Switch on:check={switchTheme} />
+	<div class="switch">
+		Dark Mode <Switch checked="true" on:check={switchTheme} />
+	</div>
 	<div class="links">
-		<a href="/"><img src={logo} alt="" /></a>
+		<a href="/"><img src={logoWhite} alt="" bind:this={img} /></a>
 		<a href="/discord">Discord</a>
 		<a href="/twitter">Twitter</a>
 		<a href="/invite">Invite</a>
@@ -52,18 +58,26 @@
 		justify-content: space-around;
 		align-items: center;
 	}
+	.switch {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20px;
+		font-size: 1.25em;
+	}
 	a {
 		font-size: 18px;
 		text-decoration: none;
-		/* background: green; */
+		background: var(--bg2);
 		padding: 10px;
-		color: rgba(255, 255, 255, 0.4);
+		/* color: rgba(255, 255, 255, 0.4); */
+		color: var(--fontColor);
 		box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 		transition: 0.1s ease-in-out;
 	}
 	a:hover {
 		transform: translate(-5px, -5px);
-		background: rgba(255, 255, 255, 0.05);
+		/* background: rgba(255, 255, 255, 0.05); */
 		box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
 	}
 </style>
