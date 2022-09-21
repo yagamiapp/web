@@ -2,26 +2,19 @@
 	export let user;
 	export let color = "rgba(255, 255, 255, 0.5)";
 
-	let {
-		osu_username,
-		osu_id,
-		osu_pp_rank,
-		osu_cover_url,
-		osu_country_code,
-		osu_pp,
-		osu_hit_accuracy,
-	} = user;
+	let { username, id, pp_rank, cover_url, country_code, pp, hit_accuracy } =
+		user;
 
-	let rank = `#${osu_pp_rank.toLocaleString()}`;
-	let pfp = `https://s.ppy.sh/a/${osu_id}`;
-	let flag = `https://osu.ppy.sh/images/flags/${osu_country_code}.png`;
-	let pp = parseInt(osu_pp.toFixed(0)).toLocaleString();
+	let rank = `#${pp_rank.toLocaleString()}`;
+	let pfp = `https://s.ppy.sh/a/${id}`;
+	let flag = `https://osu.ppy.sh/images/flags/${country_code}.png`;
+	pp = parseInt(pp.toFixed(0)).toLocaleString();
 </script>
 
-<div class="card" style="--cover={osu_id}; --color:{color}">
+<div class="card" style="--cover={id}; --color:{color}">
 	<div class="bg-wrap">
 		<img
-			src={osu_cover_url}
+			src={cover_url}
 			alt="cover background"
 			class="bg"
 			onerror="this.style.display='none'"
@@ -34,7 +27,7 @@
 
 	<div class="info-wrap">
 		<div class="name-flag-wrap">
-			<div class="name">{osu_username}</div>
+			<div class="name">{username}</div>
 			<img src={flag} alt="{flag} flag" class="flag" />
 		</div>
 		<div class="label-wrap">
@@ -44,7 +37,7 @@
 		</div>
 		<div class="stats-wrap">
 			<div class="rank">{rank}</div>
-			<div class="acc">{osu_hit_accuracy.toFixed(2)}%</div>
+			<div class="acc">{hit_accuracy.toFixed(2)}%</div>
 			<div class="pp">{pp}pp</div>
 		</div>
 	</div>

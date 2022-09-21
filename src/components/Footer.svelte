@@ -1,19 +1,6 @@
 <script>
 	import CautionTape from "./CautionTape.svelte";
 	import logoWhite from "../assets/icons/white.svg";
-	import logoDark from "../assets/icons/black.png";
-	import Switch from "./ToggleSwitch.svelte";
-
-	let img;
-	const switchTheme = ({ detail }) => {
-		if (detail) {
-			document.body.classList.remove("lightmode");
-			img.src = logoWhite;
-		} else {
-			document.body.classList.add("lightmode");
-			img.src = logoDark;
-		}
-	};
 </script>
 
 <CautionTape />
@@ -23,11 +10,9 @@
 		This website is under heavy construction, expect things to change, move
 		or break!
 	</h3>
-	<div class="switch">
-		Dark Mode <Switch checked="true" on:check={switchTheme} />
-	</div>
+	<div class="switch" />
 	<div class="links">
-		<a href="/"><img src={logoWhite} alt="" bind:this={img} /></a>
+		<a href="/"><img src={logoWhite} alt="" /></a>
 		<a href="/discord">Discord</a>
 		<a href="/twitter">Twitter</a>
 		<a href="/invite">Invite</a>

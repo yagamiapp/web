@@ -3,6 +3,11 @@
     src: url("/fonts/MavenPro-VariableFont_wght.ttf");
 }
 
+@font-face {
+    font-family: Quicksand;
+    src: url("/fonts/Quicksand-VariableFont_wght.ttf");
+}
+
 :root {
     --bg1: #0f0f0f;
     --bg2: #151515;
