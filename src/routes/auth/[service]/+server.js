@@ -45,7 +45,7 @@ export async function GET({ url, params, cookies }) {
 			client_secret: service.client_secret,
 			code: url.searchParams.get("code"),
 			grant_type: "authorization_code",
-			redirect_uri: `http://localhost:4000/auth/osu`,
+			redirect_uri: `${url.origin}/auth/osu`,
 		};
 		let response = await fetch(service.auth_url, {
 			method: "POST",
@@ -132,7 +132,7 @@ export async function GET({ url, params, cookies }) {
 			client_secret: service.client_secret,
 			code: url.searchParams.get("code"),
 			grant_type: "authorization_code",
-			redirect_uri: `http://localhost:4000/auth/discord`,
+			redirect_uri: `${url.origin}/auth/discord`,
 		};
 
 		let tokenRequestForm = new URLSearchParams(
@@ -168,7 +168,7 @@ export async function GET({ url, params, cookies }) {
 			client_secret: service.client_secret,
 			code: url.searchParams.get("code"),
 			grant_type: "authorization_code",
-			redirect_uri: `http://localhost:4000/auth/twitch`,
+			redirect_uri: `${url.origin}/auth/twitch`,
 		};
 		console.log(tokenRequest);
 		let tokenRequestForm = new URLSearchParams(

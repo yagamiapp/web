@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 
-export async function load({ cookies }) {
+export async function load({ cookies, url }) {
 	let session = cookies.get("yagami_session");
 
 	let user = await prisma.user.findFirst({
@@ -15,7 +15,7 @@ export async function load({ cookies }) {
 
 	if (!user) {
 		cookies.delete("yagami_session");
-		return;
+		return { origin: url.origin };
 	}
 
 	delete user.access_token;
@@ -25,5 +25,6 @@ export async function load({ cookies }) {
 
 	return {
 		user,
+		origin: url.origin,
 	};
 }

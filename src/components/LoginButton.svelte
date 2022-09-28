@@ -1,5 +1,7 @@
 <script>
 	import { browser } from "$app/environment";
+	import { env } from "$env/dynamic/public";
+	export let originUrl;
 	let params = `
     scrollbars=no,
     resizable=no,
@@ -14,8 +16,7 @@
     `;
 
 	const openWindow = () => {
-		let url =
-			"https://osu.ppy.sh/oauth/authorize?client_id=14803&redirect_uri=http://localhost:4000/auth/osu&response_type=code&scope=identify";
+		let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/osu&response_type=code&scope=identify`;
 
 		let loginWindow = open(url, "login", params);
 		loginWindow.onbeforeunload = () => {

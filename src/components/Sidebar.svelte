@@ -10,6 +10,7 @@
 	if (data.user) {
 		pfp = `https://s.ppy.sh/a/${data.user.id}`;
 	}
+	// console.log(data);
 
 	let el;
 	let blur;
@@ -40,7 +41,7 @@
 			<UserCard user={data.user} />
 			<LogoutButton />
 		{:else}
-			<LoginButton />
+			<LoginButton originUrl={data.origin} />
 		{/if}
 		<span />
 		<div class="switch">
