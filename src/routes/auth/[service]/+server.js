@@ -1,11 +1,12 @@
-import {
+import { env } from "$env/dynamic/private";
+const {
 	OSU_CLIENT_ID,
 	OSU_CLIENT_SECRET,
 	DISCORD_CLIENT_ID,
 	DISCORD_CLIENT_SECRET,
 	TWITCH_CLIENT_ID,
 	TWITCH_CLIENT_SECRET,
-} from "$env/static/private";
+} = env;
 import prisma from "$lib/prisma";
 import { redirect } from "@sveltejs/kit";
 
