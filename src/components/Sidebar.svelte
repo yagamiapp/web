@@ -61,7 +61,9 @@
 		<a href="/tournaments">Tournaments</a>
 		<a href="/mappools">Mappools</a>
 		{#if data.user}
-			<a class="settings" href="/profile/settings">Settings</a>
+			<a data-sveltekit-reload class="settings" href="/profile/settings"
+				>Settings</a
+			>
 			<LogoutButton />
 		{/if}
 	</div>
