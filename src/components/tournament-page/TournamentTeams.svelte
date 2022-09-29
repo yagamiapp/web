@@ -3,7 +3,7 @@
 	import Team from "./Team.svelte";
 
 	export let tournament;
-	export let teams;
+	let teams = tournament.Teams;
 </script>
 
 {#if tournament.team_size == 1}
@@ -12,7 +12,7 @@
 
 		<div class="list">
 			{#each teams as team}
-				<UserCard user={team.members[0].user} color={team.color} />
+				<UserCard user={team.Members[0].User} color={team.color} />
 			{/each}
 		</div>
 	</section>

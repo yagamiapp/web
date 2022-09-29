@@ -3,8 +3,10 @@
 	export let team;
 
 	let avgRank = team.avgRank;
-	avgRank = avgRank.toFixed(0);
-	avgRank = parseInt(avgRank).toLocaleString();
+	if (avgRank) {
+		avgRank = avgRank.toFixed(0);
+		avgRank = parseInt(avgRank).toLocaleString();
+	}
 </script>
 
 <div class="team" style="--color:{team.color}">
@@ -17,13 +19,15 @@
 	</div>
 	<div class="line" />
 	<div class="players">
-		{#each team.members as member}
-			<Player user={member.user} />
+		{#each team.Members as member}
+			<Player user={member.User} />
 		{/each}
 	</div>
-	<div class="avg">
-		Average Rank: #{avgRank}
-	</div>
+	{#if avgRank}
+		<div class="avg">
+			Average Rank: #{avgRank}
+		</div>
+	{/if}
 </div>
 
 <style>

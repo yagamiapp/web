@@ -6,7 +6,7 @@
 	import Default from "../../assets/icons/white.svg";
 
 	export let data;
-	let { tournament, teams } = data;
+	let { tournament } = data;
 	let { name, acronym, id, color, team_size } = tournament;
 
 	// tournament.banner =
@@ -37,7 +37,7 @@
 		<div class="line" />
 	</div>
 	<Mappools {tournament} />
-	<Teams {tournament} {teams} />
+	<Teams {tournament} />
 	<Matches {tournament} />
 </div>
 

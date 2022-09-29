@@ -3,16 +3,16 @@
 </script>
 
 <div class="user">
-	<img src={`https://s.ppy.sh/a/${user.osu_id}`} alt="" class="pfp" />
+	<img src={`https://s.ppy.sh/a/${user.id}`} alt="" class="pfp" />
 	<div class="name">
 		<img
-			src={`https://osu.ppy.sh/images/flags/${user.osu_country_code}.png`}
+			src={`https://osu.ppy.sh/images/flags/${user.country_code}.png`}
 			alt=""
 			class="country"
-		/>{user.osu_username}
+		/>{user.username}
 	</div>
 	<div>
-		#{user.osu_pp_rank.toLocaleString()}
+		#{user.pp_rank.toLocaleString()}
 	</div>
 </div>
 
