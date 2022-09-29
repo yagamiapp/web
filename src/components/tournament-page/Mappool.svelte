@@ -6,7 +6,7 @@
 		const el = ev.target.parentElement;
 		el.classList.toggle("closed");
 	};
-	let maps = round.mappool.maps;
+	let maps = round.mappool.Maps;
 </script>
 
 <div class="closed details" style="--count:{maps.length}">

@@ -25,7 +25,7 @@
 		version,
 		creator,
 		hit_length,
-	} = map.map;
+	} = map.Map;
 
 	let length = `${Math.round(hit_length / 60)}:${
 		hit_length % 60 > 10 ? hit_length % 60 : "0" + (hit_length % 60)

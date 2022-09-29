@@ -2,68 +2,47 @@
 	import { browser } from "$app/environment";
 	import { env } from "$env/dynamic/public";
 	export let originUrl;
-	let params = `
-    scrollbars=no,
-    resizable=no,
-    status=no,
-    location=no,
-    toolbar=no,
-    menubar=no,
-    width=600,
-    height=800,
-    left=100,
-    top=100
-    `;
 
-	const openWindow = () => {
-		let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/osu&response_type=code&scope=identify`;
-
-		let loginWindow = open(url, "login", params);
-		loginWindow.onbeforeunload = () => {
-			if (browser) {
-				window.location.reload();
-			}
-		};
-	};
+	let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/osu&response_type=code&scope=identify`;
 </script>
 
-<div on:click={openWindow}>Login</div>
+<a href={url}>Login</a>
 
 <style>
-	div {
+	a {
 		position: relative;
 		margin: 5px;
-		width: 60%;
-		height: 10%;
+		width: 250px;
+		height: 60px;
+		color: white;
+		text-decoration: none;
+		margin: 20px;
 		display: grid;
 		place-items: center;
 		font-size: 2em;
-		/* background: linear-gradient(90deg, #f34e87, #ffab74); */
-		border-radius: 40px;
+		border-radius: 20px;
 		transition: 0.3s ease;
 		overflow: hidden;
 		z-index: 1;
 		cursor: pointer;
+		animation: scroll 3s ease infinite;
 	}
 
-	div::after {
-		content: "";
-		position: absolute;
-		top: -200%;
-		left: -50%;
-		background: linear-gradient(90deg, #f34e87, #ffab74);
-		width: 200%;
-		height: 500%;
-		transform: translate(-25%);
-		transition: 0.3s ease;
-		z-index: -1;
+	a:hover {
+		width: 300px;
+		height: 70px;
+		margin: 15px;
 	}
 
-	div:hover::after {
-		transform: translate(25%);
-	}
-
-	div:hover {
-		border-radius: 10px;
+	@keyframes scroll {
+		0% {
+			background: #f34e87;
+		}
+		50% {
+			background: #ffab74;
+		}
+		100% {
+			background: #f34e87;
+		}
 	}
 </style>

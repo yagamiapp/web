@@ -1,4 +1,4 @@
-import prisma from "$lib/prisma";
+import prisma from "../../../lib/prisma";
 import { error } from "@sveltejs/kit";
 
 export const prerender = true;
@@ -15,7 +15,23 @@ export async function load({ params }) {
 		where: {
 			id: tournamentId,
 		},
+		include: {
+			rounds: {
+				include: {
+					mappool: {
+						include: {
+							Maps: {
+								include: {
+									Map: true,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 	});
+	// console.log(tournament);
 
 	if (!tournament) {
 		throw error(404, "Not found");
@@ -168,5 +184,5 @@ export async function load({ params }) {
 		});
 	}
 
-	return { tournament, rounds, teams };
+	return { tournament, teams };
 }

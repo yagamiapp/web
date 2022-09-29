@@ -4,7 +4,7 @@
 	import Switch from "./ToggleSwitch.svelte";
 	import LoginButton from "./LoginButton.svelte";
 	import LogoutButton from "./LogoutButton.svelte";
-	import UserCard from "./UserCard.svelte";
+	import UserCard from "./SidebarCard.svelte";
 
 	let pfp = defaultPfp;
 	if (data.user) {
@@ -17,49 +17,69 @@
 
 	const openSidebar = () => {
 		el.classList.remove("closed");
+		blur.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+		blur.style.pointerEvents = "all";
 	};
 	const removeSidebar = () => {
 		el.classList.add("closed");
-	};
-
-	const switchTheme = ({ detail }) => {
-		if (detail) {
-			document.body.classList.remove("lightmode");
-			img.src = logoWhite;
-		} else {
-			document.body.classList.add("lightmode");
-			img.src = logoDark;
-		}
+		blur.style.backgroundColor = "rgba(0, 0, 0, 0)";
+		blur.style.pointerEvents = "none";
 	};
 </script>
 
+<img
+	draggable="false"
+	src={pfp}
+	alt="profile"
+	class="button"
+	on:click={openSidebar}
+/>
 <div class="sidebar closed" bind:this={el}>
-	<img src={pfp} alt="profile" class="button" on:click={openSidebar} />
 	<div class="menu">
+		<div class="close-button" on:click={removeSidebar}>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="45"
+				height="45"
+				fill="currentColor"
+				class="bi bi-x-lg"
+				viewBox="0 0 16 16"
+			>
+				<path
+					d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+				/>
+			</svg>
+		</div>
 		<div class="title">YAGAMI</div>
 		{#if data.user}
 			<UserCard user={data.user} />
-			<LogoutButton />
 		{:else}
 			<LoginButton originUrl={data.origin} />
 		{/if}
 		<span />
-		<div class="switch">
-			Dark Mode <Switch checked="true" on:check={switchTheme} />
-		</div>
+		<a href="/">Home</a>
+		<a href="/tournaments">Tournaments</a>
+		<a href="/mappools">Mappools</a>
+		{#if data.user}
+			<a class="settings" href="/profile/settings">Settings</a>
+			<LogoutButton />
+		{/if}
 	</div>
-	<div class="blur" on:click={removeSidebar} bind:this={blur} />
 </div>
+<div class="blur" on:click={removeSidebar} bind:this={blur} />
 
 <style>
 	.sidebar {
 		position: fixed;
 		top: 0;
-		left: 0;
-		width: 100%;
+		right: 0;
 		height: 100%;
 		overflow: hidden;
-		z-index: 2;
+		z-index: 1000;
+	}
+
+	.closed.sidebar {
+		pointer-events: none;
 	}
 
 	.title {
@@ -67,6 +87,7 @@
 		font-size: bold;
 		font-family: quicksand;
 		font-size: 3em;
+		margin-bottom: 20px;
 	}
 
 	.button {
@@ -76,12 +97,11 @@
 		width: 60px;
 		border-radius: 20px;
 		cursor: pointer;
+		transition: 0.4s;
+		z-index: 10;
 	}
 
 	.menu {
-		position: absolute;
-		top: 0;
-		right: 0;
 		width: 500px;
 		height: 100%;
 		background-color: var(--bg2);
@@ -94,23 +114,30 @@
 
 	.menu > * {
 		width: 80%;
-		margin-bottom: 40px;
-		margin-top: 40px;
 		display: grid;
 		place-items: center;
 		border-bottom: solid 2px var(--bg3);
 	}
 
-	.blur {
-		/* display: none; */
+	.close-button {
 		position: absolute;
+		top: 15px;
+		left: 15px;
+		width: 45px;
+		height: 45px;
+		border: 0;
+		cursor: pointer;
+	}
+
+	.blur {
+		pointer-events: none;
+		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background-color: rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(0px);
-		z-index: -1;
+		background-color: rgba(0, 0, 0, 0);
+		z-index: 10;
 		transition: all 0.4s;
 	}
 
@@ -118,9 +145,13 @@
 		transform: translate(100%);
 	}
 
-	.closed .blur {
-		background-color: rgba(0, 0, 0, 0);
-		backdrop-filter: blur(0px);
-		z-index: -1;
+	.menu a {
+		color: var(--font-color);
+		text-decoration: none;
+		padding: 20px 0px;
+	}
+
+	.menu a:hover {
+		background-color: var(--bg3);
 	}
 </style>

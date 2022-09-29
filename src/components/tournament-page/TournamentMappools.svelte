@@ -1,7 +1,8 @@
 <script>
 	import Mappool from "./Mappool.svelte";
 
-	export let rounds;
+	export let tournament;
+	let { rounds } = tournament;
 </script>
 
 <section id="mappools">

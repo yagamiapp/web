@@ -16,9 +16,9 @@
 <style>
 	div {
 		position: relative;
-		margin: 5px;
+		margin: 20px;
 		padding: 10px;
-		width: 100px;
+		width: 60%;
 		text-align: center;
 		border-radius: 10px;
 		transition: 0.3s ease;

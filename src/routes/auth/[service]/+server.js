@@ -7,7 +7,7 @@ const {
 	TWITCH_CLIENT_ID,
 	TWITCH_CLIENT_SECRET,
 } = env;
-import prisma from "$lib/prisma";
+import prisma from "../../../lib/prisma";
 import { redirect } from "@sveltejs/kit";
 
 let services = {
@@ -122,7 +122,7 @@ export async function GET({ url, params, cookies }) {
 			},
 		});
 		cookies.set("yagami_session", session.id, { path: "/" });
-		throw redirect(302, "/close");
+		throw redirect(302, "/");
 	}
 
 	if (params.service == "discord") {
@@ -158,7 +158,58 @@ export async function GET({ url, params, cookies }) {
 		});
 		userResponse = await userResponse.json();
 
-		console.log(userResponse);
+		let user = await prisma.user.findFirst({
+			where: {
+				Sessions: {
+					some: {
+						id: cookies.get("yagami_session"),
+					},
+				},
+			},
+			include: {
+				DiscordAccounts: {
+					select: {
+						id: true,
+					},
+				},
+			},
+		});
+		let accountTest = user.DiscordAccounts.map((x) => x.id);
+
+		let { id, username, avatar, discriminator, flags } = userResponse;
+
+		if (!accountTest || !accountTest.includes(id)) {
+			let {
+				access_token,
+				expires_in,
+				refresh_token,
+				token_type: type,
+				scope,
+			} = response;
+
+			await prisma.discordAccount.create({
+				data: {
+					id,
+					username,
+					avatar,
+					discriminator,
+					flags,
+
+					access_token,
+					expires_in,
+					refresh_token,
+					type,
+					scope,
+					User: {
+						connect: {
+							id: user.id,
+						},
+					},
+				},
+			});
+		}
+
+		throw redirect(302, "/profile/settings");
 	}
 
 	if (params.service == "twitch") {

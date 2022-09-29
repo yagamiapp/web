@@ -4,7 +4,7 @@ import { error } from "@sveltejs/kit";
 export async function load({ params }) {
 	let user = await prisma.user.findUnique({
 		where: {
-			discord_id: params.id,
+			id: parseInt(params.id),
 		},
 	});
 
