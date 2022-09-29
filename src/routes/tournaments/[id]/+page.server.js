@@ -145,7 +145,7 @@ export async function load({ params }) {
 
 				let user = await prisma.user.findUnique({
 					where: {
-						discord_id: player.discordId,
+						id: player.osuId,
 					},
 				});
 
@@ -163,15 +163,15 @@ export async function load({ params }) {
 
 			for (let i = 0; i < a.members.length; i++) {
 				let user = a.members[i].user;
-				if (user.osu_pp_rank) {
-					aAvg += user.osu_pp_rank;
+				if (user.pp_rank) {
+					aAvg += user.pp_rank;
 				}
 			}
 
 			for (let i = 0; i < b.members.length; i++) {
 				let user = b.members[i].user;
-				if (user.osu_pp_rank) {
-					bAvg += user.osu_pp_rank;
+				if (user.pp_rank) {
+					bAvg += user.pp_rank;
 				}
 			}
 
