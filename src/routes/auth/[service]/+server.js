@@ -1,12 +1,13 @@
-import { env } from "$env/dynamic/private";
+import { env as private_env } from "$env/dynamic/private";
+import { env as public_env } from "$env/dynamic/public";
+const { OSU_CLIENT_SECRET, DISCORD_CLIENT_SECRET, TWITCH_CLIENT_SECRET } =
+	private_env;
 const {
 	PUBLIC_OSU_CLIENT_ID,
-	OSU_CLIENT_SECRET,
 	PUBLIC_DISCORD_CLIENT_ID,
-	DISCORD_CLIENT_SECRET,
 	PUBLIC_TWITCH_CLIENT_ID,
-	TWITCH_CLIENT_SECRET,
-} = env;
+} = public_env;
+
 import prisma from "../../../lib/prisma";
 import { redirect } from "@sveltejs/kit";
 
