@@ -1,10 +1,10 @@
 import { env } from "$env/dynamic/private";
 const {
-	OSU_CLIENT_ID,
+	PUBLIC_OSU_CLIENT_ID,
 	OSU_CLIENT_SECRET,
-	DISCORD_CLIENT_ID,
+	PUBLIC_DISCORD_CLIENT_ID,
 	DISCORD_CLIENT_SECRET,
-	TWITCH_CLIENT_ID,
+	PUBLIC_TWITCH_CLIENT_ID,
 	TWITCH_CLIENT_SECRET,
 } = env;
 import prisma from "../../../lib/prisma";
@@ -14,21 +14,21 @@ let services = {
 	osu: {
 		auth_url: "https://osu.ppy.sh/oauth/token",
 		base_url: "https://osu.ppy.sh/api/v2",
-		client_id: OSU_CLIENT_ID,
+		client_id: PUBLIC_OSU_CLIENT_ID,
 		client_secret: OSU_CLIENT_SECRET,
 	},
 	// OAuth URL https://discord.com/oauth2/authorize?client_id=956030276050493441&redirect_uri=http%3A%2F%2Flocalhost%3A4000%2Fauth%2Fdiscord&response_type=code&scope=identify%20guilds.join%20guilds
 	discord: {
 		auth_url: "https://discord.com/api/oauth2/token",
 		base_url: "https://discord.com/api/v10",
-		client_id: DISCORD_CLIENT_ID,
+		client_id: PUBLIC_DISCORD_CLIENT_ID,
 		client_secret: DISCORD_CLIENT_SECRET,
 	},
 	// OAuth URL https://id.twitch.tv/oauth2/authorize?client_id=3x4h9ud5bqjsh164ifxywll9wao6oe&redirect_uri=http://localhost:4000/auth/twitch&response_type=code&scope=user_read&force_verify=true
 	twitch: {
 		auth_url: "https://id.twitch.tv/oauth2/token",
 		base_url: "https://api.twitch.tv/helix",
-		client_id: TWITCH_CLIENT_ID,
+		client_id: PUBLIC_TWITCH_CLIENT_ID,
 		client_secret: TWITCH_CLIENT_SECRET,
 	},
 };
