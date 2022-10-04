@@ -19,6 +19,7 @@
 
 	let {
 		banner,
+		description,
 		name,
 		icon_url,
 		x_v_x_mode,
@@ -33,6 +34,7 @@
 		<img src={icon_url} alt="tournament icon" class="icon" />
 		<div class="fade">
 			<div class="name">{name}</div>
+			<div class="desc">{description}</div>
 		</div>
 		<div class="rules">
 			<div>
@@ -92,6 +94,14 @@
 		color: white;
 		font-weight: bold;
 		white-space: nowrap;
+	}
+
+	.desc {
+		position: relative;
+		top: -1em;
+		left: 180px;
+		padding: 10px;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.rules {
