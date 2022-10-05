@@ -18,6 +18,18 @@ export async function load({ params }) {
 		include: {
 			rounds: {
 				include: {
+					Match: {
+						include: {
+							Teams: {
+								include: {
+									Bans: true,
+									Picks: true,
+									Wins: true,
+									Team: true,
+								},
+							},
+						},
+					},
 					mappool: {
 						include: {
 							Maps: {

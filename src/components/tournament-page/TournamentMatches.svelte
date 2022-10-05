@@ -3,7 +3,6 @@
 	import Switch from "../ToggleSwitch.svelte";
 
 	export let tournament;
-	export let rounds;
 	let section;
 
 	function toggleScoreVis(e) {
@@ -19,8 +18,7 @@
 <section id="matches" class="spoilered" bind:this={section}>
 	<h1>Matches</h1>
 
-	The match page is a work in progress.
-	<!-- <div class="spoiler">
+	<div class="spoiler">
 		<span>Only show score on hover:</span>
 		<Switch
 			on:check={toggleScoreVis}
@@ -31,10 +29,10 @@
 		/>
 	</div>
 	<div class="list">
-		{#each rounds as round}
+		{#each tournament.rounds as round}
 			<MatchList {round} />
 		{/each}
-	</div> -->
+	</div>
 </section>
 
 <style>
