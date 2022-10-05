@@ -4,6 +4,7 @@
 		"node_modules": true,
 		".npmrc": true,
 		"package-lock.json": true,
-		"pnpm-lock.yaml": true
+		"pnpm-lock.yaml": true,
+		".env": true
 	}
 }
