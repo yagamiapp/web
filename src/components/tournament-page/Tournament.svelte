@@ -4,9 +4,10 @@
 	import Teams from "./TournamentTeams.svelte";
 	import Matches from "./TournamentMatches.svelte";
 	import Default from "../../assets/icons/white.svg";
+	import EditButton from "./EditButton.svelte";
 
 	export let data;
-	let { tournament } = data;
+	let { tournament, editPerms } = data;
 	let { name, acronym, id, color, team_size } = tournament;
 
 	// tournament.banner =
@@ -21,6 +22,11 @@
 <div class="wrap" style="--theme: {color}">
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
+		{#if editPerms}
+			<div class="edit">
+				<EditButton id={tournament.id} />
+			</div>
+		{/if}
 	</div>
 	<Header {tournament} />
 	<div class="sticky">
@@ -55,6 +61,7 @@
 	}
 
 	.top {
+		position: relative;
 		height: 60px;
 	}
 
@@ -92,5 +99,12 @@
 		width: 100%;
 		height: 0.5em;
 		background-color: var(--theme);
+	}
+
+	.edit {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
 	}
 </style>

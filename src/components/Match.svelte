@@ -137,8 +137,20 @@
 	}
 	.banner .team1 img {
 		mask-image: linear-gradient(135deg, #000 0%, #000 50%, transparent 50%);
+		-webkit-mask-image: linear-gradient(
+			135deg,
+			#000 0%,
+			#000 50%,
+			transparent 50%
+		);
 	}
 	.banner .team2 img {
 		mask-image: linear-gradient(-45deg, #000 0%, #000 50%, transparent 50%);
+		-webkit-mask-image: linear-gradient(
+			-45deg,
+			#000 0%,
+			#000 50%,
+			transparent 50%
+		);
 	}
 </style>

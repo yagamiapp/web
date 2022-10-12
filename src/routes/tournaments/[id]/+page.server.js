@@ -4,7 +4,7 @@ import { error } from "@sveltejs/kit";
 export const prerender = true;
 export const ssr = true;
 
-export async function load({ params }) {
+export async function load({ params, cookies }) {
 	let tournamentId = parseInt(params.id);
 
 	if (!tournamentId) {
@@ -63,9 +63,26 @@ export async function load({ params }) {
 		},
 	});
 
+	let editPerms = false;
+	let session = cookies.get("yagami_session");
+	let user = await prisma.user.findFirst({
+		where: {
+			Sessions: {
+				some: {
+					id: session,
+				},
+			},
+		},
+	});
+
+	let hosts = tournament.Hosts.map((x) => x.userId);
+	if (hosts.includes(user?.id)) {
+		editPerms = true;
+	}
+
 	if (!tournament) {
 		throw error(404, "Not found");
 	}
 
-	return { tournament };
+	return { tournament, editPerms };
 }
