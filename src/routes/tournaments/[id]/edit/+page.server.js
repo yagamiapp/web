@@ -1,5 +1,5 @@
-import prisma from "../../../lib/prisma";
-import { error } from "@sveltejs/kit";
+import prisma from "../../../../lib/prisma";
+import { error, redirect } from "@sveltejs/kit";
 
 export const prerender = true;
 export const ssr = true;
@@ -67,7 +67,6 @@ export async function load({ params, cookies }) {
 		throw error(404, "Not found");
 	}
 
-	let editPerms = false;
 	let session = cookies.get("yagami_session");
 	let user = await prisma.user.findFirst({
 		where: {
@@ -80,9 +79,9 @@ export async function load({ params, cookies }) {
 	});
 
 	let hosts = tournament.Hosts.map((x) => x.userId);
-	if (hosts.includes(user?.id)) {
-		editPerms = true;
+	if (!hosts.includes(user?.id)) {
+		throw redirect(302, "./");
 	}
 
-	return { tournament, editPerms };
+	return { tournament };
 }
