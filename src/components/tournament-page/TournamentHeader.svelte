@@ -125,6 +125,9 @@
 		position: relative;
 		top: -1em;
 		left: 180px;
+		width: 600px;
+		height: 60px;
+		overflow: hidden;
 		padding: 10px;
 		color: rgba(255, 255, 255, 0.5);
 	}
