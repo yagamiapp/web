@@ -1,6 +1,5 @@
 <script>
 	export let id;
-	console.log(id);
 </script>
 
 <div class="wrap">
