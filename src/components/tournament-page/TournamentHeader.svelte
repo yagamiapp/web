@@ -47,6 +47,22 @@
 				{scoreModeEnum[score_mode]}
 			</div>
 		</div>
+		<div class="hosts">
+			{#if tournament.Hosts.length > 0}
+				Hosted by:
+				{#each tournament.Hosts as host}
+					<a href="/u/{host.id}">
+						<img
+							src="https://osu.ppy.sh/images/flags/{host.User
+								.country_code}.png"
+							alt="flag"
+							width="15"
+						/>
+						{host.User.username}
+					</a>
+				{/each}
+			{/if}
+		</div>
 	</div>
 	{#if banner}
 		<div class="bg" style="background-image: url({banner})" />
@@ -56,6 +72,15 @@
 </div>
 
 <style>
+	.hosts {
+		position: absolute;
+		bottom: 5px;
+		right: 5px;
+	}
+	.hosts a {
+		color: white;
+		text-decoration: none;
+	}
 	.header {
 		position: relative;
 		height: 350px;

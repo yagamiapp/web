@@ -16,6 +16,16 @@ export async function load({ params }) {
 			id: tournamentId,
 		},
 		include: {
+			Hosts: {
+				include: {
+					User: {
+						select: {
+							username: true,
+							country_code: true,
+						},
+					},
+				},
+			},
 			rounds: {
 				include: {
 					Match: {
