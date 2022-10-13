@@ -153,4 +153,30 @@
 		mask-image: linear-gradient(90deg, #000 80%, transparent);
 		-webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
 	}
+
+	@media screen and (max-width: 600px) {
+		.header {
+			height: 150px;
+		}
+		.name-box {
+			height: 75px;
+		}
+		.icon {
+			width: 75px;
+			height: 75px;
+			transform: translate(15px, -15px);
+		}
+		.name {
+			left: 85px;
+			font: 1em sans-serif;
+		}
+		.desc {
+			left: 85px;
+			top: -1.5em;
+		}
+		.fade {
+			mask-image: linear-gradient(90deg, #000 90%, transparent);
+			-webkit-mask-image: linear-gradient(90deg, #000 90%, transparent);
+		}
+	}
 </style>

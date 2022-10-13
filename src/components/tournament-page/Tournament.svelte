@@ -107,4 +107,16 @@
 		right: 0;
 		height: 100%;
 	}
+	@media screen and (max-width: 600px) {
+		.wrap {
+			margin-top: 0px;
+			width: 100%;
+			font-size: 0.7em;
+		}
+		.top .icon {
+			height: 60%;
+			padding: 3%;
+			opacity: 0.25;
+		}
+	}
 </style>

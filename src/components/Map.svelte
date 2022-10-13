@@ -232,4 +232,21 @@
 	.copy:hover {
 		opacity: 0.9;
 	}
+	@media screen and (max-width: 600px) {
+		.map {
+			height: 50px;
+			width: calc(100% - 5px * 2);
+		}
+		.identifier {
+			width: 30px;
+			font-size: 1em;
+		}
+		.copy {
+			width: 50px;
+			height: 50px;
+		}
+		.stats {
+			right: 50px;
+		}
+	}
 </style>
