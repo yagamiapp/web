@@ -161,6 +161,14 @@
 	}
 
 	@media screen and (max-width: 600px) {
+		.button {
+			width: 50px;
+			top: 5px;
+			right: 5px;
+			border-radius: 15px;
+		}
+	}
+	@media screen and (max-width: 500px) {
 		.menu {
 			width: 100vw;
 		}
