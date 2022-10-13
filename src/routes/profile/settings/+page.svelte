@@ -4,7 +4,8 @@
 	import Switch from "../../../components/ToggleSwitch.svelte";
 	import { browser } from "$app/environment";
 	import DiscordAccount from "../../../components/settings/DiscordAccount.svelte";
-	let { user, discordAccounts, origin } = data;
+	import Session from "../../../components/settings/Session.svelte";
+	let { user, discordAccounts, origin, sessions } = data;
 
 	let themeChecked = true;
 	if (browser) {
@@ -30,14 +31,13 @@
 			<img src="https://s.ppy.sh/a/{user.id}" alt="" />
 			{user.username}'s profile Settings
 		</div>
-		<section id="appearance">
+		<!-- <section id="appearance">
 			<h1>Appearance</h1>
 			<div class="switch">
 				<span> Dark Mode</span>
 				<Switch checked={themeChecked} on:check={switchTheme} />
 			</div>
-		</section>
-		<hr />
+		</section> -->
 		<section id="integrations">
 			<h1>Integrations</h1>
 			<div class="discord">
@@ -51,6 +51,13 @@
 				{/if}
 				<AddAccountButton {origin} type="discord" />
 			</div>
+		</section>
+		<hr />
+		<section id="sessions">
+			<h1>Sessions</h1>
+			{#each sessions as session}
+				<Session {session} />
+			{/each}
 		</section>
 	</div>
 </div>

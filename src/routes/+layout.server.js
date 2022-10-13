@@ -34,6 +34,7 @@ export async function load({ cookies, url, request }) {
 			data: {
 				device: result.device.type,
 				browser: result.client.name,
+				os: result.os.name,
 				lastUsed: new Date(),
 			},
 		});

@@ -1,11 +1,9 @@
 <script>
 	import { browser } from "$app/environment";
 	const logout = async () => {
-		console.log("Click!");
 		let logoutReq = await fetch("/auth/logout", { method: "POST" });
 		console.log(logoutReq.status);
 		if (browser && logoutReq.status == 200) {
-			console.log("Hi!");
 			window.location.reload();
 		}
 	};
