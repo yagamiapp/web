@@ -57,14 +57,17 @@
 			<LoginButton originUrl={data.origin} />
 		{/if}
 		<span />
-		<a href="/">Home</a>
-		<a href="/tournaments">Tournaments</a>
-		<a href="/mappools">Mappools</a>
+		<a on:click={removeSidebar} href="/">Home</a>
+		<a on:click={removeSidebar} href="/tournaments">Tournaments</a>
+		<a on:click={removeSidebar} href="/mappools">Mappools</a>
 		{#if data.user}
-			<a data-sveltekit-reload class="settings" href="/profile/settings"
-				>Settings</a
+			<a
+				on:click={removeSidebar}
+				data-sveltekit-reload
+				class="settings"
+				href="/profile/settings">Settings</a
 			>
-			<LogoutButton />
+			<LogoutButton on:click={removeSidebar} />
 		{/if}
 	</div>
 </div>
