@@ -156,4 +156,10 @@
 	.menu a:hover {
 		background-color: var(--bg3);
 	}
+
+	@media screen and (max-width: 600px) {
+		.menu {
+			width: 100vw;
+		}
+	}
 </style>
