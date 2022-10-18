@@ -1,6 +1,5 @@
 import prisma from "../lib/prisma";
 import DeviceDetector from "node-device-detector";
-import DeviceHelper from "node-device-detector/helper";
 const detector = new DeviceDetector();
 
 /** @type {import("@sveltejs/kit").ServerLoad} */
@@ -16,6 +15,9 @@ export async function load({ cookies, url, request }) {
 						id: session,
 					},
 				},
+			},
+			include: {
+				OsuToken: true,
 			},
 		});
 
@@ -39,10 +41,7 @@ export async function load({ cookies, url, request }) {
 			},
 		});
 
-		delete user.access_token;
-		delete user.refresh_token;
-		delete user.expires_in;
-		delete user.type;
+		delete user.OsuToken;
 
 		data.user = user;
 	}

@@ -57,7 +57,6 @@ export async function GET({ url, params, cookies }) {
 			body: JSON.stringify(tokenRequest),
 		});
 		response = await response.json();
-
 		// Get user from osu API
 		let reqUrl = `${service.base_url}/me`;
 		let userResponse = await fetch(reqUrl, {
@@ -68,53 +67,79 @@ export async function GET({ url, params, cookies }) {
 		});
 		userResponse = await userResponse.json();
 
+		let { id, username, country_code, cover_url } = userResponse;
+		let country_name = userResponse.country.name;
+		let {
+			ranked_score,
+			play_count,
+			total_score,
+			global_rank: pp_rank,
+			hit_accuracy,
+			pp,
+		} = userResponse.statistics;
+		let { current: level, progress: level_progress } =
+			userResponse.statistics.level;
+
 		let user = await prisma.user.findUnique({
 			where: {
 				id: userResponse.id,
 			},
 		});
 
-		if (!user) {
-			let { id, username, country_code, cover_url } = userResponse;
-			let country_name = userResponse.country.name;
-			let {
+		user = await prisma.user.upsert({
+			where: {
+				id: id,
+			},
+			create: {
+				id,
+				username,
+				country_code,
+				country_name,
+				cover_url,
 				ranked_score,
 				play_count,
 				total_score,
-				global_rank: pp_rank,
+				pp_rank,
 				hit_accuracy,
+				level,
+				level_progress,
 				pp,
-			} = userResponse.statistics;
-			let { current: level, progress: level_progress } =
-				userResponse.statistics.level;
-			let {
+			},
+			update: {
+				username,
+				cover_url,
+				ranked_score,
+				play_count,
+				total_score,
+				pp,
+				pp_rank,
+				hit_accuracy,
+				level,
+				level_progress,
+			},
+		});
+
+		let { access_token, expires_in, refresh_token, token_type } = response;
+
+		await prisma.osuOauth.upsert({
+			where: {
+				userId: user.id,
+			},
+			create: {
 				access_token,
 				expires_in,
 				refresh_token,
-				token_type: type,
-			} = response;
-			user = await prisma.user.create({
-				data: {
-					id,
-					username,
-					country_code,
-					country_name,
-					cover_url,
-					ranked_score,
-					play_count,
-					total_score,
-					pp_rank,
-					hit_accuracy,
-					level,
-					level_progress,
-					pp,
-					access_token,
-					expires_in,
-					refresh_token,
-					type,
-				},
-			});
-		}
+				token_type,
+				userId: user.id,
+			},
+			update: {
+				access_token,
+				expires_in,
+				refresh_token,
+				token_type,
+				last_update: new Date(),
+			},
+		});
 
 		let session = await prisma.userSession.create({
 			data: {
