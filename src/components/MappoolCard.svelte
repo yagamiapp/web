@@ -2,7 +2,6 @@
 	export let pool;
 
 	let lastMap = pool.Maps[pool.Maps.length - 1];
-	console.log(lastMap);
 	let bgImg =
 		pool.Round?.Tournament?.banner_url ||
 		`https://assets.ppy.sh/beatmaps/${lastMap.Map.beatmapset_id}/covers/cover.jpg`;
@@ -83,7 +82,7 @@
 		width: 550px;
 		transform: scale(1);
 		filter: brightness(0.5) blur(2px);
-		transition: 0.1s ease-in-out;
+		transition: 0.3s ease-in-out;
 	}
 	.bg-wrap {
 		position: absolute;
@@ -111,7 +110,6 @@
 		display: flex;
 		align-items: center;
 		padding-left: 20px;
-		pointer-events: none;
 	}
 	.mod-count {
 		position: relative;
@@ -146,16 +144,28 @@
 		font-size: 1.25em;
 		margin: 10px;
 		margin-top: 25px;
-		pointer-events: none;
+		transition: 0.3s ease;
+	}
+	.name {
+		transition: 0.3s ease;
 	}
 	.round {
 		color: #aaaaaa;
 		font-size: 0.8em;
+		transition: 0.3s ease;
 	}
-	.card img:hover {
+	.card:hover img {
 		filter: brightness(0.4) blur(5px);
-		transform: scale(1.25);
+		transform: scale(1.2);
 		animation: breathe 5s ease-out;
+	}
+	.card:hover .name {
+		transform: translate(20px);
+		animation: slide 0.3s ease 0s;
+	}
+	.card:hover .round {
+		transform: translate(20px);
+		animation: slide 0.5s ease 0s;
 	}
 	@keyframes breathe {
 		0% {
@@ -163,6 +173,14 @@
 		}
 		100% {
 			transform: scale(1.2);
+		}
+	}
+	@keyframes slide {
+		0% {
+			transform: translate(0);
+		}
+		100% {
+			transform: translate(20px);
 		}
 	}
 </style>
