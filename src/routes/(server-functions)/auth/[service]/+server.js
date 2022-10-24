@@ -205,13 +205,8 @@ export async function GET({ url, params, cookies }) {
 		let { id, username, avatar, discriminator, flags } = userResponse;
 
 		if (!accountTest || !accountTest.includes(id)) {
-			let {
-				access_token,
-				expires_in,
-				refresh_token,
-				token_type: type,
-				scope,
-			} = response;
+			let { access_token, expires_in, refresh_token, token_type, scope } =
+				response;
 
 			await prisma.discordAccount.create({
 				data: {
@@ -220,15 +215,19 @@ export async function GET({ url, params, cookies }) {
 					avatar,
 					discriminator,
 					flags,
-
-					access_token,
-					expires_in,
-					refresh_token,
-					type,
-					scope,
 					User: {
 						connect: {
 							id: user.id,
+						},
+					},
+					DiscordToken: {
+						create: {
+							access_token,
+							expires_in,
+							refresh_token,
+							token_type,
+							scope,
+							last_update: new Date(),
 						},
 					},
 				},
