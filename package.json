@@ -22,6 +22,7 @@
 		"@prisma/client": "^4.3.1",
 		"node-device-detector": "^2.0.7",
 		"osu-api-extended": "^2.5.10",
-		"prisma": "^4.3.1"
+		"prisma": "^4.3.1",
+		"reconnecting-websocket": "^4.4.0"
 	}
 }
