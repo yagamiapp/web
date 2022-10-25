@@ -8,7 +8,12 @@
 
 <div class="base">
 	<div class="team1">
-		<Team align="left" bestof={match.Round.best_of} team={match.Teams[0]} />
+		<Team
+			align="left"
+			bestof={match.Round.best_of}
+			team={match.Teams[0]}
+			color={match.Round.Tournament.color}
+		/>
 	</div>
 	<div class="logo-box">
 		<img src={tournament.icon_url} alt="logo" />

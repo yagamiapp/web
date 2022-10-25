@@ -1,6 +1,9 @@
 import prisma from "../../../../lib/prisma";
 import { error } from "@sveltejs/kit";
 
+export const ssr = false;
+export const prerender = false;
+
 export async function load({ url }) {
 	let res = url.searchParams.get("res");
 

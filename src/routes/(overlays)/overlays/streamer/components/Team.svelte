@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from "svelte";
 	import Score from "./Score.svelte";
 
 	export let bestof = 9;
@@ -14,12 +13,6 @@
 		right: "flex-end",
 		left: "flex-start",
 	};
-
-	let score;
-
-	onMount(() => {
-		score.setScore(2);
-	});
 </script>
 
 <div class="base" style="flex-direction: {alignTypes[align]}">
@@ -28,7 +21,7 @@
 		<div class="name">
 			{team.Team.name}
 		</div>
-		<Score bind:this={score} {color} {align} {bestof} score={team.score} />
+		<Score {color} {align} {bestof} score={team.score} />
 	</div>
 </div>
 
@@ -42,13 +35,14 @@
 		border-radius: 5px;
 	}
 	.name {
-		font-size: 2em;
+		white-space: nowrap;
+		font-size: 1.5em;
 		font-family: "Montserrat-Bold", sans-serif;
 	}
 	.stat-box {
 		display: flex;
 		flex-direction: column;
 		gap: 5%;
-		justify-content: center;
+		justify-content: space-evenly;
 	}
 </style>
