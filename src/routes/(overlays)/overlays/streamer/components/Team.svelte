@@ -5,6 +5,13 @@
 	export let team;
 	export let color;
 	export let align;
+	export let small = false;
+
+	let textStyle = "font-size: 1.5em";
+	if (small) {
+		textStyle = "font-size:0.8em";
+	}
+
 	let alignTypes = {
 		right: "row-reverse",
 		left: "row",
@@ -18,7 +25,7 @@
 <div class="base" style="flex-direction: {alignTypes[align]}">
 	<img src={team.Team.icon_url} alt="" />
 	<div class="stat-box" style="align-items: {flexType[align]}">
-		<div class="name">
+		<div class="name" style={textStyle}>
 			{team.Team.name}
 		</div>
 		<Score {color} {align} {bestof} score={team.score} />
