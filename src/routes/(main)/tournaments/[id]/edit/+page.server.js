@@ -1,8 +1,7 @@
 import prisma from "../../../../../lib/prisma";
 import { error, redirect } from "@sveltejs/kit";
 
-export const prerender = true;
-export const ssr = true;
+export const prerender = "auto";
 
 export async function load({ params, cookies }) {
 	let tournamentId = parseInt(params.id);
