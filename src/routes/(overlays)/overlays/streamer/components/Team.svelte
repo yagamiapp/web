@@ -28,7 +28,9 @@
 		<div class="name" style={textStyle}>
 			{team.Team.name}
 		</div>
-		<Score {color} {align} {bestof} score={team.score} />
+		{#key team.score}
+			<Score {color} {align} {bestof} score={team.score} />
+		{/key}
 	</div>
 </div>
 

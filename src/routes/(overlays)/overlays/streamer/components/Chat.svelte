@@ -69,7 +69,7 @@
 	.bot.message .user {
 		background-color: rgb(202, 69, 176);
 		color: #373434;
-		padding: 2px;
+		padding: 0px 2px;
 		border-radius: 5px;
 	}
 	.unknown.message .user {

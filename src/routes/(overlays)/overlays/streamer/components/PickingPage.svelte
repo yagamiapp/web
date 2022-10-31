@@ -22,7 +22,7 @@
 			scoreVisible = socketData?.tourney?.manager?.bools?.scoreVisible;
 
 			if (scoreVisible) {
-				transformString = "translateY(-150%)";
+				transformString = "translateY(100%)";
 			} else {
 				transformString = "translateY(0)";
 			}
@@ -105,6 +105,7 @@
 		display: flex;
 		gap: 1%;
 		background-color: var(--bg2);
+		transition: transform 0.7s ease;
 	}
 	.teams {
 		width: 20%;

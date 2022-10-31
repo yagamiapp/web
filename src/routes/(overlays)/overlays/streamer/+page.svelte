@@ -46,6 +46,7 @@
 		let response = await fetch(`/api/get_match/?id=${match.id}`);
 		response = await response.json();
 		match = response;
+		console.log(match);
 	}
 </script>
 
@@ -73,6 +74,7 @@
 		height: var(--res);
 		width: calc(var(--res) * 16 / 9);
 		background-size: cover;
+		overflow: hidden;
 	}
 	.top {
 		height: calc(var(--res) * 0.143);

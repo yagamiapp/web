@@ -6,10 +6,10 @@
 	div {
 		margin: 0;
 		padding: 0;
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		height: 100%;
 		background-color: rgba(0, 0, 0, 0.5);
-		font-size: 5vw;
+		font-size: calc(var(--res) / 10);
 		display: flex;
 		align-items: center;
 		justify-content: center;

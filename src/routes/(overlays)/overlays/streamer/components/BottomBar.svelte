@@ -1,6 +1,7 @@
 <script>
 	import Chat from "./Chat.svelte";
 	import Map from "./Map.svelte";
+	import CountUp from "svelte-countup";
 	export let socketData;
 	export let ws;
 	export let match;

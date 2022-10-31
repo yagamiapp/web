@@ -92,7 +92,6 @@
 		position: absolute;
 		bottom: 0;
 		right: 0;
-		background: red;
 		height: 75%;
 		width: 100%;
 		overflow: hidden;
