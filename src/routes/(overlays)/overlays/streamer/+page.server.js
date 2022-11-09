@@ -54,6 +54,9 @@ export async function load({ url }) {
 								},
 							},
 						},
+						orderBy: {
+							pickTeamNumber: "asc",
+						},
 					},
 				},
 			},

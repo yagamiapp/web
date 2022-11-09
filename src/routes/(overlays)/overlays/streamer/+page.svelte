@@ -50,7 +50,12 @@
 	}
 </script>
 
-<svelte:head />
+<svelte:head>
+	<title
+		>{match?.Round?.Tournament?.acronym}: {match?.Teams[0]?.Team?.name} vs {match
+			?.Teams[1]?.Team?.name}</title
+	>
+</svelte:head>
 
 <div class="base" style="--res: {res}px">
 	{#if socketClosed}
