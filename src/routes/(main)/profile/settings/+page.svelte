@@ -50,6 +50,18 @@
 				{/if}
 				<AddAccountButton {origin} type="discord" />
 			</div>
+			<div class="twitch">
+				<h2>Twitch</h2>
+				<!-- {#if discordAccounts.length > 0} -->
+				<!-- 	{#each discordAccounts as account} -->
+				<!-- 		<DiscordAccount {account} /> -->
+				<!-- 	{/each} -->
+				<!-- {:else} -->
+				<!-- 	No Accounts -->
+				<!-- {/if} -->
+        Soon...
+				<AddAccountButton {origin} type="twitch" />
+			</div>
 		</section>
 		<hr />
 		<section id="sessions">
