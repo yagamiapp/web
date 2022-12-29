@@ -138,7 +138,7 @@ model TwitchOauth {
   userId        Int      @id
   last_update   DateTime @default(now())
   access_token  String
-  expires_at    Int
+  expires_at    BigInt
   refresh_token String
   token_type    String
 
