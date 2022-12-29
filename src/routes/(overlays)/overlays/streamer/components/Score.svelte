@@ -14,9 +14,11 @@
 	let max = Math.ceil(bestof / 2);
 	let scoreBoxes = new Array(max).fill("transparent");
 
-	for (let i = 0; i < scoreBoxes.length; i++) {
-		if (i < score) {
-			scoreBoxes[i] = "white";
+	$: {
+		for (let i = 0; i < scoreBoxes.length; i++) {
+			if (i < score) {
+				scoreBoxes[i] = "white";
+			}
 		}
 	}
 

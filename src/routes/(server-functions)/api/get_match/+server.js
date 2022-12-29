@@ -1,24 +1,21 @@
 import prisma from "../../../../lib/prisma";
-import { error } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
 
-export const ssr = false;
-export const prerender = false;
+// I hate javascript
+BigInt.prototype.toJSON = function () {
+	return this.toString();
+};
 
-export async function load({ url }) {
-	let res = url.searchParams.get("res");
-	let ws = url.searchParams.get("ws");
+export async function GET({ url }) {
+	let id = url.searchParams.get("id");
 
-	let matchId = url.searchParams.get("match");
-	if (!matchId) {
-		throw new error(
-			400,
-			"You must give a match argument in the parameters."
-		);
+	if (!id) {
+		throw new error(401, "Missing Required Parameter: ID");
 	}
 
 	let match = await prisma.match.findUnique({
 		where: {
-			id: parseInt(matchId),
+			id: parseInt(id),
 		},
 		include: {
 			Teams: {
@@ -77,15 +74,7 @@ export async function load({ url }) {
 		},
 	});
 	if (!match) {
-		throw new error(404, `No match with id ${matchId} found.`);
+		throw new error(404, `No match with id ${id} found.`);
 	}
-
-	if (ws) {
-		let wsCheck = ws.match(/ws:\/\/(\D+):(\d+)/);
-		if (!wsCheck) {
-			throw new error(400, "websocket url is malformed");
-		}
-	}
-
-	return { res, match, ws };
+	return json(match);
 }

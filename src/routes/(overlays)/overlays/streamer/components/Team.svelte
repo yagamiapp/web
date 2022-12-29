@@ -1,11 +1,17 @@
 <script>
-	import { onMount } from "svelte";
 	import Score from "./Score.svelte";
 
 	export let bestof = 9;
 	export let team;
 	export let color;
 	export let align;
+	export let small = false;
+
+	let textStyle = "font-size: 1.5em";
+	if (small) {
+		textStyle = "font-size:0.8em";
+	}
+
 	let alignTypes = {
 		right: "row-reverse",
 		left: "row",
@@ -14,21 +20,17 @@
 		right: "flex-end",
 		left: "flex-start",
 	};
-
-	let score;
-
-	onMount(() => {
-		score.setScore(2);
-	});
 </script>
 
 <div class="base" style="flex-direction: {alignTypes[align]}">
 	<img src={team.Team.icon_url} alt="" />
 	<div class="stat-box" style="align-items: {flexType[align]}">
-		<div class="name">
+		<div class="name" style={textStyle}>
 			{team.Team.name}
 		</div>
-		<Score bind:this={score} {color} {align} {bestof} score={team.score} />
+		{#key team.score}
+			<Score {color} {align} {bestof} score={team.score} />
+		{/key}
 	</div>
 </div>
 
@@ -42,13 +44,14 @@
 		border-radius: 5px;
 	}
 	.name {
-		font-size: 2em;
+		white-space: nowrap;
+		font-size: 1.5em;
 		font-family: "Montserrat-Bold", sans-serif;
 	}
 	.stat-box {
 		display: flex;
 		flex-direction: column;
 		gap: 5%;
-		justify-content: center;
+		justify-content: space-evenly;
 	}
 </style>

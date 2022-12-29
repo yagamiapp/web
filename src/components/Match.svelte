@@ -68,7 +68,7 @@
 			{#each picks as pick}
 				<div>
 					{pick.mapIdentifier}, won by {teamFromId(pick.wonByTeamId)
-						.Team.name}
+						?.Team?.name}
 				</div>
 			{/each}
 		</div>
