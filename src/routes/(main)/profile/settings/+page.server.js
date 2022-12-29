@@ -1,6 +1,8 @@
 import prisma from "../../../../lib/prisma";
 import { redirect } from "@sveltejs/kit";
 
+export const ssr = false;
+
 /** @type {import("@sveltejs/kit").ServerLoad} */
 export async function load(req) {
   let session = req.cookies.get("yagami_session");
@@ -37,8 +39,17 @@ export async function load(req) {
     },
   });
 
-  // let twitchAccounts = await prisma.twitchAccount.findMany({
-  //   where: {
+  let twitchAccounts = await prisma.twitchAccount.findMany({
+    where: {
+      User: {
+        Sessions: {
+          some: {
+            id: session,
+          },
+        },
+      },
+    },
+  });
 
   let sessions = await prisma.userSession.findMany({
     where: {
@@ -62,5 +73,5 @@ export async function load(req) {
   sessions.sort((a, b) => b.lastUsed - a.lastUsed);
   sessions[0].current = true;
 
-  return { discordAccounts, sessions };
+  return { discordAccounts, twitchAccounts, sessions };
 }

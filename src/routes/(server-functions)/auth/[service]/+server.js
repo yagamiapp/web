@@ -258,7 +258,6 @@ export async function GET({ url, params, cookies }) {
       body: tokenRequestForm,
     });
     response = await response.json();
-    console.log(response);
 
     if (!response.access_token) {
       console.log(response);
@@ -275,9 +274,23 @@ export async function GET({ url, params, cookies }) {
     });
     userResponse = await userResponse.json();
 
-    console.log(userResponse);
+    let user = await prisma.user.findFirst({
+      where: {
+        Sessions: {
+          some: {
+            id: cookies.get("yagami_session"),
+          },
+        },
+      },
+    });
+
     let twitchUser = await prisma.twitchAccount.upsert({
       create: {
+        User: {
+          connect: {
+            id: user.id,
+          },
+        },
         id: parseInt(userResponse.data[0].id),
         username: userResponse.data[0].login,
       },

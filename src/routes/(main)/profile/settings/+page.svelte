@@ -3,8 +3,10 @@
 	import AddAccountButton from "../../../../components/AddAccountButton.svelte";
 	import { browser } from "$app/environment";
 	import DiscordAccount from "../../../../components/settings/DiscordAccount.svelte";
+  import TwitchAccount from "../../../../components/settings/TwitchAccount.svelte";
 	import Session from "../../../../components/settings/Session.svelte";
-	let { user, discordAccounts, origin, sessions } = data;
+	let { user, discordAccounts, twitchAccounts, origin, sessions } = data;
+  console.log(twitchAccounts);
 
 	let themeChecked = true;
 	if (browser) {
@@ -28,7 +30,7 @@
 	<div class="panel">
 		<div class="top">
 			<img src="https://s.ppy.sh/a/{user.id}" alt="" />
-			{user.username}'s profile Settings
+      <b>{user.username}'s profile Settings</b>
 		</div>
 		<!-- <section id="appearance">
 			<h1>Appearance</h1>
@@ -46,20 +48,23 @@
 						<DiscordAccount {account} />
 					{/each}
 				{:else}
-					No Accounts
+          <h3>
+            No Accounts
+          </h3>
 				{/if}
 				<AddAccountButton {origin} type="discord" />
 			</div>
 			<div class="twitch">
 				<h2>Twitch</h2>
-				<!-- {#if discordAccounts.length > 0} -->
-				<!-- 	{#each discordAccounts as account} -->
-				<!-- 		<DiscordAccount {account} /> -->
-				<!-- 	{/each} -->
-				<!-- {:else} -->
-				<!-- 	No Accounts -->
-				<!-- {/if} -->
-        Soon...
+				{#if twitchAccounts.length > 0}
+					{#each twitchAccounts as account}
+						<TwitchAccount {account} />
+					{/each}
+				{:else}
+          <h3>
+            No Accounts
+          </h3>
+				{/if}
 				<AddAccountButton {origin} type="twitch" />
 			</div>
 		</section>
