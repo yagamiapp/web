@@ -9,6 +9,11 @@
 			color: "#5865F2",
 			img: "https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/discord.svg",
 		},
+		twitch: {
+      url: `https://id.twitch.tv/oauth2/authorize?client_id=${env.PUBLIC_TWITCH_CLIENT_ID}&redirect_uri=http://localhost:3000/auth/twitch&force_verify=true&response_type=code`,
+			color: "#9146FF",
+			img: "https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/twitch.svg",
+		},
 	};
 
 	let { url, color, img } = types[type];
