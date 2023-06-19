@@ -1,6 +1,6 @@
-import prisma from '../../../lib/prisma';
+import prisma from '$lib/prisma';
 
-export async function load({ params }) {
+export async function load() {
 	const tournaments = await prisma.tournament.findMany({
 		where: {
 			private: false

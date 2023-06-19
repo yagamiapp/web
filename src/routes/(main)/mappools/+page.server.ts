@@ -1,9 +1,9 @@
-import prisma from '../../../lib/prisma';
+import prisma from '$lib/prisma';
 
 // export const ssr = true;
 
 export async function load() {
-	let mappools = await prisma.mappool.findMany({
+	const mappools = await prisma.mappool.findMany({
 		where: {
 			global: true
 		},

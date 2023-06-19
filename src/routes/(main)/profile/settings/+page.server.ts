@@ -1,17 +1,17 @@
-import prisma from '../../../../lib/prisma';
+import prisma from '$lib/prisma';
 import { redirect } from '@sveltejs/kit';
 
 export const ssr = false;
 
 /** @type {import("@sveltejs/kit").ServerLoad} */
 export async function load(req) {
-	let session = req.cookies.get('yagami_session');
+	const session = req.cookies.get('yagami_session');
 
 	if (!session) {
 		throw redirect(302, '/');
 	}
 
-	let sessionCheck = await prisma.userSession.findUnique({
+	const sessionCheck = await prisma.userSession.findUnique({
 		where: {
 			id: session
 		}
@@ -21,7 +21,7 @@ export async function load(req) {
 		throw redirect(302, '/');
 	}
 
-	let discordAccounts = await prisma.discordAccount.findMany({
+	const discordAccounts = await prisma.discordAccount.findMany({
 		where: {
 			User: {
 				Sessions: {
@@ -39,7 +39,7 @@ export async function load(req) {
 		}
 	});
 
-	let twitchAccounts = await prisma.twitchAccount.findMany({
+	const twitchAccounts = await prisma.twitchAccount.findMany({
 		where: {
 			User: {
 				Sessions: {
@@ -51,7 +51,7 @@ export async function load(req) {
 		}
 	});
 
-	let sessions = await prisma.userSession.findMany({
+	const sessions = await prisma.userSession.findMany({
 		where: {
 			User: {
 				Sessions: {
@@ -70,7 +70,7 @@ export async function load(req) {
 		}
 	});
 
-	sessions.sort((a, b) => b.lastUsed - a.lastUsed);
+	sessions.sort((a, b) => b.lastUsed.getTime() - a.lastUsed.getTime());
 	sessions[0].current = true;
 
 	return { discordAccounts, twitchAccounts, sessions };

@@ -1,4 +1,5 @@
-import prisma from '../../../../lib/prisma';
+import { StatusCodes } from '$lib/StatusCodes.js';
+import prisma from '$lib/prisma';
 import { error, json } from '@sveltejs/kit';
 
 // I hate javascript
@@ -7,13 +8,13 @@ BigInt.prototype.toJSON = function () {
 };
 
 export async function GET({ url }) {
-	let id = url.searchParams.get('id');
+	const id = url.searchParams.get('id');
 
 	if (!id) {
-		throw new error(401, 'Missing Required Parameter: ID');
+		throw error(StatusCodes.BAD_REQUEST, 'Missing Required Parameter: ID');
 	}
 
-	let match = await prisma.match.findUnique({
+	const match = await prisma.match.findUnique({
 		where: {
 			id: parseInt(id)
 		},
@@ -74,7 +75,7 @@ export async function GET({ url }) {
 		}
 	});
 	if (!match) {
-		throw new error(404, `No match with id ${id} found.`);
+		throw error(StatusCodes.NOT_FOUND, `No match with id ${id} found.`);
 	}
 	return json(match);
 }

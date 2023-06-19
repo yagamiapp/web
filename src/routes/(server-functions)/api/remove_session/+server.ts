@@ -2,19 +2,19 @@ import prisma from '../../../../lib/prisma';
 import { error } from '@sveltejs/kit';
 
 export async function DELETE({ cookies, request }) {
-	let { sessionCreationDate } = await request.json();
+	const { sessionCreationDate } = await request.json();
 
 	if (!sessionCreationDate) {
 		throw error(400);
 	}
 
-	let session = cookies.get('yagami_session');
+	const session = cookies.get('yagami_session');
 
 	if (!session) {
 		throw error(401);
 	}
 
-	let sessionToDelete = await prisma.userSession.findFirst({
+	const sessionToDelete = await prisma.userSession.findFirst({
 		where: {
 			createdAt: sessionCreationDate,
 			User: {

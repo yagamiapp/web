@@ -1,13 +1,13 @@
-import prisma from '../../../lib/prisma';
+import prisma from '$lib/prisma';
 import { redirect } from '@sveltejs/kit';
 export async function GET({ cookies }) {
-	let session = cookies.get('yagami_session');
+	const session = cookies.get('yagami_session');
 
 	if (!session) {
 		throw redirect(302, '/');
 	}
 
-	let user = await prisma.user.findFirst({
+	const user = await prisma.user.findFirst({
 		where: {
 			Sessions: {
 				some: {

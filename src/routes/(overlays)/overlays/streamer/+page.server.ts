@@ -5,15 +5,15 @@ export const ssr = false;
 export const prerender = false;
 
 export async function load({ url }) {
-	let res = url.searchParams.get('res');
-	let ws = url.searchParams.get('ws');
+	const res = url.searchParams.get('res');
+	const ws = url.searchParams.get('ws');
 
-	let matchId = url.searchParams.get('match');
+	const matchId = url.searchParams.get('match');
 	if (!matchId) {
-		throw new error(400, 'You must give a match argument in the parameters.');
+		throw error(400, 'You must give a match argument in the parameters.');
 	}
 
-	let match = await prisma.match.findUnique({
+	const match = await prisma.match.findUnique({
 		where: {
 			id: parseInt(matchId)
 		},
@@ -74,13 +74,13 @@ export async function load({ url }) {
 		}
 	});
 	if (!match) {
-		throw new error(404, `No match with id ${matchId} found.`);
+		throw error(404, `No match with id ${matchId} found.`);
 	}
 
 	if (ws) {
-		let wsCheck = ws.match(/ws:\/\/(\D+):(\d+)/);
+		const wsCheck = ws.match(/ws:\/\/(\D+):(\d+)/);
 		if (!wsCheck) {
-			throw new error(400, 'websocket url is malformed');
+			throw error(400, 'websocket url is malformed');
 		}
 	}
 
