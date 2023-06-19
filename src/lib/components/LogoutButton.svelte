@@ -9,10 +9,10 @@
 	};
 </script>
 
-<div on:click={logout}>Logout</div>
+<button on:click={logout}>Logout</button>
 
 <style>
-	div {
+	button {
 		position: relative;
 		margin: 20px;
 		padding: 10px;
@@ -20,13 +20,17 @@
 		text-align: center;
 		border-radius: 10px;
 		transition: 0.3s ease;
+		background: transparent;
+		font-family: 'MavenPro', sans-serif;
+		font-size: 16px;
+		border: 0;
 		color: #f34e87;
 		overflow: hidden;
 		z-index: 1;
 		cursor: pointer;
 	}
 
-	div:hover {
+	button:hover {
 		border-radius: 10px;
 		background: #f34e87;
 		color: white;

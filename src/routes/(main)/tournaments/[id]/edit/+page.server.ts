@@ -1,8 +1,8 @@
 import { StatusCodes } from '$lib/StatusCodes';
 import prisma from '../../../../../lib/prisma';
-import { error } from '@sveltejs/kit';
-
-export const prerender = 'auto';
+import { error, type Actions } from '@sveltejs/kit';
+import type { Action } from './$types.js';
+import { request } from 'http';
 
 export async function load({ params, cookies }) {
 	const tournamentId = parseInt(params.id);
@@ -84,4 +84,45 @@ export async function load({ params, cookies }) {
 	}
 
 	return { tournament };
+}
+
+export const actions: Actions = {
+	save: async ({ locals, request, params }) => {
+		const tournamentId = parseInt(params.id ?? "-1");
+		if (!hasEditPermission(tournamentId, locals.user.id)) throw error(StatusCodes.UNAUTHORIZED)
+
+		const data = await request.formData()
+
+		if (data.get("name")) {
+			const name = `${data.get("name")}`;
+
+			await prisma.tournament.update({
+				where: {
+					id: tournamentId
+				},
+				"data": {
+					name
+				}
+			})
+		}
+
+
+
+	}
+}
+
+const hasEditPermission = async (tournament: number, user: number) => {
+	// Check edit permissions
+	const permissionCheck = await prisma.tournament.findFirst({
+		where: {
+			id: tournament,
+			"Hosts": {
+				"some": {
+					"userId": user
+				}
+			}
+		}
+	})
+
+	return permissionCheck != null;
 }
