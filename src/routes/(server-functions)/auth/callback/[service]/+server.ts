@@ -8,11 +8,11 @@ import prisma from '../../../../../lib/prisma';
 import { error, redirect } from '@sveltejs/kit';
 
 type Service = {
-	auth_url: string,
-	base_url: string,
-	client_id: string | number,
-	client_secret: string | number,
-}
+	auth_url: string;
+	base_url: string;
+	client_id: string | number;
+	client_secret: string | number;
+};
 
 const services: { [key: string]: Service } = {
 	osu: {
@@ -62,7 +62,10 @@ export async function GET({ url, params, cookies }) {
 		const token = await tokenRequest.json();
 
 		if (token.error) {
-			throw error(StatusCodes.INTERNAL_SERVER_ERROR, "Something went wrong while logging in to osu!")
+			throw error(
+				StatusCodes.INTERNAL_SERVER_ERROR,
+				'Something went wrong while logging in to osu!'
+			);
 		}
 
 		// Get user from osu API
@@ -75,8 +78,11 @@ export async function GET({ url, params, cookies }) {
 		});
 		const userData = await userRequest.json();
 
-		if (userData.authentication == "basic") {
-			throw error(StatusCodes.INTERNAL_SERVER_ERROR, "Something went wrong while fetching osu user data")
+		if (userData.authentication == 'basic') {
+			throw error(
+				StatusCodes.INTERNAL_SERVER_ERROR,
+				'Something went wrong while fetching osu user data'
+			);
 		}
 
 		const { id, username, country_code, cover_url } = userData;
@@ -214,7 +220,7 @@ export async function GET({ url, params, cookies }) {
 			}
 		});
 
-		if (!user) throw error(StatusCodes.BAD_REQUEST, "There is no user logged in")
+		if (!user) throw error(StatusCodes.BAD_REQUEST, 'There is no user logged in');
 
 		const accountTest = user.DiscordAccounts.map((x) => x.id);
 
@@ -259,7 +265,7 @@ export async function GET({ url, params, cookies }) {
 			client_secret: service.client_secret,
 			code: url.searchParams.get('code'),
 			grant_type: 'authorization_code',
-			redirect_uri: `${url.origin}/auth/twitch`
+			redirect_uri: `${url.origin}/auth/callback/twitch`
 		};
 
 		const tokenRequestForm = new URLSearchParams();
@@ -303,7 +309,7 @@ export async function GET({ url, params, cookies }) {
 			}
 		});
 
-		if (!user) throw error(StatusCodes.BAD_REQUEST)
+		if (!user) throw error(StatusCodes.BAD_REQUEST);
 
 		const twitchUser = await prisma.twitchAccount.upsert({
 			create: {

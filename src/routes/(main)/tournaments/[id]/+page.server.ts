@@ -76,7 +76,7 @@ export async function load({ params, cookies }) {
 	});
 
 	if (!user) {
-		return { tournament, editPerms }
+		return { tournament, editPerms };
 	}
 
 	const hosts = tournament.Hosts.map((x) => x.userId);

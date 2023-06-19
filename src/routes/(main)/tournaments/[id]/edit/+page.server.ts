@@ -75,7 +75,7 @@ export async function load({ params, cookies }) {
 	});
 
 	if (!user) {
-		throw error(StatusCodes.UNAUTHORIZED)
+		throw error(StatusCodes.UNAUTHORIZED);
 	}
 
 	const hosts = tournament.Hosts.map((x) => x.userId);

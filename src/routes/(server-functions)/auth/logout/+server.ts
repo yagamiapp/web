@@ -9,7 +9,7 @@ export async function POST({ cookies }) {
 		}
 	});
 
-	cookies.delete('yagami_session', { path: "/" });
+	cookies.delete('yagami_session', { path: '/' });
 
 	return new Response();
 }

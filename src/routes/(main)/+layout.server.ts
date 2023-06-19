@@ -5,7 +5,7 @@ const detector = new DeviceDetector();
 
 /** @type {import("@sveltejs/kit").ServerLoad} */
 export async function load({ cookies, url, request }) {
-	const data: { origin: string, user?: User } = { origin: url.origin };
+	const data: { origin: string; user?: User } = { origin: url.origin };
 	const session = cookies.get('yagami_session');
 
 	if (!session) return data;
@@ -17,7 +17,7 @@ export async function load({ cookies, url, request }) {
 					id: session
 				}
 			}
-		},
+		}
 	});
 
 	if (!user) {
@@ -25,7 +25,7 @@ export async function load({ cookies, url, request }) {
 		return data;
 	}
 
-	const userAgent = request.headers.get('user-agent') ?? "";
+	const userAgent = request.headers.get('user-agent') ?? '';
 	const result = detector.detect(userAgent);
 
 	await prisma.userSession.update({

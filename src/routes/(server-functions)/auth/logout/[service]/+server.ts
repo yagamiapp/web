@@ -7,7 +7,7 @@ export async function GET({ params, url, cookies }) {
 
 	if (params.service == 'twitch') {
 		const id = url.searchParams.get('id');
-		if (!id) throw error(StatusCodes.BAD_REQUEST)
+		if (!id) throw error(StatusCodes.BAD_REQUEST);
 		const accountId = parseInt(id);
 
 		const userCheck = await prisma.user.findFirst({
@@ -38,7 +38,7 @@ export async function GET({ params, url, cookies }) {
 	if (params.service == 'discord') {
 		const accountId = url.searchParams.get('id');
 
-		if (!accountId) throw error(StatusCodes.BAD_REQUEST)
+		if (!accountId) throw error(StatusCodes.BAD_REQUEST);
 
 		const discordAccount = await prisma.discordAccount.findUnique({
 			where: {
@@ -46,7 +46,7 @@ export async function GET({ params, url, cookies }) {
 			}
 		});
 
-		if (!discordAccount) throw redirect(302, '/profile/settings')
+		if (!discordAccount) throw redirect(302, '/profile/settings');
 
 		const userCheck = await prisma.user.findFirst({
 			where: {
