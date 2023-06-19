@@ -1,6 +1,6 @@
 <script>
-	import { browser } from "$app/environment";
-	import { env } from "$env/dynamic/public";
+	import { browser } from '$app/environment';
+	import { env } from '$env/dynamic/public';
 	export let originUrl;
 
 	let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/callback/osu&response_type=code&scope=identify`;

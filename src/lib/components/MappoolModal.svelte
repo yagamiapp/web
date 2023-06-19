@@ -1,5 +1,5 @@
 <script>
-	import Map from "./Map.svelte";
+	import Map from './Map.svelte';
 
 	export let maps;
 
@@ -7,14 +7,14 @@
 	let dark;
 
 	export const openModal = () => {
-		el.classList.remove("closed");
-		dark.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-		dark.style.pointerEvents = "all";
+		el.classList.remove('closed');
+		dark.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		dark.style.pointerEvents = 'all';
 	};
 	export const closeModal = () => {
-		el.classList.add("closed");
-		dark.style.backgroundColor = "rgba(0, 0, 0, 0)";
-		dark.style.pointerEvents = "none";
+		el.classList.add('closed');
+		dark.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+		dark.style.pointerEvents = 'none';
 	};
 </script>
 

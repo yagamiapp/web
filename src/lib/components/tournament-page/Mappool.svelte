@@ -1,10 +1,10 @@
 <script>
-	import Map from "../Map.svelte";
+	import Map from '../Map.svelte';
 	export let round;
 
 	const switchClosed = (ev) => {
 		const el = ev.target.parentElement;
-		el.classList.toggle("closed");
+		el.classList.toggle('closed');
 	};
 	let maps = round.mappool.Maps;
 </script>

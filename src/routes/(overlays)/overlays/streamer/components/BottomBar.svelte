@@ -1,6 +1,6 @@
 <script>
-	import Chat from "./Chat.svelte";
-	import Map from "./Map.svelte";
+	import Chat from './Chat.svelte';
+	import Map from './Map.svelte';
 	export let socketData;
 	export let ws;
 	export let match;
@@ -11,9 +11,7 @@
 		socketData?.tourney?.manager?.gameplay?.score?.right;
 
 	function getWidth() {
-		return Math.sqrt(Math.abs(barNum)) / 1050 > 0.69
-			? 0.69
-			: Math.sqrt(Math.abs(barNum)) / 1050;
+		return Math.sqrt(Math.abs(barNum)) / 1050 > 0.69 ? 0.69 : Math.sqrt(Math.abs(barNum)) / 1050;
 	}
 
 	let bar;
@@ -29,50 +27,42 @@
 			if (barNum < 0) {
 				bar.style.right = `calc(50% - (50% * ${getWidth()}))`;
 
-				left.style.scale = "1.0";
-				right.style.scale = "1.05";
-				left.style.fontWeight = "normal";
-				right.style.fontWeight = "bold";
+				left.style.scale = '1.0';
+				right.style.scale = '1.05';
+				left.style.fontWeight = 'normal';
+				right.style.fontWeight = 'bold';
 				score.style.left = `calc(50% * ${getWidth()})`;
 			} else if (barNum == 0) {
-				left.style.scale = "1.0";
-				right.style.scale = "1.0";
-				left.style.fontWeight = "normal";
-				right.style.fontWeight = "normal";
-				score.style.left = "0";
+				left.style.scale = '1.0';
+				right.style.scale = '1.0';
+				left.style.fontWeight = 'normal';
+				right.style.fontWeight = 'normal';
+				score.style.left = '0';
 			} else {
-				bar.style.right = "50%";
-				left.style.scale = "1.05";
-				right.style.scale = "1.0";
-				left.style.fontWeight = "bold";
-				right.style.fontWeight = "normal";
+				bar.style.right = '50%';
+				left.style.scale = '1.05';
+				right.style.scale = '1.0';
+				left.style.fontWeight = 'bold';
+				right.style.fontWeight = 'normal';
 				score.style.left = `calc(-50% * ${getWidth()})`;
 			}
-			if (
-				scoreVisible !=
-				socketData?.tourney?.manager?.bools?.scoreVisible
-			) {
-				scoreVisible =
-					socketData?.tourney?.manager?.bools?.scoreVisible;
+			if (scoreVisible != socketData?.tourney?.manager?.bools?.scoreVisible) {
+				scoreVisible = socketData?.tourney?.manager?.bools?.scoreVisible;
 
 				if (scoreVisible) {
-					transformString = "translateY(0)";
+					transformString = 'translateY(0)';
 				} else {
-					transformString = "translateY(-150%)";
+					transformString = 'translateY(-150%)';
 				}
 			}
 		} catch (e) {
-			console.log("Bar does not exist yet");
+			console.log('Bar does not exist yet');
 		}
 	}
 </script>
 
 <div class="base">
-	<div
-		class="score-container"
-		bind:this={score}
-		style="transform: {transformString}"
-	>
+	<div class="score-container" bind:this={score} style="transform: {transformString}">
 		<div class="left-score" bind:this={left}>
 			{socketData?.tourney?.manager?.gameplay?.score?.left.toLocaleString()}
 		</div>

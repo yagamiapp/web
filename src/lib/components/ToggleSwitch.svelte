@@ -1,18 +1,18 @@
 <script>
-	import { createEventDispatcher } from "svelte";
-	import { onMount } from "svelte";
+	import { createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
 	let checkbox;
 	function check() {
-		dispatch("check", checkbox.checked);
+		dispatch('check', checkbox.checked);
 	}
 
 	export let size = 1;
-	export let onColor = "#ffab74";
-	export let offColor = "var(--bg2)";
-	export let handleColor = "var(--bg3)";
+	export let onColor = '#ffab74';
+	export let offColor = 'var(--bg2)';
+	export let handleColor = 'var(--bg3)';
 	export let checked = false;
 
 	onMount(() => {

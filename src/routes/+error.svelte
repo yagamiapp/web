@@ -1,6 +1,6 @@
 <script>
-	import { page } from "$app/stores";
-	import logo from "$lib/assets/icons/gradient.svg";
+	import { page } from '$app/stores';
+	import logo from '$lib/assets/icons/gradient.svg';
 </script>
 
 <svelte:head>

@@ -1,5 +1,5 @@
 <script>
-	import Pool from "$lib/components/MappoolCard.svelte";
+	import Pool from '$lib/components/MappoolCard.svelte';
 	export let data;
 </script>
 

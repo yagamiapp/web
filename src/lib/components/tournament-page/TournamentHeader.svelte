@@ -1,32 +1,24 @@
 <script>
-	import defaultIcon from "$lib/assets/icons/white-gradient.png";
+	import defaultIcon from '$lib/assets/icons/white-gradient.png';
 
 	const teamModeEnum = {
-		0: "Head to Head",
-		1: "Tag Team",
-		2: "Tag Team Vs",
-		3: "Team Vs",
+		0: 'Head to Head',
+		1: 'Tag Team',
+		2: 'Tag Team Vs',
+		3: 'Team Vs'
 	};
 
 	const scoreModeEnum = {
-		0: "Score",
-		1: "Accuracy",
-		2: "Combo",
-		3: "ScoreV2",
+		0: 'Score',
+		1: 'Accuracy',
+		2: 'Combo',
+		3: 'ScoreV2'
 	};
 
 	export let tournament;
 
-	let {
-		banner,
-		description,
-		name,
-		icon_url,
-		x_v_x_mode,
-		team_size,
-		team_mode,
-		score_mode,
-	} = tournament;
+	let { banner, description, name, icon_url, x_v_x_mode, team_size, team_mode, score_mode } =
+		tournament;
 </script>
 
 <div class="header">

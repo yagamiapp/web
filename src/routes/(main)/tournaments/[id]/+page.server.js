@@ -1,18 +1,18 @@
-import prisma from "../../../../lib/prisma";
-import { error } from "@sveltejs/kit";
+import prisma from '../../../../lib/prisma';
+import { error } from '@sveltejs/kit';
 
-export const prerender = "auto";
+export const prerender = 'auto';
 
 export async function load({ params, cookies }) {
 	let tournamentId = parseInt(params.id);
 
 	if (!tournamentId) {
-		throw error(404, "Not found");
+		throw error(404, 'Not found');
 	}
 
 	let tournament = await prisma.tournament.findUnique({
 		where: {
-			id: tournamentId,
+			id: tournamentId
 		},
 		include: {
 			Hosts: {
@@ -20,10 +20,10 @@ export async function load({ params, cookies }) {
 					User: {
 						select: {
 							username: true,
-							country_code: true,
-						},
-					},
-				},
+							country_code: true
+						}
+					}
+				}
 			},
 			rounds: {
 				include: {
@@ -34,48 +34,48 @@ export async function load({ params, cookies }) {
 									Bans: true,
 									Picks: true,
 									Wins: true,
-									Team: true,
-								},
-							},
-						},
+									Team: true
+								}
+							}
+						}
 					},
 					mappool: {
 						include: {
 							Maps: {
 								include: {
-									Map: true,
-								},
-							},
-						},
-					},
-				},
+									Map: true
+								}
+							}
+						}
+					}
+				}
 			},
 			Teams: {
 				include: {
 					Members: {
 						include: {
-							User: true,
-						},
-					},
-				},
-			},
-		},
+							User: true
+						}
+					}
+				}
+			}
+		}
 	});
 
 	if (!tournament) {
-		throw error(404, "Not found");
+		throw error(404, 'Not found');
 	}
 
 	let editPerms = false;
-	let session = cookies.get("yagami_session");
+	let session = cookies.get('yagami_session');
 	let user = await prisma.user.findFirst({
 		where: {
 			Sessions: {
 				some: {
-					id: session,
-				},
-			},
-		},
+					id: session
+				}
+			}
+		}
 	});
 
 	let hosts = tournament.Hosts.map((x) => x.userId);

@@ -2,20 +2,20 @@
 	export let data;
 	let { res, match, ws } = data;
 	res = res ?? 720;
-	ws = ws ?? "ws://localhost:24050/ws";
+	ws = ws ?? 'ws://localhost:24050/ws';
 
-	import TopBar from "./components/TopBar.svelte";
-	import BottomBar from "./components/BottomBar.svelte";
-	import ReconnectingWebSocket from "reconnecting-websocket";
-	import Error from "./components/Error.svelte";
-	import PickingPage from "./components/PickingPage.svelte";
+	import TopBar from './components/TopBar.svelte';
+	import BottomBar from './components/BottomBar.svelte';
+	import ReconnectingWebSocket from 'reconnecting-websocket';
+	import Error from './components/Error.svelte';
+	import PickingPage from './components/PickingPage.svelte';
 
 	const socket = new ReconnectingWebSocket(ws);
 
 	let socketClosed = true;
 	socket.onopen = () => {
 		socketClosed = false;
-		console.log("Successfully Connected");
+		console.log('Successfully Connected');
 	};
 
 	socket.onerror = () => {
@@ -52,8 +52,8 @@
 
 <svelte:head>
 	<title
-		>{match?.Round?.Tournament?.acronym}: {match?.Teams[0]?.Team?.name} vs {match
-			?.Teams[1]?.Team?.name}</title
+		>{match?.Round?.Tournament?.acronym}: {match?.Teams[0]?.Team?.name} vs {match?.Teams[1]?.Team
+			?.name}</title
 	>
 </svelte:head>
 

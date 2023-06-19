@@ -1,23 +1,23 @@
 <script>
 	export let data;
-	import AddAccountButton from "$lib/components/AddAccountButton.svelte";
-	import { browser } from "$app/environment";
-	import DiscordAccount from "$lib/components/settings/DiscordAccount.svelte";
-	import TwitchAccount from "$lib/components/settings/TwitchAccount.svelte";
-	import Session from "$lib/components/settings/Session.svelte";
+	import AddAccountButton from '$lib/components/AddAccountButton.svelte';
+	import { browser } from '$app/environment';
+	import DiscordAccount from '$lib/components/settings/DiscordAccount.svelte';
+	import TwitchAccount from '$lib/components/settings/TwitchAccount.svelte';
+	import Session from '$lib/components/settings/Session.svelte';
 	let { user, discordAccounts, twitchAccounts, origin, sessions } = data;
 	console.log(twitchAccounts);
 
 	let themeChecked = true;
 	if (browser) {
-		themeChecked = !document.body.classList.contains("lightmode");
+		themeChecked = !document.body.classList.contains('lightmode');
 	}
 
 	const switchTheme = ({ detail }) => {
 		if (detail) {
-			document.body.classList.remove("lightmode");
+			document.body.classList.remove('lightmode');
 		} else {
-			document.body.classList.add("lightmode");
+			document.body.classList.add('lightmode');
 		}
 	};
 </script>

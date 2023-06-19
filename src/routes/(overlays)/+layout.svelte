@@ -1,8 +1,8 @@
 <script>
-	import { browser } from "$app/environment";
+	import { browser } from '$app/environment';
 
 	if (browser) {
-		document.body.style.backgroundColor = "transparent";
+		document.body.style.backgroundColor = 'transparent';
 	}
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-	import Team from "./Team.svelte";
+	import Team from './Team.svelte';
 	export let match;
 	let tournament = match.Round.Tournament;
 
@@ -53,7 +53,7 @@
 		border-radius: 1000px;
 	}
 	.logo-box .name {
-		font-family: "Quicksand", sans-serif;
+		font-family: 'Quicksand', sans-serif;
 		font-weight: bold;
 	}
 	.team1,

@@ -1,5 +1,5 @@
-import prisma from "../../../../lib/prisma";
-import { error } from "@sveltejs/kit";
+import prisma from '../../../../lib/prisma';
+import { error } from '@sveltejs/kit';
 
 export async function DELETE({ cookies, request }) {
 	let { sessionCreationDate } = await request.json();
@@ -8,7 +8,7 @@ export async function DELETE({ cookies, request }) {
 		throw error(400);
 	}
 
-	let session = cookies.get("yagami_session");
+	let session = cookies.get('yagami_session');
 
 	if (!session) {
 		throw error(401);
@@ -20,26 +20,26 @@ export async function DELETE({ cookies, request }) {
 			User: {
 				Sessions: {
 					some: {
-						id: session,
-					},
-				},
-			},
-		},
+						id: session
+					}
+				}
+			}
+		}
 	});
 
 	if (!sessionToDelete) {
-		throw error(401, "Unauthorized.");
+		throw error(401, 'Unauthorized.');
 	}
 
 	await prisma.userSession.delete({
 		where: {
-			id: sessionToDelete.id,
-		},
+			id: sessionToDelete.id
+		}
 	});
 
 	if (sessionToDelete.id == session) {
-		cookies.delete("yagami_session");
+		cookies.delete('yagami_session');
 	}
 
-	return new Response("Deleted!");
+	return new Response('Deleted!');
 }

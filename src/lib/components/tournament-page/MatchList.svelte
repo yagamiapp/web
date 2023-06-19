@@ -1,5 +1,5 @@
 <script>
-	import Match from "../Match.svelte";
+	import Match from '../Match.svelte';
 
 	export let round;
 	let { Match: matches } = round;

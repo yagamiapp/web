@@ -1,7 +1,7 @@
 <script>
-	import { browser } from "$app/environment";
+	import { browser } from '$app/environment';
 	const logout = async () => {
-		let logoutReq = await fetch("/auth/logout", { method: "POST" });
+		let logoutReq = await fetch('/auth/logout', { method: 'POST' });
 		console.log(logoutReq.status);
 		if (browser && logoutReq.status == 200) {
 			window.location.reload();

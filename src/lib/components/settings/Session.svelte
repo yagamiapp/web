@@ -1,9 +1,9 @@
 <script>
-	import Desktop from "$lib/assets/devices/desktop.svg";
-	import Phone from "$lib/assets/devices/phone.svg";
-	import Tablet from "$lib/assets/devices/tablet.svg";
-	import Unknown from "$lib/assets/devices/unknown.svg";
-	import { browser } from "$app/environment";
+	import Desktop from '$lib/assets/devices/desktop.svg';
+	import Phone from '$lib/assets/devices/phone.svg';
+	import Tablet from '$lib/assets/devices/tablet.svg';
+	import Unknown from '$lib/assets/devices/unknown.svg';
+	import { browser } from '$app/environment';
 	export let session;
 
 	function getImage() {
@@ -15,7 +15,7 @@
 			desktop: Desktop,
 			smartphone: Phone,
 			phablet: Phone,
-			tablet: Tablet,
+			tablet: Tablet
 		};
 
 		let device = map[session.device];
@@ -24,20 +24,20 @@
 
 	function getTime() {
 		const units = [
-			["year", 31536000000],
-			["month", 2628000000],
-			["day", 86400000],
-			["hour", 3600000],
-			["minute", 60000],
-			["second", 1000],
+			['year', 31536000000],
+			['month', 2628000000],
+			['day', 86400000],
+			['hour', 3600000],
+			['minute', 60000],
+			['second', 1000]
 		];
 		let now = new Date();
 
-		const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+		const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
 		let relative = session.lastUsed - now;
 		for (const [unit, amount] of units) {
-			if (Math.abs(relative) > amount || unit === "second") {
+			if (Math.abs(relative) > amount || unit === 'second') {
 				return rtf.format(Math.round(relative / amount), unit);
 			}
 		}
@@ -48,11 +48,11 @@
 		// session IDs to the client, so I'm using the creation
 		// date, which should usually be unique, and checking it
 		// against the session id in the cookies.
-		let response = await fetch("/api/remove_session", {
-			method: "DELETE",
+		let response = await fetch('/api/remove_session', {
+			method: 'DELETE',
 			body: JSON.stringify({
-				sessionCreationDate: date,
-			}),
+				sessionCreationDate: date
+			})
 		});
 		console.log(response);
 		if (browser && response.status == 200) {

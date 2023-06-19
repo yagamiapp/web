@@ -1,6 +1,6 @@
 <script>
-	import UserCard from "$lib/components/UserCard.svelte";
-	import Team from "./Team.svelte";
+	import UserCard from '$lib/components/UserCard.svelte';
+	import Team from './Team.svelte';
 
 	export let tournament;
 	let teams = tournament.Teams;

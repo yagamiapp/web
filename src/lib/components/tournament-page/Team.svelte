@@ -1,5 +1,5 @@
 <script>
-	import Player from "./TeamUser.svelte";
+	import Player from './TeamUser.svelte';
 	export let team;
 
 	let avgRank = team.avgRank;

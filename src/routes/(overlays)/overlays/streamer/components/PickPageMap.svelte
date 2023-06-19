@@ -1,6 +1,6 @@
 <script>
-	import BanIcon from "../x-circle.svg";
-	import WinIcon from "../trophy.svg";
+	import BanIcon from '../x-circle.svg';
+	import WinIcon from '../trophy.svg';
 
 	export let map;
 	export let type;
@@ -12,7 +12,7 @@
 	<div class="bg-wrap">
 		<img src={url} alt="" />
 	</div>
-	{#if type == "ban"}
+	{#if type == 'ban'}
 		<div class="label">
 			<div class="icon">
 				<img src={BanIcon} alt="" />
@@ -21,7 +21,7 @@
 			<div class="text">Banned</div>
 		</div>
 	{/if}
-	{#if type == "pick" && map.WonBy}
+	{#if type == 'pick' && map.WonBy}
 		<div class="label">
 			<div class="icon">
 				<img src={WinIcon} alt="" />
@@ -31,11 +31,7 @@
 		</div>
 
 		<div class="winning-team">
-			<img
-				src={map.WonBy.Team.icon_url}
-				alt="team icon"
-				class="team-icon"
-			/>
+			<img src={map.WonBy.Team.icon_url} alt="team icon" class="team-icon" />
 			<div class="name">{map.WonBy.Team.name}</div>
 		</div>
 	{/if}

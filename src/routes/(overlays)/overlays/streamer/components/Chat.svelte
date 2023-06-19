@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
 
 	export let socketData;
 
@@ -16,9 +16,9 @@
 		if (scoreVisible != socketData?.tourney?.manager?.bools?.scoreVisible) {
 			scoreVisible = socketData?.tourney?.manager?.bools?.scoreVisible;
 			if (scoreVisible) {
-				transformString = "translateY(-150%)";
+				transformString = 'translateY(-150%)';
 			} else {
-				transformString = "translateY(0)";
+				transformString = 'translateY(0)';
 			}
 		}
 	}

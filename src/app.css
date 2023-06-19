@@ -1,51 +1,50 @@
 @font-face {
-    font-family: MavenPro;
-    src: url("/fonts/MavenPro-VariableFont_wght.ttf");
+	font-family: MavenPro;
+	src: url('/fonts/MavenPro-VariableFont_wght.ttf');
 }
 
 @font-face {
-    font-family: Quicksand;
-    src: url("/fonts/Quicksand-VariableFont_wght.ttf");
+	font-family: Quicksand;
+	src: url('/fonts/Quicksand-VariableFont_wght.ttf');
 }
 
 @font-face {
-    font-family: Montserrat-ExtraBold;
-    src: url("/fonts/Montserrat-ExtraBold.ttf");
+	font-family: Montserrat-ExtraBold;
+	src: url('/fonts/Montserrat-ExtraBold.ttf');
 }
 
 @font-face {
-    font-family: Montserrat-Bold;
-    src: url("/fonts/Montserrat-Bold.ttf");
+	font-family: Montserrat-Bold;
+	src: url('/fonts/Montserrat-Bold.ttf');
 }
 
 :root {
-    --bg1: #0f0f0f;
-    --bg2: #151515;
-    --bg3: #1f1f1f;
-    --font-color: white
+	--bg1: #0f0f0f;
+	--bg2: #151515;
+	--bg3: #1f1f1f;
+	--font-color: white;
 }
 
 body.lightmode {
-    --bg1: #ffffff;
-    --bg2: #ededed;
-    --bg3: #cdcdcd;
-    --font-color: black;
-    color: black;
+	--bg1: #ffffff;
+	--bg2: #ededed;
+	--bg3: #cdcdcd;
+	--font-color: black;
+	color: black;
 }
 
-
 html {
-    scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 body {
-    padding: 0;
-    margin: 0;
-    font-family: MavenPro, sans-serif;
-    color: white;
-    background-color: var(--bg1);
+	padding: 0;
+	margin: 0;
+	font-family: MavenPro, sans-serif;
+	color: white;
+	background-color: var(--bg1);
 }
 
 main {
-    min-height: 100vh;
+	min-height: 100vh;
 }

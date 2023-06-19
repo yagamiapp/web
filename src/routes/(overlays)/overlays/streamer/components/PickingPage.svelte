@@ -1,6 +1,6 @@
 <script>
-	import Team from "./Team.svelte";
-	import PickPageMap from "./PickPageMap.svelte";
+	import Team from './Team.svelte';
+	import PickPageMap from './PickPageMap.svelte';
 
 	export let socketData;
 	export let match;
@@ -22,9 +22,9 @@
 			scoreVisible = socketData?.tourney?.manager?.bools?.scoreVisible;
 
 			if (scoreVisible) {
-				transformString = "translateY(100%)";
+				transformString = 'translateY(100%)';
 			} else {
-				transformString = "translateY(0)";
+				transformString = 'translateY(0)';
 			}
 		}
 	}

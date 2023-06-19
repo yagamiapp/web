@@ -16,10 +16,10 @@
 			img = socketData.menu.bm.path.full;
 			url = `${baseUrl}${img}`;
 		} catch (e) {
-			console.log("Websocket not connected");
+			console.log('Websocket not connected');
 		}
 	}
-	let transformString = "translateY(100%)";
+	let transformString = 'translateY(100%)';
 	let maps = match.Round.mappool.Maps;
 	// Update other variables;
 	let titleString, id, mapper, identifier, cs, ar, od, hp, sr, scoreVisible;
@@ -45,18 +45,18 @@
 				let map = maps.find((x) => x.mapId === id);
 				console.log(map);
 
-				identifier = map?.identifier ?? "Warmup";
+				identifier = map?.identifier ?? 'Warmup';
 			}
 			if (scoreVisible != socketData.tourney.manager.bools.scoreVisible) {
 				scoreVisible = socketData.tourney.manager.bools.scoreVisible;
 				if (scoreVisible) {
-					transformString = "translateY(0)";
+					transformString = 'translateY(0)';
 				} else {
-					transformString = "translateY(100%)";
+					transformString = 'translateY(100%)';
 				}
 			}
 		} catch {
-			console.log("Cannot connect to socket");
+			console.log('Cannot connect to socket');
 		}
 	}
 </script>
@@ -95,7 +95,7 @@
 		height: 75%;
 		width: 100%;
 		overflow: hidden;
-		font-family: "Quicksand", sans-serif;
+		font-family: 'Quicksand', sans-serif;
 		z-index: 0;
 		display: flex;
 		align-items: center;

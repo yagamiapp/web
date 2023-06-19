@@ -1,5 +1,5 @@
 <script>
-	import Default from "$lib/assets/icons/white.svg";
+	import Default from '$lib/assets/icons/white.svg';
 </script>
 
 <div class="wrap">

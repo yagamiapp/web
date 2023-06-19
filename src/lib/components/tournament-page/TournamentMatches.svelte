@@ -1,17 +1,17 @@
 <script>
-	import MatchList from "./MatchList.svelte";
-	import Switch from "../ToggleSwitch.svelte";
+	import MatchList from './MatchList.svelte';
+	import Switch from '../ToggleSwitch.svelte';
 
 	export let tournament;
 	let section;
 
 	function toggleScoreVis(e) {
 		if (e.detail) {
-			section.classList.add("spoilered");
+			section.classList.add('spoilered');
 			return;
 		}
 
-		section.classList.remove("spoilered");
+		section.classList.remove('spoilered');
 	}
 </script>
 

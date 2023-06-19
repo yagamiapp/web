@@ -1,6 +1,6 @@
 <script>
 	let numOfLines = 75;
-	let lines = new Array(numOfLines).fill("");
+	let lines = new Array(numOfLines).fill('');
 </script>
 
 <div class="tape" style="--lines: {numOfLines}">

@@ -1,15 +1,15 @@
 <script>
-	import clipMinus from "$lib/assets/clipboard-minus.svg";
-	import clipCheck from "$lib/assets/clipboard-check.svg";
+	import clipMinus from '$lib/assets/clipboard-minus.svg';
+	import clipCheck from '$lib/assets/clipboard-check.svg';
 	export let map;
 
 	let colors = {
-		NM: "#3d85c6",
-		HD: "#bf9000",
-		HR: "#cc0000",
-		DT: "#9263d2",
-		FM: "#6aa84f",
-		TB: "#aaaaaa",
+		NM: '#3d85c6',
+		HD: '#bf9000',
+		HR: '#cc0000',
+		DT: '#9263d2',
+		FM: '#6aa84f',
+		TB: '#aaaaaa'
 	};
 
 	let {
@@ -24,11 +24,11 @@
 		bpm,
 		version,
 		creator,
-		hit_length,
+		hit_length
 	} = map.Map;
 
 	let length = `${Math.round(hit_length / 60)}:${
-		hit_length % 60 > 10 ? hit_length % 60 : "0" + (hit_length % 60)
+		hit_length % 60 > 10 ? hit_length % 60 : '0' + (hit_length % 60)
 	}`;
 	let stars = parseFloat(difficultyrating).toFixed(2);
 	let coverImage = `https://assets.ppy.sh/beatmaps/${beatmapset_id}/covers/cover.jpg`;
@@ -49,18 +49,18 @@
 		navigator.clipboard.writeText(id);
 		{
 			let id = banner.children[1].children[0].children[2].lastChild;
-			id.style.color = "rgba(150,255,150,0.5)";
+			id.style.color = 'rgba(150,255,150,0.5)';
 
 			let text = banner.children[2].children[0];
-			text.textContent = "Copied!";
+			text.textContent = 'Copied!';
 			clip = clipCheck;
 		}
 		setTimeout(() => {
 			let id = banner.children[1].children[0].children[2].lastChild;
-			id.style.color = "rgba(255,255,255,0.5)";
+			id.style.color = 'rgba(255,255,255,0.5)';
 
 			let text = banner.children[2].children[0];
-			text.textContent = "Copy ID";
+			text.textContent = 'Copy ID';
 
 			clip = clipMinus;
 		}, 3000);

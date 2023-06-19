@@ -1,5 +1,5 @@
 <script>
-	import Score from "./Score.svelte";
+	import Score from './Score.svelte';
 
 	export let bestof = 9;
 	export let team;
@@ -7,18 +7,18 @@
 	export let align;
 	export let small = false;
 
-	let textStyle = "font-size: 1.5em";
+	let textStyle = 'font-size: 1.5em';
 	if (small) {
-		textStyle = "font-size:0.8em";
+		textStyle = 'font-size:0.8em';
 	}
 
 	let alignTypes = {
-		right: "row-reverse",
-		left: "row",
+		right: 'row-reverse',
+		left: 'row'
 	};
 	let flexType = {
-		right: "flex-end",
-		left: "flex-start",
+		right: 'flex-end',
+		left: 'flex-start'
 	};
 </script>
 
@@ -46,7 +46,7 @@
 	.name {
 		white-space: nowrap;
 		font-size: 1.5em;
-		font-family: "Montserrat-Bold", sans-serif;
+		font-family: 'Montserrat-Bold', sans-serif;
 	}
 	.stat-box {
 		display: flex;

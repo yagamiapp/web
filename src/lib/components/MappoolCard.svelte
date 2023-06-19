@@ -14,26 +14,25 @@
 		if (old) {
 			modCount[modCount.indexOf(old)] = {
 				mod,
-				count: old.count + 1,
+				count: old.count + 1
 			};
 		} else {
 			modCount.push({
 				mod,
-				count: 1,
+				count: 1
 			});
 		}
 	}
-	let name =
-		pool.Round?.Tournament?.name ?? pool.tournament_name ?? "Unknown";
-	let round = pool.Round?.name ?? pool.round_name ?? "Unknown";
+	let name = pool.Round?.Tournament?.name ?? pool.tournament_name ?? 'Unknown';
+	let round = pool.Round?.name ?? pool.round_name ?? 'Unknown';
 
 	let colors = {
-		NM: "#3d85c677",
-		HD: "#bf900077",
-		HR: "#cc000077",
-		DT: "#9263d277",
-		FM: "#6aa84f77",
-		TB: "#aaaaaa77",
+		NM: '#3d85c677',
+		HD: '#bf900077',
+		HR: '#cc000077',
+		DT: '#9263d277',
+		FM: '#6aa84f77',
+		TB: '#aaaaaa77'
 	};
 </script>
 
@@ -43,10 +42,7 @@
 	</div>
 	<div class="mod-box">
 		{#each modCount as mod}
-			<div
-				class="mod-count"
-				style="--color: {colors[mod.mod] || '#AAAAAAAA'}"
-			>
+			<div class="mod-count" style="--color: {colors[mod.mod] || '#AAAAAAAA'}">
 				<div class="count">
 					{mod.count}
 				</div>
@@ -102,11 +98,7 @@
 		left: 0;
 		width: 100%;
 		height: 60px;
-		background: linear-gradient(
-			90deg,
-			rgba(0, 0, 0, 0.5) 50%,
-			transparent 80%
-		);
+		background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 50%, transparent 80%);
 		display: flex;
 		align-items: center;
 		padding-left: 20px;

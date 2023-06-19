@@ -1,9 +1,8 @@
 <script>
 	export let user;
-	export let color = "rgba(255, 255, 255, 0.5)";
+	export let color = 'rgba(255, 255, 255, 0.5)';
 
-	let { username, id, pp_rank, cover_url, country_code, pp, hit_accuracy } =
-		user;
+	let { username, id, pp_rank, cover_url, country_code, pp, hit_accuracy } = user;
 
 	let rank = `#${pp_rank.toLocaleString()}`;
 	let pfp = `https://s.ppy.sh/a/${id}`;
@@ -13,12 +12,7 @@
 
 <div class="card" style="--cover={id}; --color:{color}">
 	<div class="bg-wrap">
-		<img
-			src={cover_url}
-			alt="cover background"
-			class="bg"
-			onerror="this.style.display='none'"
-		/>
+		<img src={cover_url} alt="cover background" class="bg" onerror="this.style.display='none'" />
 	</div>
 
 	<div class="pfp-wrap">
@@ -122,7 +116,7 @@
 		height: 30px;
 	}
 	.label-wrap div::after {
-		content: "";
+		content: '';
 		background: var(--color);
 		position: absolute;
 		bottom: -7px;

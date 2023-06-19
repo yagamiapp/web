@@ -1,24 +1,21 @@
-import prisma from "../../../../lib/prisma";
-import { error } from "@sveltejs/kit";
+import prisma from '../../../../lib/prisma';
+import { error } from '@sveltejs/kit';
 
 export const ssr = false;
 export const prerender = false;
 
 export async function load({ url }) {
-	let res = url.searchParams.get("res");
-	let ws = url.searchParams.get("ws");
+	let res = url.searchParams.get('res');
+	let ws = url.searchParams.get('ws');
 
-	let matchId = url.searchParams.get("match");
+	let matchId = url.searchParams.get('match');
 	if (!matchId) {
-		throw new error(
-			400,
-			"You must give a match argument in the parameters."
-		);
+		throw new error(400, 'You must give a match argument in the parameters.');
 	}
 
 	let match = await prisma.match.findUnique({
 		where: {
-			id: parseInt(matchId),
+			id: parseInt(matchId)
 		},
 		include: {
 			Teams: {
@@ -27,38 +24,38 @@ export async function load({ url }) {
 						include: {
 							Members: {
 								include: {
-									User: true,
-								},
-							},
-						},
+									User: true
+								}
+							}
+						}
 					},
 					Bans: {
 						include: {
 							Map: {
 								include: {
-									Map: true,
-								},
-							},
-						},
+									Map: true
+								}
+							}
+						}
 					},
 					Picks: {
 						include: {
 							WonBy: {
 								include: {
-									Team: true,
-								},
+									Team: true
+								}
 							},
 							Map: {
 								include: {
-									Map: true,
-								},
-							},
+									Map: true
+								}
+							}
 						},
 						orderBy: {
-							pickTeamNumber: "asc",
-						},
-					},
-				},
+							pickTeamNumber: 'asc'
+						}
+					}
+				}
 			},
 			Round: {
 				include: {
@@ -66,15 +63,15 @@ export async function load({ url }) {
 						include: {
 							Maps: {
 								include: {
-									Map: true,
-								},
-							},
-						},
+									Map: true
+								}
+							}
+						}
 					},
-					Tournament: true,
-				},
-			},
-		},
+					Tournament: true
+				}
+			}
+		}
 	});
 	if (!match) {
 		throw new error(404, `No match with id ${matchId} found.`);
@@ -83,7 +80,7 @@ export async function load({ url }) {
 	if (ws) {
 		let wsCheck = ws.match(/ws:\/\/(\D+):(\d+)/);
 		if (!wsCheck) {
-			throw new error(400, "websocket url is malformed");
+			throw new error(400, 'websocket url is malformed');
 		}
 	}
 

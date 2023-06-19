@@ -1,6 +1,6 @@
 <script>
 	export let user;
-	export let color = "rgba(255, 255, 255, 0.5)";
+	export let color = 'rgba(255, 255, 255, 0.5)';
 
 	let { username, id, pp_rank, cover_url, country_code } = user;
 
@@ -11,12 +11,7 @@
 
 <a href="/u/{id}" class="card" style="--cover={id}; --color:{color}">
 	<div class="bg-wrap">
-		<img
-			src={cover_url}
-			alt="cover background"
-			class="bg"
-			onerror="this.style.display='none'"
-		/>
+		<img src={cover_url} alt="cover background" class="bg" onerror="this.style.display='none'" />
 	</div>
 	<div class="fade" />
 	<div class="name-box">
@@ -39,20 +34,8 @@
 		width: 80%;
 		height: 150px;
 		overflow: hidden;
-		mask-image: linear-gradient(
-			180deg,
-			transparent,
-			#000 70%,
-			#000 80%,
-			transparent
-		);
-		-webkit-mask-image: linear-gradient(
-			180deg,
-			transparent,
-			#000 70%,
-			#000 80%,
-			transparent
-		);
+		mask-image: linear-gradient(180deg, transparent, #000 70%, #000 80%, transparent);
+		-webkit-mask-image: linear-gradient(180deg, transparent, #000 70%, #000 80%, transparent);
 		color: white;
 		z-index: 1;
 	}

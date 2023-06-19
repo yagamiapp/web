@@ -1,5 +1,5 @@
 <script>
-	import Mappool from "./Mappool.svelte";
+	import Mappool from './Mappool.svelte';
 
 	export let tournament;
 	let { rounds } = tournament;

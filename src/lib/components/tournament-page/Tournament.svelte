@@ -1,10 +1,10 @@
 <script>
-	import Header from "./TournamentHeader.svelte";
-	import Mappools from "./TournamentMappools.svelte";
-	import Teams from "./TournamentTeams.svelte";
-	import Matches from "./TournamentMatches.svelte";
-	import Default from "$lib/assets/icons/white.svg";
-	import EditButton from "./EditButton.svelte";
+	import Header from './TournamentHeader.svelte';
+	import Mappools from './TournamentMappools.svelte';
+	import Teams from './TournamentTeams.svelte';
+	import Matches from './TournamentMatches.svelte';
+	import Default from '$lib/assets/icons/white.svg';
+	import EditButton from './EditButton.svelte';
 
 	export let data;
 	let { tournament, editPerms } = data;

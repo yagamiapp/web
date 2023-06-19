@@ -1,10 +1,10 @@
 <script>
 	export let data;
-	import defaultPfp from "$lib/assets/person-circle.svg";
-	import Switch from "./ToggleSwitch.svelte";
-	import LoginButton from "./LoginButton.svelte";
-	import LogoutButton from "./LogoutButton.svelte";
-	import UserCard from "./SidebarCard.svelte";
+	import defaultPfp from '$lib/assets/person-circle.svg';
+	import Switch from './ToggleSwitch.svelte';
+	import LoginButton from './LoginButton.svelte';
+	import LogoutButton from './LogoutButton.svelte';
+	import UserCard from './SidebarCard.svelte';
 
 	let pfp = defaultPfp;
 	if (data.user) {
@@ -16,24 +16,18 @@
 	let blur;
 
 	const openSidebar = () => {
-		el.classList.remove("closed");
-		blur.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-		blur.style.pointerEvents = "all";
+		el.classList.remove('closed');
+		blur.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		blur.style.pointerEvents = 'all';
 	};
 	const removeSidebar = () => {
-		el.classList.add("closed");
-		blur.style.backgroundColor = "rgba(0, 0, 0, 0)";
-		blur.style.pointerEvents = "none";
+		el.classList.add('closed');
+		blur.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+		blur.style.pointerEvents = 'none';
 	};
 </script>
 
-<img
-	draggable="false"
-	src={pfp}
-	alt="profile"
-	class="button"
-	on:click={openSidebar}
-/>
+<img draggable="false" src={pfp} alt="profile" class="button" on:click={openSidebar} />
 <div class="sidebar closed" bind:this={el}>
 	<div class="menu">
 		<div class="close-button" on:click={removeSidebar}>
@@ -61,11 +55,8 @@
 		<a on:click={removeSidebar} href="/tournaments">Tournaments</a>
 		<a on:click={removeSidebar} href="/mappools">Mappools</a>
 		{#if data.user}
-			<a
-				on:click={removeSidebar}
-				data-sveltekit-reload
-				class="settings"
-				href="/profile/settings">Settings</a
+			<a on:click={removeSidebar} data-sveltekit-reload class="settings" href="/profile/settings"
+				>Settings</a
 			>
 			<LogoutButton on:click={removeSidebar} />
 		{/if}

@@ -1,5 +1,5 @@
 <script>
-	import EditPage from "$lib/components/tournament-page/EditPage.svelte";
+	import EditPage from '$lib/components/tournament-page/EditPage.svelte';
 	export let data;
 </script>
 

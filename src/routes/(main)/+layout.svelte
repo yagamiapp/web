@@ -1,6 +1,6 @@
 <script>
-	import Footer from "$lib/components/Footer.svelte";
-	import Sidebar from "$lib/components/Sidebar.svelte";
+	import Footer from '$lib/components/Footer.svelte';
+	import Sidebar from '$lib/components/Sidebar.svelte';
 
 	export let data;
 </script>

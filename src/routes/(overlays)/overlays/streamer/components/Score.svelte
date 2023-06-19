@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
 
 	export let bestof;
 	export let align;
@@ -7,17 +7,17 @@
 	export let score = 0;
 
 	let alignTypes = {
-		right: "row-reverse",
-		left: "row",
+		right: 'row-reverse',
+		left: 'row'
 	};
 
 	let max = Math.ceil(bestof / 2);
-	let scoreBoxes = new Array(max).fill("transparent");
+	let scoreBoxes = new Array(max).fill('transparent');
 
 	$: {
 		for (let i = 0; i < scoreBoxes.length; i++) {
 			if (i < score) {
-				scoreBoxes[i] = "white";
+				scoreBoxes[i] = 'white';
 			}
 		}
 	}
@@ -30,14 +30,12 @@
 
 			if (i < n) {
 				el.style.backgroundColor = `${color}`;
-				el.style.border =
-					"solid calc(var(--res) / 1000 ) rgba(255,255,255,0.1)";
+				el.style.border = 'solid calc(var(--res) / 1000 ) rgba(255,255,255,0.1)';
 				el.style.boxShadow = `0 0 calc(var(--res) / 100 ) ${color}`;
 			} else {
-				el.style.backgroundColor = "transparent";
-				el.style.border =
-					"solid calc(var(--res) / 750 ) rgba(255,255,255,0.1)";
-				el.style.boxShadow = "0 0 0px white";
+				el.style.backgroundColor = 'transparent';
+				el.style.border = 'solid calc(var(--res) / 750 ) rgba(255,255,255,0.1)';
+				el.style.boxShadow = '0 0 0px white';
 			}
 		}
 	}

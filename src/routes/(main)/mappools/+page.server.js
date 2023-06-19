@@ -1,27 +1,27 @@
-import prisma from "../../../lib/prisma";
+import prisma from '../../../lib/prisma';
 
 // export const ssr = true;
 
 export async function load() {
 	let mappools = await prisma.mappool.findMany({
 		where: {
-			global: true,
+			global: true
 		},
 		include: {
 			Maps: {
 				include: {
-					Map: true,
+					Map: true
 				},
 				orderBy: {
-					modPriority: "asc",
-				},
+					modPriority: 'asc'
+				}
 			},
 			Round: {
 				include: {
-					Tournament: true,
-				},
-			},
-		},
+					Tournament: true
+				}
+			}
+		}
 	});
 
 	return { mappools };

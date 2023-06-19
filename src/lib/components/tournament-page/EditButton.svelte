@@ -22,7 +22,7 @@
 		font-weight: bold;
 		padding: 10px;
 		margin: 10px;
-		font-family: "MavenPro", sans-serif;
+		font-family: 'MavenPro', sans-serif;
 	}
 	a div {
 		display: grid;
