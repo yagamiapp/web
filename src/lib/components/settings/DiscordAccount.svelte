@@ -1,11 +1,14 @@
-<script>
-	export let account;
+<script lang="ts">
+	import type { DiscordAccount } from '@prisma/client';
+
+	export let account: DiscordAccount;
 
 	let logoutUrl = `/auth/logout/discord/?id=${account.id}`;
+	const discriminator = account.discriminator != '0' ? `#${account.discriminator}` : '';
 </script>
 
 <div>
-	<h1>{account.username}#{account.discriminator}</h1>
+	<h1>@{account.username}{discriminator}</h1>
 	<a href={logoutUrl}>Remove</a>
 </div>
 

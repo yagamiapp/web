@@ -1,19 +1,16 @@
+import { StatusCodes } from '$lib/StatusCodes';
 import prisma from '../../../../../lib/prisma';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export async function GET({ params, url, cookies }) {
-	let token = cookies.get('yagami_session');
+	const token = cookies.get('yagami_session');
 
 	if (params.service == 'twitch') {
-		let accountId = parseInt(url.searchParams.get('id'));
+		const id = url.searchParams.get('id');
+		if (!id) throw error(StatusCodes.BAD_REQUEST)
+		const accountId = parseInt(id);
 
-		let twitchAccount = await prisma.twitchAccount.findUnique({
-			where: {
-				id: accountId
-			}
-		});
-
-		let userCheck = await prisma.user.findFirst({
+		const userCheck = await prisma.user.findFirst({
 			where: {
 				TwitchAccounts: {
 					some: {
@@ -39,14 +36,19 @@ export async function GET({ params, url, cookies }) {
 		});
 	}
 	if (params.service == 'discord') {
-		let accountId = url.searchParams.get('id');
-		let discordAccount = await prisma.discordAccount.findUnique({
+		const accountId = url.searchParams.get('id');
+
+		if (!accountId) throw error(StatusCodes.BAD_REQUEST)
+
+		const discordAccount = await prisma.discordAccount.findUnique({
 			where: {
 				id: accountId
 			}
 		});
 
-		let userCheck = await prisma.user.findFirst({
+		if (!discordAccount) throw redirect(302, '/profile/settings')
+
+		const userCheck = await prisma.user.findFirst({
 			where: {
 				DiscordAccounts: {
 					some: {

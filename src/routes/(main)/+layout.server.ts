@@ -41,4 +41,6 @@ export async function load({ cookies, url, request }) {
 	});
 
 	data.user = user;
+
+	return data;
 }
