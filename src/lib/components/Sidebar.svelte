@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	import defaultPfp from "../assets/person-circle.svg";
+	import defaultPfp from "$lib/assets/person-circle.svg";
 	import Switch from "./ToggleSwitch.svelte";
 	import LoginButton from "./LoginButton.svelte";
 	import LogoutButton from "./LogoutButton.svelte";

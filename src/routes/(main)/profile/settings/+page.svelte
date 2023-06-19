@@ -1,12 +1,12 @@
 <script>
 	export let data;
-	import AddAccountButton from "../../../../components/AddAccountButton.svelte";
+	import AddAccountButton from "$lib/components/AddAccountButton.svelte";
 	import { browser } from "$app/environment";
-	import DiscordAccount from "../../../../components/settings/DiscordAccount.svelte";
-  import TwitchAccount from "../../../../components/settings/TwitchAccount.svelte";
-	import Session from "../../../../components/settings/Session.svelte";
+	import DiscordAccount from "$lib/components/settings/DiscordAccount.svelte";
+	import TwitchAccount from "$lib/components/settings/TwitchAccount.svelte";
+	import Session from "$lib/components/settings/Session.svelte";
 	let { user, discordAccounts, twitchAccounts, origin, sessions } = data;
-  console.log(twitchAccounts);
+	console.log(twitchAccounts);
 
 	let themeChecked = true;
 	if (browser) {
@@ -30,7 +30,7 @@
 	<div class="panel">
 		<div class="top">
 			<img src="https://s.ppy.sh/a/{user.id}" alt="" />
-      <b>{user.username}'s profile Settings</b>
+			<b>{user.username}'s profile Settings</b>
 		</div>
 		<!-- <section id="appearance">
 			<h1>Appearance</h1>
@@ -48,9 +48,7 @@
 						<DiscordAccount {account} />
 					{/each}
 				{:else}
-          <h3>
-            No Accounts
-          </h3>
+					<h3>No Accounts</h3>
 				{/if}
 				<AddAccountButton {origin} type="discord" />
 			</div>
@@ -61,9 +59,7 @@
 						<TwitchAccount {account} />
 					{/each}
 				{:else}
-          <h3>
-            No Accounts
-          </h3>
+					<h3>No Accounts</h3>
 				{/if}
 				<AddAccountButton {origin} type="twitch" />
 			</div>

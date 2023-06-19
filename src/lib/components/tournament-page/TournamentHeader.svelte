@@ -1,5 +1,5 @@
 <script>
-	import defaultIcon from "../../assets/icons/white-gradient.png";
+	import defaultIcon from "$lib/assets/icons/white-gradient.png";
 
 	const teamModeEnum = {
 		0: "Head to Head",
@@ -53,8 +53,7 @@
 				{#each tournament.Hosts as host}
 					<a href="/u/{host.id}">
 						<img
-							src="https://osu.ppy.sh/images/flags/{host.User
-								.country_code}.png"
+							src="https://osu.ppy.sh/images/flags/{host.User.country_code}.png"
 							alt="flag"
 							width="15"
 						/>

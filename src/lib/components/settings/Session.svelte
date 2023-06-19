@@ -1,8 +1,8 @@
 <script>
-	import Desktop from "../../assets/devices/desktop.svg";
-	import Phone from "../../assets/devices/phone.svg";
-	import Tablet from "../../assets/devices/tablet.svg";
-	import Unknown from "../../assets/devices/unknown.svg";
+	import Desktop from "$lib/assets/devices/desktop.svg";
+	import Phone from "$lib/assets/devices/phone.svg";
+	import Tablet from "$lib/assets/devices/tablet.svg";
+	import Unknown from "$lib/assets/devices/unknown.svg";
 	import { browser } from "$app/environment";
 	export let session;
 

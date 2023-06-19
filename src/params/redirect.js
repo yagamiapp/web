@@ -1,4 +1,4 @@
-import redirects from "../assets/redirects.json";
+import redirects from "$lib/assets/redirects.json";
 
 export function match(param) {
 	let paths = redirects.map((x) => x.path);

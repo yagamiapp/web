@@ -1,14 +1,14 @@
 <script>
 	import CautionTape from "./CautionTape.svelte";
-	import logoWhite from "../assets/icons/white.svg";
+	import logoWhite from "$lib/assets/icons/white.svg";
 </script>
 
 <CautionTape />
 <div class="foot">
 	<h1>Warning</h1>
 	<h3>
-		This website is under heavy construction, expect things to change, move
-		or break!
+		This website is under heavy construction, expect things to change, move or
+		break!
 	</h3>
 	<div class="switch" />
 	<div class="links">

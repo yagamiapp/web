@@ -1,4 +1,4 @@
-import redirects from "../../../assets/redirects.json";
+import redirects from "$lib/assets/redirects.json";
 import { redirect } from "@sveltejs/kit";
 
 export function load({ params }) {

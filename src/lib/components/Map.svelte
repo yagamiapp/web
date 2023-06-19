@@ -1,6 +1,6 @@
 <script>
-	import clipMinus from "../assets/clipboard-minus.svg";
-	import clipCheck from "../assets/clipboard-check.svg";
+	import clipMinus from "$lib/assets/clipboard-minus.svg";
+	import clipCheck from "$lib/assets/clipboard-check.svg";
 	export let map;
 
 	let colors = {

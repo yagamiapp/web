@@ -3,7 +3,7 @@
 	import { env } from "$env/dynamic/public";
 	export let originUrl;
 
-	let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/osu&response_type=code&scope=identify`;
+	let url = `https://osu.ppy.sh/oauth/authorize?client_id=${env.PUBLIC_OSU_CLIENT_ID}&redirect_uri=${originUrl}/auth/callback/osu&response_type=code&scope=identify`;
 </script>
 
 <a href={url}>Login</a>

@@ -1,5 +1,5 @@
 <script>
-	import User from "../../../../components/UserCard.svelte";
+	import User from "$lib/components/UserCard.svelte";
 	export let data;
 	let { user } = data;
 </script>

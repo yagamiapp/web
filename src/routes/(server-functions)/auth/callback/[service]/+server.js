@@ -8,7 +8,7 @@ const {
   PUBLIC_TWITCH_CLIENT_ID,
 } = public_env;
 
-import prisma from "../../../../lib/prisma";
+import prisma from "../../../../../lib/prisma";
 import { redirect } from "@sveltejs/kit";
 
 let services = {

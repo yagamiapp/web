@@ -1,6 +1,6 @@
 <script>
-	import banner from "../../assets/home-logo.png";
-	import bgVideo from "../../assets/clip.webm";
+	import banner from "$lib/assets/home-logo.png";
+	import bgVideo from "$lib/assets/clip.webm";
 
 	let bg;
 	function parallax(event) {
