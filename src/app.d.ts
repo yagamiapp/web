@@ -1,9 +1,9 @@
-import type { User } from "@prisma/client";
+import type { User } from '@prisma/client';
 
 declare global {
-  namespace App {
-    interface Locals {
-      user: User
-    }
-  }
+	namespace App {
+		interface Locals {
+			user: User;
+		}
+	}
 }

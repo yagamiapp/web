@@ -23,7 +23,6 @@ export async function load({ cookies, url }) {
 		return data;
 	}
 
-
 	data.user = user;
 
 	return data;

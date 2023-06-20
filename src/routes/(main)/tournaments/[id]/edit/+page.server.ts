@@ -88,41 +88,38 @@ export async function load({ params, cookies }) {
 
 export const actions: Actions = {
 	save: async ({ locals, request, params }) => {
-		const tournamentId = parseInt(params.id ?? "-1");
-		if (!hasEditPermission(tournamentId, locals.user.id)) throw error(StatusCodes.UNAUTHORIZED)
+		const tournamentId = parseInt(params.id ?? '-1');
+		if (!hasEditPermission(tournamentId, locals.user.id)) throw error(StatusCodes.UNAUTHORIZED);
 
-		const data = await request.formData()
+		const data = await request.formData();
 
-		if (data.get("name")) {
-			const name = `${data.get("name")}`;
+		if (data.get('name')) {
+			const name = `${data.get('name')}`;
 
 			await prisma.tournament.update({
 				where: {
 					id: tournamentId
 				},
-				"data": {
+				data: {
 					name
 				}
-			})
+			});
 		}
-
-
-
 	}
-}
+};
 
 const hasEditPermission = async (tournament: number, user: number) => {
 	// Check edit permissions
 	const permissionCheck = await prisma.tournament.findFirst({
 		where: {
 			id: tournament,
-			"Hosts": {
-				"some": {
-					"userId": user
+			Hosts: {
+				some: {
+					userId: user
 				}
 			}
 		}
-	})
+	});
 
 	return permissionCheck != null;
-}
+};
