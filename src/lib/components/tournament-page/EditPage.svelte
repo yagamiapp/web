@@ -4,19 +4,16 @@
 
 	export let data: { tournament: Tournament };
 
-	type Payload = {
-		name?: string;
-	};
-
 	let name = data.tournament.name;
 
 	let typing = false;
 	let timeout: number;
 	let msAfterInput = 3000;
 
-	const keydown = () => {
+	const keydown = (event: KeyboardEvent) => {
 		clearTimeout(timeout);
-		if (!typing) {
+		if (event.key == 'Enter') {
+			typingEnd();
 		}
 		typing = true;
 		timeout = setTimeout(typingEnd, msAfterInput);
