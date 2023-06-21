@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import UserCard from '$lib/components/UserCard.svelte';
 	import Team from './Team.svelte';
 
-	export let tournament;
+	export let tournament: db.FullyPopulatedTournament;
 	let teams = tournament.Teams;
 </script>
 

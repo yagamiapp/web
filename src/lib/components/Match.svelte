@@ -1,11 +1,20 @@
-<script>
-	export let match;
+<script lang="ts">
+	import type { MapInMatch, Match, TeamInMatch } from '@prisma/client';
+	type TeamInMatchWithMaps = TeamInMatch & {
+		Bans: MapInMatch[];
+		Picks: MapInMatch[];
+		Wins: MapInMatch[];
+		Team: db.TeamWithMembers;
+	};
+	export let match: Match & {
+		Teams: TeamInMatchWithMaps[];
+	};
 
 	let teams = match.Teams;
 
 	// Sort picks from both teams
 	// into ordered pick array
-	let picks = [];
+	let picks: MapInMatch[] = [];
 	teams[0].Picks.forEach((x) => {
 		picks.push(x);
 	});
@@ -13,10 +22,11 @@
 		picks.push(x);
 	});
 	picks.sort((a, b) => {
-		return a.pickNumber - b.pickNumber;
+		if (a.pickNumber && b.pickNumber) return a.pickNumber - b.pickNumber;
+		return 0;
 	});
 
-	function teamFromId(id) {
+	function teamFromId(id: number | null) {
 		return teams.find((x) => id == x.teamId);
 	}
 </script>

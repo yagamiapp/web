@@ -1,5 +1,7 @@
-<script>
-	export let account;
+<script lang="ts">
+	import type { TwitchAccount } from '@prisma/client';
+
+	export let account: TwitchAccount;
 
 	let logoutUrl = `/auth/logout/twitch/?id=${account.id}`;
 </script>

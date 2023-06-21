@@ -1,7 +1,7 @@
-<script>
-	export let data;
+<script lang="ts">
+	export let data: { user: User };
 	import defaultPfp from '$lib/assets/person-circle.svg';
-	import Switch from './ToggleSwitch.svelte';
+	import type { User } from '@prisma/client';
 	import LoginButton from './LoginButton.svelte';
 	import LogoutButton from './LogoutButton.svelte';
 	import UserCard from './SidebarCard.svelte';
@@ -12,8 +12,8 @@
 	}
 	// console.log(data);
 
-	let el;
-	let blur;
+	let el: HTMLDivElement;
+	let blur: HTMLDivElement;
 
 	const openSidebar = () => {
 		el.classList.remove('closed');
@@ -27,10 +27,17 @@
 	};
 </script>
 
-<img draggable="false" src={pfp} alt="profile" class="button" on:click={openSidebar} />
+<img
+	draggable="false"
+	src={pfp}
+	alt="profile"
+	class="button"
+	on:click={openSidebar}
+	on:keydown={openSidebar}
+/>
 <div class="sidebar closed" bind:this={el}>
 	<div class="menu">
-		<div class="close-button" on:click={removeSidebar}>
+		<div class="close-button" on:click={removeSidebar} on:keydown={removeSidebar}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="45"
@@ -48,7 +55,7 @@
 		{#if data.user}
 			<UserCard user={data.user} />
 		{:else}
-			<LoginButton originUrl={data.origin} />
+			<LoginButton />
 		{/if}
 		<span />
 		<a on:click={removeSidebar} href="/">Home</a>
@@ -62,7 +69,7 @@
 		{/if}
 	</div>
 </div>
-<div class="blur" on:click={removeSidebar} bind:this={blur} />
+<div class="blur" on:click={removeSidebar} on:keydown={removeSidebar} bind:this={blur} />
 
 <style>
 	.sidebar {

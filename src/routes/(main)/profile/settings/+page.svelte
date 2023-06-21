@@ -1,19 +1,18 @@
-<script>
+<script lang="ts">
 	export let data;
 	import AddAccountButton from '$lib/components/AddAccountButton.svelte';
 	import { browser } from '$app/environment';
 	import DiscordAccount from '$lib/components/settings/DiscordAccount.svelte';
 	import TwitchAccount from '$lib/components/settings/TwitchAccount.svelte';
 	import Session from '$lib/components/settings/Session.svelte';
-	let { user, discordAccounts, twitchAccounts, origin, sessions } = data;
-	console.log(twitchAccounts);
+	let { user, discordAccounts, twitchAccounts, sessions } = data;
 
 	let themeChecked = true;
 	if (browser) {
 		themeChecked = !document.body.classList.contains('lightmode');
 	}
 
-	const switchTheme = ({ detail }) => {
+	const switchTheme = ({ detail }: { detail: boolean }) => {
 		if (detail) {
 			document.body.classList.remove('lightmode');
 		} else {
@@ -50,7 +49,7 @@
 				{:else}
 					<h3>No Accounts</h3>
 				{/if}
-				<AddAccountButton {origin} type="discord" />
+				<AddAccountButton type="discord" />
 			</div>
 			<div class="twitch">
 				<h2>Twitch</h2>
@@ -61,7 +60,7 @@
 				{:else}
 					<h3>No Accounts</h3>
 				{/if}
-				<AddAccountButton {origin} type="twitch" />
+				<AddAccountButton type="twitch" />
 			</div>
 		</section>
 		<hr />

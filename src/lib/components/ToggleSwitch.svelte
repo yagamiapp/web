@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
-	let checkbox;
+	let checkbox: HTMLInputElement;
 	function check() {
 		dispatch('check', checkbox.checked);
 	}

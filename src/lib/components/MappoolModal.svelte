@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	import Map from './Map.svelte';
 
-	export let maps;
+	export let maps: db.MapInPoolWithMap;
 
-	let el;
-	let dark;
+	let el: HTMLDivElement;
+	let dark: HTMLDivElement;
 
 	export const openModal = () => {
 		el.classList.remove('closed');
@@ -25,7 +25,7 @@
 		{/each}
 	</div>
 </article>
-<div class="dark" on:click={closeModal} />
+<div class="dark" on:keydown={closeModal} on:click={closeModal} />
 
 <style>
 	.dark {

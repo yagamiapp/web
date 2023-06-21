@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import Mappool from './Mappool.svelte';
 
-	export let tournament;
+	export let tournament: db.FullyPopulatedTournament;
 	let { rounds } = tournament;
 </script>
 

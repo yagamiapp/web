@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
 	import Player from './TeamUser.svelte';
-	export let team;
 
-	let avgRank = team.avgRank;
-	if (avgRank) {
-		avgRank = avgRank.toFixed(0);
+	export let team: db.TeamWithMembers;
+	export let averageRank: number | null = null;
+
+	let avgRank: string;
+	if (averageRank) {
+		avgRank = averageRank.toFixed(0);
 		avgRank = parseInt(avgRank).toLocaleString();
 	}
 </script>

@@ -1,29 +1,34 @@
-<script>
+<script lang="ts">
 	import Desktop from '$lib/assets/devices/desktop.svg';
 	import Phone from '$lib/assets/devices/phone.svg';
 	import Tablet from '$lib/assets/devices/tablet.svg';
 	import Unknown from '$lib/assets/devices/unknown.svg';
 	import { browser } from '$app/environment';
-	export let session;
+	import type { UserSession } from '@prisma/client';
+
+	export let session: UserSession;
 
 	function getImage() {
 		if (!session.os || !session.browser) {
 			return Unknown;
 		}
 
-		let map = {
+		let map: { [key: string]: string } = {
 			desktop: Desktop,
 			smartphone: Phone,
 			phablet: Phone,
 			tablet: Tablet
 		};
 
-		let device = map[session.device];
+		let device;
+		if (session.device) {
+			map[session.device];
+		}
 		return device;
 	}
 
 	function getTime() {
-		const units = [
+		const units: [Intl.RelativeTimeFormatUnit, number][] = [
 			['year', 31536000000],
 			['month', 2628000000],
 			['day', 86400000],
@@ -35,7 +40,7 @@
 
 		const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
-		let relative = session.lastUsed - now;
+		let relative = session.lastUsed.getTime() - now.getTime();
 		for (const [unit, amount] of units) {
 			if (Math.abs(relative) > amount || unit === 'second') {
 				return rtf.format(Math.round(relative / amount), unit);
@@ -43,7 +48,7 @@
 		}
 	}
 
-	async function removeSession(date) {
+	async function removeSession(date: Date) {
 		// I really don't like the idea of passing all the
 		// session IDs to the client, so I'm using the creation
 		// date, which should usually be unique, and checking it
@@ -78,7 +83,7 @@
 	{/if}
 
 	<div>Last Active: {getTime()}</div>
-	<button on:click={removeSession(session.createdAt)}>Remove Session</button>
+	<button on:click={() => removeSession(session.createdAt)}>Remove Session</button>
 </article>
 
 <style>

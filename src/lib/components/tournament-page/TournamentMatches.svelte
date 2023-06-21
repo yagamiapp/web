@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
 	import MatchList from './MatchList.svelte';
 	import Switch from '../ToggleSwitch.svelte';
 
-	export let tournament;
-	let section;
+	export let tournament: db.FullyPopulatedTournament;
+	let section: HTMLElement;
 
-	function toggleScoreVis(e) {
+	function toggleScoreVis(e: CustomEvent<boolean>) {
 		if (e.detail) {
 			section.classList.add('spoilered');
 			return;
@@ -22,7 +22,7 @@
 		<span>Only show score on hover:</span>
 		<Switch
 			on:check={toggleScoreVis}
-			checked="true"
+			checked={true}
 			onColor={tournament.color}
 			offColor="var(--bg1)"
 			handleColor="var(--bg2)"

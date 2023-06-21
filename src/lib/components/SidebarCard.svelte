@@ -11,7 +11,7 @@
 
 <a href="/u/{id}" class="card" style="--cover={id}; --color:{color}">
 	<div class="bg-wrap">
-		<img src={cover_url} alt="cover background" class="bg" onerror="this.style.display='none'" />
+		<img src={cover_url} alt="cover background" class="bg" />
 	</div>
 	<div class="fade" />
 	<div class="name-box">

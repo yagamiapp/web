@@ -1,16 +1,18 @@
-<script>
+<script lang="ts">
 	import Map from '../Map.svelte';
-	export let round;
 
-	const switchClosed = (ev) => {
-		const el = ev.target.parentElement;
-		el.classList.toggle('closed');
+	export let round: db.RoundWithEverything;
+
+	let pool: HTMLDivElement;
+
+	const switchClosed = () => {
+		pool.classList.toggle('closed');
 	};
 	let maps = round.mappool.Maps;
 </script>
 
-<div class="closed details" style="--count:{maps.length}">
-	<div class="summary" on:click={switchClosed}>
+<div class="closed details" bind:this={pool} style="--count:{maps.length}">
+	<div class="summary" on:click={switchClosed} on:keydown={switchClosed}>
 		{round.name}
 		<div class="rules">
 			Best of {round.best_of},

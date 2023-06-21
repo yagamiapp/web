@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Header from './TournamentHeader.svelte';
 	import Mappools from './TournamentMappools.svelte';
 	import Teams from './TournamentTeams.svelte';
@@ -6,12 +6,9 @@
 	import Default from '$lib/assets/icons/white.svg';
 	import EditButton from './EditButton.svelte';
 
-	export let data;
+	export let data: { tournament: db.FullyPopulatedTournament; editPerms: boolean };
 	let { tournament, editPerms } = data;
 	let { name, acronym, id, color, team_size } = tournament;
-
-	// tournament.banner =
-	// 	"http://www.newdesignfile.com/postpic/2010/09/free-abstract-banner-backgrounds_117038.jpg";
 </script>
 
 <svelte:head>

@@ -7,7 +7,7 @@
 	let name = data.tournament.name;
 
 	let typing = false;
-	let timeout: number;
+	let timeout: NodeJS.Timer;
 	let msAfterInput = 3000;
 
 	const keydown = (event: KeyboardEvent) => {

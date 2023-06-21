@@ -1,5 +1,7 @@
-<script>
-	export let user;
+<script lang="ts">
+	import type { User } from '@prisma/client';
+
+	export let user: User;
 	export let color = 'rgba(255, 255, 255, 0.5)';
 
 	let { username, id, pp_rank, cover_url, country_code, pp, hit_accuracy } = user;
@@ -7,12 +9,12 @@
 	let rank = `#${pp_rank.toLocaleString()}`;
 	let pfp = `https://s.ppy.sh/a/${id}`;
 	let flag = `https://osu.ppy.sh/images/flags/${country_code}.png`;
-	pp = parseInt(pp.toFixed(0)).toLocaleString();
+	let ppNum = parseInt(pp.toFixed(0)).toLocaleString();
 </script>
 
 <div class="card" style="--cover={id}; --color:{color}">
 	<div class="bg-wrap">
-		<img src={cover_url} alt="cover background" class="bg" onerror="this.style.display='none'" />
+		<img src={cover_url} alt="cover background" class="bg" />
 	</div>
 
 	<div class="pfp-wrap">
@@ -32,7 +34,7 @@
 		<div class="stats-wrap">
 			<div class="rank">{rank}</div>
 			<div class="acc">{hit_accuracy.toFixed(2)}%</div>
-			<div class="pp">{pp}pp</div>
+			<div class="pp">{ppNum}pp</div>
 		</div>
 	</div>
 </div>

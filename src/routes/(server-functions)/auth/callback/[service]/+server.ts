@@ -164,7 +164,7 @@ export async function GET({ url, params, cookies }) {
 				id: crypto.randomUUID()
 			}
 		});
-		cookies.set('yagami_session', session.id, { path: '/' });
+		cookies.set('yagami_session', session.id, { path: '/', maxAge: 60 * 60 * 24 * 365 });
 		throw redirect(302, '/');
 	}
 

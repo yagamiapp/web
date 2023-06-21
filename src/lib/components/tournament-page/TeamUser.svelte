@@ -1,5 +1,7 @@
-<script>
-	export let user;
+<script lang="ts">
+	import type { User } from '@prisma/client';
+
+	export let user: User;
 </script>
 
 <div class="user">

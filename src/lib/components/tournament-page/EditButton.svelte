@@ -1,5 +1,5 @@
-<script>
-	export let id;
+<script lang="ts">
+	export let id: number;
 </script>
 
 <div class="wrap">

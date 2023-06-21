@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import Match from '../Match.svelte';
 
-	export let round;
+	export let round: db.RoundWithEverything;
 	let { Match: matches } = round;
 </script>
 

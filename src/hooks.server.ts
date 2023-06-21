@@ -6,6 +6,9 @@ const detector = new DeviceDetector();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('yagami_session');
+
+	if (!sessionId) return await resolve(event);
+
 	const user = await prisma.user.findFirst({
 		where: {
 			Sessions: {
@@ -16,25 +19,27 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	});
 
-	if (user) {
-		event.locals.user = user;
-
-		const userAgent = event.request.headers.get('user-agent') ?? '';
-		const result = detector.detect(userAgent);
-
-		await prisma.userSession.update({
-			where: {
-				id: sessionId
-			},
-			data: {
-				device: result.device.type,
-				browser: result.client.name,
-				os: result.os.name,
-				lastUsed: new Date()
-			}
-		});
+	if (!user) {
+		event.cookies.delete('yagami_session', { path: '/' });
+		return await resolve(event);
 	}
 
-	const response = await resolve(event);
-	return response;
+	event.locals.user = user;
+
+	const userAgent = event.request.headers.get('user-agent') ?? '';
+	const result = detector.detect(userAgent);
+
+	await prisma.userSession.update({
+		where: {
+			id: sessionId
+		},
+		data: {
+			device: result.device.type,
+			browser: result.client.name,
+			os: result.os.name,
+			lastUsed: new Date()
+		}
+	});
+
+	return await resolve(event);
 };

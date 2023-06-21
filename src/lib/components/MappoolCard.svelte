@@ -1,12 +1,14 @@
-<script>
-	export let pool;
+<script lang="ts">
+	import type { Mappool } from '@prisma/client';
+
+	export let pool: Mappool & { Maps: db.MapInPoolWithMap[]; Round: db.RoundWithEverything };
 
 	let lastMap = pool.Maps[pool.Maps.length - 1];
 	let bgImg =
 		pool.Round?.Tournament?.banner_url ||
 		`https://assets.ppy.sh/beatmaps/${lastMap.Map.beatmapset_id}/covers/cover.jpg`;
 
-	let modCount = [];
+	let modCount: { mod: string; count: number }[] = [];
 
 	for (const map of pool.Maps) {
 		let mod = map.identifier.match(/\w{2}/g)[0];
@@ -23,10 +25,11 @@
 			});
 		}
 	}
+	console.log(modCount);
 	let name = pool.Round?.Tournament?.name ?? pool.tournament_name ?? 'Unknown';
 	let round = pool.Round?.name ?? pool.round_name ?? 'Unknown';
 
-	let colors = {
+	let colors: { [key: string]: string } = {
 		NM: '#3d85c677',
 		HD: '#bf900077',
 		HR: '#cc000077',
