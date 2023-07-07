@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
 	import EditPage from '$lib/components/tournament-page/EditPage.svelte';
-	export let data;
+	import type { ActionData, PageData } from './$types.js';
+	export let data: PageData;
+	export let form: ActionData;
 </script>
 
 <svelte:head>
@@ -8,7 +10,7 @@
 </svelte:head>
 
 <div class="wrap">
-	<EditPage {data} />
+	<EditPage {data} {form} />
 </div>
 
 <style>

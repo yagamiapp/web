@@ -1,53 +1,167 @@
 <script lang="ts">
 	import Default from '$lib/assets/icons/white.svg';
+	import EditPageSetting from './edit-page/EditPageSetting.svelte';
 	import type { Tournament } from '@prisma/client';
+	import { teamModeEnum, scoreModeEnum, doublePickEnum, doubleBanEnum } from '$lib/TournamentEnums';
+	import type { ActionData } from '../../../routes/(main)/tournaments/[id]/edit/$types';
 
 	export let data: { tournament: Tournament };
+	export let form: ActionData;
+	
+	let { acronym, 
+		name, 
+		color, 
+		description, 
+		force_nf, 
+		score_mode, 
+		team_mode, 
+		team_size, 
+		x_v_x_mode, 
+		allow_registrations, 
+		fm_mods, 
+		double_pick, 
+		double_ban, 
+		// private (use 'data.tournament.private' as 'private' is a reserved keyword) 
+	} = data.tournament;
 
-	let name = data.tournament.name;
-
-	let typing = false;
-	let timeout: NodeJS.Timer;
-	let msAfterInput = 3000;
-
-	const keydown = (event: KeyboardEvent) => {
-		clearTimeout(timeout);
-		if (event.key == 'Enter') {
-			typingEnd();
-		}
-		typing = true;
-		timeout = setTimeout(typingEnd, msAfterInput);
-	};
-
-	const typingEnd = async () => {
-		typing = false;
-		const payload = new URLSearchParams();
-
-		if (data.tournament.name != name) {
-			payload.set('name', name);
-			data.tournament.name = name;
-		}
-
-		await save(payload);
-	};
-
-	const save = async (payload: URLSearchParams) => {
-		await fetch(`?/save`, {
-			method: 'POST',
-			body: payload.toString(),
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			}
-		});
-	};
+	function Str(variable: Object) {
+		// Returns the name of the variable as a string
+		return Object.keys(variable)[0];
+	}
 </script>
 
 <div class="wrap" style="--tournament-color: {data.tournament.color}">
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
 	</div>
-	<label for="display-name">Tournament Name</label>
-	<input on:keydown={keydown} bind:value={name} name="display-name" type="text" />
+
+	<form method="POST" action="?/save">
+
+		<h1>Tournament Page Settings</h1>
+
+		<EditPageSetting
+			name={Str({name})}
+			label="Tournament Name" 
+			value={name}
+			errors={form?.messages}
+			type="text" 
+		/>
+
+		<EditPageSetting 
+			name={Str({acronym})} 
+			label="Tournament Acronym" 
+			value={acronym} 
+			errors={form?.messages}
+			type="text"
+		/>
+
+		<!-- <label for="color">Theme Colour</label>
+		<input bind:value={color} name="color" type="color" /><br> -->
+		<EditPageSetting 
+			name={Str({color})} 
+			label="Theme Colour" 
+			value={color}
+			errors={form?.messages}
+			type="text"
+		/>
+
+		<EditPageSetting 
+			name={Str({description})} 
+			label="Tournament Description" 
+			value={description}
+			errors={form?.messages}
+			type="textarea"
+		/>
+
+		<EditPageSetting 
+			name={Str({allow_registrations})} 
+			label="Player Registrations Open" 
+			value={allow_registrations}
+			errors={form?.messages}
+			type="switch"
+		/>
+
+		<EditPageSetting 
+			name="private"
+			label="Set Tournament to Private" 
+			value={data.tournament.private} 
+			errors={form?.messages}
+			type="switch"
+		/>
+
+		<h1>Match Rules</h1>
+
+		<EditPageSetting 
+			name={Str({force_nf})} 
+			label="Force NoFail?" 
+			value={force_nf} 
+			errors={form?.messages}
+			type="switch"
+		/>
+
+		<EditPageSetting 
+			name={Str({score_mode})} 
+			label="Map Win Condition" 
+			value={score_mode}
+			errors={form?.messages}
+			type="select"
+			options={scoreModeEnum}
+		/>
+
+		<EditPageSetting 
+			name={Str({team_mode})} 
+			label="In-Match Team Mode" 
+			value={team_mode}
+			errors={form?.messages}
+			type="select"
+			options={teamModeEnum}
+		/>
+
+		<EditPageSetting
+			name={Str({team_size})} 
+			label="Team Size"
+			value={team_size}
+			errors={form?.messages}
+			type="number"
+		/>
+
+		<EditPageSetting
+			name={Str({x_v_x_mode})} 
+			label="Players Per Team Per Map"
+			value={x_v_x_mode}
+			errors={form?.messages}
+			type="number"
+		/>
+
+		<EditPageSetting
+			name={Str({fm_mods})} 
+			label="Min-Number of Mods per Player (FreeMod Picks, not including NF)"
+			value={fm_mods}
+			errors={form?.messages}
+			type="number"
+		/>
+
+		<EditPageSetting 
+			name={Str({double_pick})} 
+			label="Double Picking Rule" 
+			value={double_pick}
+			errors={form?.messages}
+			type="select"
+			options={doublePickEnum}
+		/>
+
+		<EditPageSetting 
+			name={Str({double_ban})} 
+			label="Double Banning Rule" 
+			value={double_ban}
+			errors={form?.messages}
+			type="select"
+			options={doubleBanEnum}
+		/>
+
+		<h1/>
+		<button class="save_changes" type="submit">Save Changes</button>
+	</form>
 </div>
 
 <style>
@@ -65,25 +179,41 @@
 		opacity: 0.25;
 	}
 	.wrap {
+		
 		margin-top: 50px;
 		width: 95%;
 		max-width: 1000px;
 		background-color: var(--bg2);
+		font-family: 'Quicksand';
+		font-size: 16px;
+		font-weight: 600;
 	}
-	input[type='text'] {
+	h1 {
+		margin-left: 5%;
+		padding-top: 1rem;
+		border-top: 2px solid var(--tournament-color);
+		width: 90%;
+	}
+
+	button {
 		color: var(--font-color);
 		outline: none;
-		width: 30rem;
-		font-family: 'Quicksand';
+
+		font-family: inherit;
+		font-size: inherit;
+
 		border: solid 2px var(--font-color);
 		border-radius: 6px;
 		padding: 5px;
-		font-size: 16px;
-		font-weight: 600;
+		margin-bottom: 2rem;
 		transition: border-color 200ms ease;
 		background-color: var(--bg1);
 	}
-	input[type='text']:focus {
-		border: solid 2px var(--tournament-color);
+	.save_changes {
+		margin-left: 70%;
+		font-size: 22px;
+		font-weight: 600;
+
+		background-color: var(--tournament-color);
 	}
 </style>

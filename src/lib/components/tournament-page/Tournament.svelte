@@ -28,14 +28,14 @@
 	<Header {tournament} />
 	<div class="sticky">
 		<nav>
-			<a href="/t/{id}#home">home</a>
-			<a href="/t/{id}#mappools">mappools</a>
+			<a href="#home">home</a>
+			<a href="#mappools">mappools</a>
 			{#if team_size == 1}
-				<a href="/t/{id}#players">players</a>
+				<a href="#players">players</a>
 			{:else}
-				<a href="/t/{id}#teams">teams</a>
+				<a href="#teams">teams</a>
 			{/if}
-			<a href="/t/{id}#matches">matches</a>
+			<a href="#matches">matches</a>
 		</nav>
 		<div class="line" />
 	</div>

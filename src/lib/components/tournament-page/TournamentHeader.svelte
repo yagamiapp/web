@@ -1,19 +1,6 @@
 <script lang="ts">
 	import defaultIcon from '$lib/assets/icons/white-gradient.png';
-
-	const teamModeEnum: { [key: number]: string } = {
-		0: 'Head to Head',
-		1: 'Tag Team',
-		2: 'Tag Team Vs',
-		3: 'Team Vs'
-	};
-
-	const scoreModeEnum: { [key: number]: string } = {
-		0: 'Score',
-		1: 'Accuracy',
-		2: 'Combo',
-		3: 'ScoreV2'
-	};
+	import { teamModeEnum, scoreModeEnum } from '$lib/TournamentEnums';
 
 	export let tournament: db.FullyPopulatedTournament;
 
