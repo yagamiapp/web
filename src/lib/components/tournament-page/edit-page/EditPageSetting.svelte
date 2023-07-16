@@ -36,7 +36,7 @@
         on:check={({ detail }) => { value = detail }}
         checked={value}
         onColor="var(--tournament-color)"
-        offColor="var(--bg1)"
+        offColor="var(--bg3)"
         handleColor="var(--font-color)"
     />
 <!-- TODO: color -->

@@ -4,11 +4,13 @@
 	import type { Tournament } from '@prisma/client';
 	import { teamModeEnum, scoreModeEnum, doublePickEnum, doubleBanEnum } from '$lib/TournamentEnums';
 	import type { ActionData } from '../../../routes/(main)/tournaments/[id]/edit/$types';
+	import Button from './TournamentHeaderButton.svelte';
 
 	export let data: { tournament: Tournament };
 	export let form: ActionData;
 	
-	let { acronym, 
+	let { id,
+		acronym, 
 		name, 
 		color, 
 		description, 
@@ -33,6 +35,9 @@
 <div class="wrap" style="--tournament-color: {data.tournament.color}">
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
+		<div class="back">
+			<Button url="/tournaments/{id}" text="TOURNAMENT PAGE" />
+		</div>
 	</div>
 
 	<form method="POST" action="?/save">
@@ -168,6 +173,12 @@
 	.top {
 		position: relative;
 		height: 60px;
+	}
+	.back {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
 	}
 
 	.lightmode .top .icon {

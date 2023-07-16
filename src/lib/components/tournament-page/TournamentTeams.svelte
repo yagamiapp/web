@@ -1,32 +1,41 @@
 <script lang="ts">
 	import UserCard from '$lib/components/UserCard.svelte';
+	import Session from '../settings/Session.svelte';
 	import Team from './Team.svelte';
+	import Button from './TournamentHeaderButton.svelte';
 
 	export let tournament: db.FullyPopulatedTournament;
-	let teams = tournament.Teams;
+	export let editPerms: boolean;
+	export let sessionUserTeam: db.TeamWithMembers | null;
+	let { team_size, Teams } = tournament;
 </script>
 
-{#if tournament.team_size == 1}
-	<section id="players">
-		<h1>Players</h1>
+<section>
+	<div class="title">
+		<h1>{tournament.team_size == 1 ? 'Players' : 'Teams'}</h1>
+		{#if !editPerms && !sessionUserTeam}
+			<Button url="/tournaments/{tournament.id}/teams/new" text="SIGN UP" />
+		{:else if sessionUserTeam}
+			<Button url="/tournaments/{tournament.id}/teams/{sessionUserTeam.id}" 
+				text={team_size == 1 ? "MANAGE PLAYER CARD" : "MANAGE TEAM"} 
+			/>
+		{/if}
+	</div>
 
+	{#if tournament.team_size == 1}
 		<div class="list">
-			{#each teams as team}
+			{#each Teams as team}
 				<UserCard user={team.Members[0].User} color={team.color} />
 			{/each}
 		</div>
-	</section>
-{:else}
-	<section id="teams">
-		<h1>Teams</h1>
-
+	{:else}
 		<div class="list">
-			{#each teams as team}
+			{#each Teams as team}
 				<Team {team} />
 			{/each}
 		</div>
-	</section>
-{/if}
+	{/if}
+</section>
 
 <style>
 	section {
@@ -39,5 +48,11 @@
 		width: 100%;
 		justify-content: center;
 		flex-wrap: wrap;
+	}
+	/* All elements in the title are on the same line */
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 </style>

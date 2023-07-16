@@ -29,6 +29,9 @@ dependencies:
   reconnecting-websocket:
     specifier: ^4.4.0
     version: 4.4.0
+  svelte-awesome-color-picker:
+    specifier: ^2.4.6
+    version: 2.4.6
 
 devDependencies:
   '@sveltejs/adapter-auto':
@@ -832,6 +835,10 @@ packages:
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
+
+  /colord@2.9.3:
+    resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
+    dev: false
 
   /commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
@@ -1905,6 +1912,12 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+    dev: false
+
+  /svelte-awesome-color-picker@2.4.6:
+    resolution: {integrity: sha512-8AEyNaq+E4m/OI6lU1mEgDDfCIye8mpYDHXOXpV04H53hizBtEbL3xfCFD9a7eK11bRysYCbhKB/ls4tGnk3GA==}
+    dependencies:
+      colord: 2.9.3
     dev: false
 
   /svelte-eslint-parser@0.31.0(svelte@3.54.0):

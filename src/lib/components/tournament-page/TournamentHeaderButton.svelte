@@ -1,10 +1,11 @@
 <script lang="ts">
-	export let id: number;
+	export let text: string;
+	export let url: string;
 </script>
 
 <div class="wrap">
-	<a href="./{id}/edit">
-		<div>EDIT TOURNAMENT</div>
+	<a href="{url}">
+		<div>{text}</div>
 	</a>
 </div>
 

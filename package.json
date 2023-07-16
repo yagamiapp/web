@@ -38,6 +38,7 @@
 		"osu-api-extended": "^2.5.10",
 		"parse-nested-form-data": "^1.0.0",
 		"prisma": "^4.15.0",
-		"reconnecting-websocket": "^4.4.0"
+		"reconnecting-websocket": "^4.4.0",
+		"svelte-awesome-color-picker": "^2.4.6"
 	}
 }

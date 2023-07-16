@@ -13,7 +13,7 @@
 
 <div class="team" style="--color:{team.color}">
 	<div class="name">
-		{team.name}
+		<a href="/tournaments/{team.tournamentId}/teams/{team.id}">{team.name}</a>
 	</div>
 
 	<div class="icon">
@@ -92,5 +92,13 @@
 		right: 0;
 		padding: 10px;
 		color: rgba(255, 255, 255, 0.5);
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 </style>

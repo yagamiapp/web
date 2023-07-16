@@ -4,11 +4,12 @@
 	import Teams from './TournamentTeams.svelte';
 	import Matches from './TournamentMatches.svelte';
 	import Default from '$lib/assets/icons/white.svg';
-	import EditButton from './EditButton.svelte';
+	import Button from './TournamentHeaderButton.svelte';
 
-	export let data: { tournament: db.FullyPopulatedTournament; editPerms: boolean };
-	let { tournament, editPerms } = data;
+	export let data: { tournament: db.FullyPopulatedTournament; editPerms: boolean, sessionUserTeam: db.TeamWithMembers | null };
+	let { tournament, editPerms, sessionUserTeam } = data;
 	let { name, acronym, id, color, team_size } = tournament;
+
 </script>
 
 <svelte:head>
@@ -21,7 +22,7 @@
 		<img src={Default} alt="" class="icon" />
 		{#if editPerms}
 			<div class="edit">
-				<EditButton id={tournament.id} />
+				<Button url="/tournaments/{id}/edit" text="EDIT TOURNAMENT" />
 			</div>
 		{/if}
 	</div>
@@ -40,7 +41,7 @@
 		<div class="line" />
 	</div>
 	<Mappools {tournament} />
-	<Teams {tournament} />
+	<Teams {tournament} {editPerms} {sessionUserTeam} />
 	<Matches {tournament} />
 </div>
 
