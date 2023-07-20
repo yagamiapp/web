@@ -1,13 +1,24 @@
 <script lang="ts">
-    import Default from '$lib/assets/icons/white.svg';
+	import { enhance } from '$app/forms';
+	import Default from '$lib/assets/icons/white.svg';
 	import MatchCard from '$lib/components/Match.svelte';
 	import UserCard from '$lib/components/UserCard.svelte';
-    import Button from '$lib/components/tournament-page/TournamentHeaderButton.svelte'
+	import Button from '$lib/components/tournament-page/TournamentHeaderButton.svelte';
 	import TournamentHeader from '../TournamentHeader.svelte';
+	import InvitePlayer from './InvitePlayer.svelte';
 
-    export let data: any;
-    let { tournament, team, isTeamCaptain } = data;
-    let { name, Members, color, InBracketMatches } = team;
+	export let data: any;
+	export let form: any;
+	let { tournament, team, isTeamCaptain } = data;
+	let { name, Members, color, InBracketMatches } = team;
+
+	let inTeam: boolean = false;
+	function updateInTeam(memberId: number) {
+		if (memberId == data.user?.id) {
+			inTeam = true;
+		}
+		return '';
+	}
 </script>
 
 <svelte:head>
@@ -15,57 +26,87 @@
 </svelte:head>
 
 <section id="home" />
-<div class="wrap" style="--theme: {color}">
+<div class="wrap" style="--theme: {color}; --tournament-color: {color};">
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
-        <div class="back">
-            <Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
-        </div>
+		<div class="back">
+			<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
+		</div>
 	</div>
 	<TournamentHeader {tournament} />
-	<div>
+	<div class="team_header">
 		<h1>
-			{tournament.team_size == 1 ? "Player: " : "Team: "}
+			{tournament.team_size == 1 ? 'Player: ' : 'Team: '}
 			{team.name}
 		</h1>
 	</div>
 
-    <div class="players">
-        {#if tournament.team_size != 1}
+	<div class="players">
+		{#if tournament.team_size != 1}
 			<h1>Players</h1>
-        {/if}
-		{#each Members as member}
-            <UserCard user={member.User} {color}/>
-        {/each}
-    </div>
+		{/if}
+		<div class="player_cards">
+			{#each Members as member}
+				<UserCard user={member.User} {color} />
+				{updateInTeam(member.User.id)}
+			{/each}
+		</div>
+		{#if inTeam}
+			<form method="POST" action="?/leave_team" use:enhance>
+				<button type="submit">Leave Team</button>
+			</form>
+		{/if}
+		{#if form?.left}
+			<span class="success">{form.left}</span>
+		{/if}
+	</div>
 
-    {#if isTeamCaptain}
-        <div class="settings">
-            <h1>Team Settings</h1>
+	{#if isTeamCaptain}
+		<div class="settings">
+			<h1>Team Settings</h1>
 
-            <!-- TODO: Add team color picker -->
-        </div>
+			<!-- TODO: Add team color picker, team name change -->
 
-        {#if tournament.team_size != 1}
-            <div class="invites">
-                <h1>Team Invites</h1>
-            </div>
-        {/if}
-    {/if}
+			{#if tournament.allow_registrations}
+				<form id="unregister" method="POST" action="?/unregister">
+					Registrations are still open.
+					<button type="submit">Unregister Team?</button>
+				</form>
+			{:else}
+				<p>
+					Registrations are closed. You cannot unregister your team, remove teammates, or invite new
+					players.
+				</p>
+			{/if}
+		</div>
 
-	<div class="Matches">
+		{#if tournament.team_size != 1 && tournament.allow_registrations}
+			<div class="invites">
+				<h1>Team Invites</h1>
+
+				{#if team.Members.length < tournament.team_size}
+					<InvitePlayer {data} {form} />
+				{:else}
+					<p>Your team is full. You can't invite anymore players.</p>
+				{/if}
+			</div>
+		{/if}
+	{/if}
+
+	<div class="matches">
 		<h1>Match History</h1>
 
 		{#if InBracketMatches.length > 0}
-			{#each InBracketMatches as teamInMatch}
-				<MatchCard match={teamInMatch.Match} />
-			{/each}
+			<div class="match_cards">
+				{#each InBracketMatches as teamInMatch}
+					<MatchCard match={teamInMatch.Match} />
+				{/each}
+			</div>
 		{:else}
 			<p>This team has not played any matches yet.</p>
 		{/if}
 	</div>
 </div>
-
 
 <style>
 	#home {
@@ -93,7 +134,7 @@
 		padding: 1.125%;
 		opacity: 0.25;
 	}
-    .back {
+	.back {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -110,5 +151,12 @@
 			padding: 3%;
 			opacity: 0.25;
 		}
+	}
+
+	.player_cards,
+	.match_cards {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
 </style>

@@ -1,20 +1,27 @@
 <script>
 	import Default from '$lib/assets/icons/white.svg';
+	import { StatusCodes } from '$lib/StatusCodes';
+	import { page } from '$app/stores';
 </script>
 
 <svelte:head>
-	<title>404 not found</title>
+	<title>{$page.status} {$page.error?.message}</title>
 </svelte:head>
 
+<!-- TODO: Reformat this page -->
 <div class="wrap">
 	<div class="top">
 		<img src={Default} alt="" class="icon" />
 	</div>
 
 	<div class="error">
-		<div>
-			Tournament not found! <br /> Make sure you typed in the URL correctly
-		</div>
+		{#if $page.status == StatusCodes.NOT_FOUND}
+			<div>
+				Tournament not found! <br /> Make sure you typed in the URL correctly
+			</div>
+		{:else}
+			<div>{$page.status}<br />{$page.error?.message}</div>
+		{/if}
 	</div>
 </div>
 

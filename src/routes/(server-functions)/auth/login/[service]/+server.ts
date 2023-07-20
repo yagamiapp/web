@@ -18,7 +18,7 @@ const clientIds: { [key: string]: Service } = {
 	osu: {
 		login_url: 'https://osu.ppy.sh/oauth/authorize',
 		client_id: parseInt(PUBLIC_OSU_CLIENT_ID),
-		scope: 'identify'
+		scope: 'identify public'
 	},
 	// OAuth URL https://discord.com/oauth2/authorize?client_id=956030276050493441&redirect_uri=http%3A%2F%2Flocalhost%3A4000%2Fauth%2Fdiscord&response_type=code&scope=identify%20guilds.join%20guilds
 	discord: {
