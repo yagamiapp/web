@@ -16,8 +16,9 @@
 		{#if !editPerms && !sessionUserTeam}
 			<Button url="/tournaments/{tournament.id}/teams/new" text="SIGN UP" />
 		{:else if sessionUserTeam}
-			<Button url="/tournaments/{tournament.id}/teams/{sessionUserTeam.id}" 
-				text={team_size == 1 ? "MANAGE PLAYER CARD" : "MANAGE TEAM"} 
+			<Button
+				url="/tournaments/{tournament.id}/teams/{sessionUserTeam.id}"
+				text={team_size == 1 ? 'MANAGE PLAYER CARD' : 'MANAGE TEAM'}
 			/>
 		{/if}
 	</div>

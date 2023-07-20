@@ -4,7 +4,7 @@
 </script>
 
 <div class="wrap">
-	<a href="{url}">
+	<a href={url}>
 		<div>{text}</div>
 	</a>
 </div>

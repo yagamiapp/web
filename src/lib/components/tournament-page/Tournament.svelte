@@ -6,16 +6,20 @@
 	import Default from '$lib/assets/icons/white.svg';
 	import Button from './TournamentHeaderButton.svelte';
 
-	export let data: { tournament: db.FullyPopulatedTournament; editPerms: boolean, sessionUserTeam: db.TeamWithMembers | null };
+	export let data: {
+		tournament: db.FullyPopulatedTournament;
+		editPerms: boolean;
+		sessionUserTeam: db.TeamWithMembers | null;
+	};
 	let { tournament, editPerms, sessionUserTeam } = data;
 	let { name, acronym, id, color, team_size } = tournament;
-
 </script>
 
 <svelte:head>
 	<title>{acronym}: {name}</title>
 </svelte:head>
 
+<!-- TODO: Refactor this wrapper div to be a component -->
 <section id="home" />
 <div class="wrap" style="--theme: {color}">
 	<div class="top">

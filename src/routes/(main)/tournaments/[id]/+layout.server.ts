@@ -92,13 +92,15 @@ export async function load({ params, cookies }) {
 	});
 
 	let sessionUserTeam = null;
-	
+
 	if (!user) {
 		return { tournament, editPerms, sessionUserTeam };
 	}
-	
+
 	// Get the session user's team
-	sessionUserTeam = tournament.Teams?.find((team) => team.Members.find((member) => member.osuId === user.id));
+	sessionUserTeam = tournament.Teams?.find((team) =>
+		team.Members.find((member) => member.osuId === user.id)
+	);
 
 	const hosts = tournament.Hosts.map((x) => x.userId);
 	if (hosts.includes(user.id)) {

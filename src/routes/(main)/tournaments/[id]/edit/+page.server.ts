@@ -1,7 +1,6 @@
 import { StatusCodes } from '$lib/StatusCodes';
 import prisma from '../../../../../lib/prisma';
 import { fail, error, type Actions } from '@sveltejs/kit';
-import { request } from 'http';
 import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
 
@@ -147,3 +146,5 @@ const hasEditPermission = async (tournament: number, user: number) => {
 
 	return permissionCheck != null;
 };
+
+export const prerender = false;

@@ -8,22 +8,23 @@
 
 	export let data: { tournament: Tournament };
 	export let form: ActionData;
-	
-	let { id,
-		acronym, 
-		name, 
-		color, 
-		description, 
-		force_nf, 
-		score_mode, 
-		team_mode, 
-		team_size, 
-		x_v_x_mode, 
-		allow_registrations, 
-		fm_mods, 
-		double_pick, 
-		double_ban, 
-		// private (use 'data.tournament.private' as 'private' is a reserved keyword) 
+
+	let {
+		id,
+		acronym,
+		name,
+		color,
+		description,
+		force_nf,
+		score_mode,
+		team_mode,
+		team_size,
+		x_v_x_mode,
+		allow_registrations,
+		fm_mods,
+		double_pick,
+		double_ban
+		// private (use 'data.tournament.private' as 'private' is a reserved keyword)
 	} = data.tournament;
 
 	function Str(variable: Object) {
@@ -41,81 +42,80 @@
 	</div>
 
 	<form method="POST" action="?/save">
-
 		<h1>Tournament Page Settings</h1>
 
 		<EditPageSetting
-			name={Str({name})}
-			label="Tournament Name" 
+			name={Str({ name })}
+			label="Tournament Name"
 			value={name}
 			errors={form?.messages}
-			type="text" 
+			type="text"
 		/>
 
-		<EditPageSetting 
-			name={Str({acronym})} 
-			label="Tournament Acronym" 
-			value={acronym} 
+		<EditPageSetting
+			name={Str({ acronym })}
+			label="Tournament Acronym"
+			value={acronym}
 			errors={form?.messages}
 			type="text"
 		/>
 
 		<!-- <label for="color">Theme Colour</label>
 		<input bind:value={color} name="color" type="color" /><br> -->
-		<EditPageSetting 
-			name={Str({color})} 
-			label="Theme Colour" 
+		<EditPageSetting
+			name={Str({ color })}
+			label="Theme Colour"
 			value={color}
 			errors={form?.messages}
 			type="text"
 		/>
 
-		<EditPageSetting 
-			name={Str({description})} 
-			label="Tournament Description" 
+		<EditPageSetting
+			name={Str({ description })}
+			label="Tournament Description"
 			value={description}
 			errors={form?.messages}
 			type="textarea"
 		/>
 
-		<EditPageSetting 
-			name={Str({allow_registrations})} 
-			label="Player Registrations Open" 
+		<EditPageSetting
+			name={Str({ allow_registrations })}
+			label="Player Registrations Open"
 			value={allow_registrations}
 			errors={form?.messages}
 			type="switch"
 		/>
 
-		<EditPageSetting 
+		<EditPageSetting
 			name="private"
-			label="Set Tournament to Private" 
-			value={data.tournament.private} 
+			label="Set Tournament to Private"
+			value={data.tournament.private}
 			errors={form?.messages}
 			type="switch"
 		/>
 
 		<h1>Match Rules</h1>
 
-		<EditPageSetting 
-			name={Str({force_nf})} 
-			label="Force NoFail?" 
-			value={force_nf} 
+		<EditPageSetting
+			name={Str({ force_nf })}
+			label="Force NoFail?"
+			value={force_nf}
 			errors={form?.messages}
 			type="switch"
 		/>
 
-		<EditPageSetting 
-			name={Str({score_mode})} 
-			label="Map Win Condition" 
+		<EditPageSetting
+			name={Str({ score_mode })}
+			label="Map Win Condition"
 			value={score_mode}
 			errors={form?.messages}
 			type="select"
 			options={scoreModeEnum}
 		/>
 
-		<EditPageSetting 
-			name={Str({team_mode})} 
-			label="In-Match Team Mode" 
+		<EditPageSetting
+			name={Str({ team_mode })}
+			label="In-Match Team Mode"
 			value={team_mode}
 			errors={form?.messages}
 			type="select"
@@ -123,7 +123,7 @@
 		/>
 
 		<EditPageSetting
-			name={Str({team_size})} 
+			name={Str({ team_size })}
 			label="Team Size"
 			value={team_size}
 			errors={form?.messages}
@@ -131,7 +131,7 @@
 		/>
 
 		<EditPageSetting
-			name={Str({x_v_x_mode})} 
+			name={Str({ x_v_x_mode })}
 			label="Players Per Team Per Map"
 			value={x_v_x_mode}
 			errors={form?.messages}
@@ -139,32 +139,32 @@
 		/>
 
 		<EditPageSetting
-			name={Str({fm_mods})} 
+			name={Str({ fm_mods })}
 			label="Min-Number of Mods per Player (FreeMod Picks, not including NF)"
 			value={fm_mods}
 			errors={form?.messages}
 			type="number"
 		/>
 
-		<EditPageSetting 
-			name={Str({double_pick})} 
-			label="Double Picking Rule" 
+		<EditPageSetting
+			name={Str({ double_pick })}
+			label="Double Picking Rule"
 			value={double_pick}
 			errors={form?.messages}
 			type="select"
 			options={doublePickEnum}
 		/>
 
-		<EditPageSetting 
-			name={Str({double_ban})} 
-			label="Double Banning Rule" 
+		<EditPageSetting
+			name={Str({ double_ban })}
+			label="Double Banning Rule"
 			value={double_ban}
 			errors={form?.messages}
 			type="select"
 			options={doubleBanEnum}
 		/>
 
-		<h1/>
+		<h1 />
 		<button class="save_changes" type="submit">Save Changes</button>
 	</form>
 </div>
@@ -190,7 +190,6 @@
 		opacity: 0.25;
 	}
 	.wrap {
-		
 		margin-top: 50px;
 		width: 95%;
 		max-width: 1000px;

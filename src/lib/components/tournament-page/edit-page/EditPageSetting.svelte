@@ -1,57 +1,61 @@
 <script lang="ts">
-    import ToggleSwitch from "$lib/components/ToggleSwitch.svelte";
+	import ToggleSwitch from '$lib/components/ToggleSwitch.svelte';
 
-    export let name: string;
-    export let label: string;
-    export let value: any;
-    export let errors: { message: string, rule: string, field: string }[];
-    export let type: string;
-    // Options are the same type as used in 'TournamentEnums.ts'
-    export let options: { [key: number]: string } = {};
+	export let name: string;
+	export let label: string;
+	export let value: any;
+	export let errors: { message: string; rule: string; field: string }[];
+	export let type: string;
+	// Options are the same type as used in 'TournamentEnums.ts'
+	export let options: { [key: number]: string } = {};
 
-    const original = value;
+	const original = value;
 
-    const error = errors?.find((item) => item.field === name)
+	const error = errors?.find((item) => item.field === name);
 </script>
 
 <label for={name}>{label}</label>
 
-{#if type == "text"}
-    <input bind:value {name} type="text" />
-{:else if type == "textarea"}
-    <br><textarea bind:value {name} />
-{:else if type == "number"}
-    <input bind:value {name} type="number" />
-{:else if type == "select" && options}
-    <select {name} bind:value>
-        {#each Object.entries(options) as [n, modeName]}
-            <option value={Number(n)}
-                selected={value == Number(n)}
-            >{modeName}</option>
-        {/each}
-    </select>
-{:else if type == "switch"}
-    <input bind:value {name} type="hidden" />
-    <ToggleSwitch
-        on:check={({ detail }) => { value = detail }}
-        checked={value}
-        onColor="var(--tournament-color)"
-        offColor="var(--bg3)"
-        handleColor="var(--font-color)"
-    />
-<!-- TODO: color -->
+{#if type == 'text'}
+	<input bind:value {name} type="text" autocomplete="off" />
+{:else if type == 'textarea'}
+	<br /><textarea bind:value {name} />
+{:else if type == 'number'}
+	<input bind:value {name} type="number" />
+{:else if type == 'select' && options}
+	<select {name} bind:value>
+		{#each Object.entries(options) as [n, modeName]}
+			<option value={Number(n)} selected={value == Number(n)}>{modeName}</option>
+		{/each}
+	</select>
+{:else if type == 'switch'}
+	<input bind:value {name} type="hidden" />
+	<ToggleSwitch
+		on:check={({ detail }) => {
+			value = detail;
+		}}
+		checked={value}
+		onColor="var(--tournament-color)"
+		offColor="var(--bg3)"
+		handleColor="var(--font-color)"
+	/>
+	<!-- TODO: color -->
 {/if}
 
-<span class:modified={value !== original}></span>
-<span class:error>* {error?.message}</span><br>
+<span class:modified={value !== original} />
+<span class:error>* {error?.message}</span><br />
 
 <style>
-    label, .error {
+	label,
+	.error {
 		font-size: 16px;
 		height: min-content;
 		margin-left: 2rem;
 	}
-	input, select, option, textarea {
+	input,
+	select,
+	option,
+	textarea {
 		color: var(--font-color);
 		outline: none;
 
@@ -80,10 +84,11 @@
 	option {
 		font-family: 'Quicksand', Arial;
 	}
-	input:focus, select:focus {
+	input:focus,
+	select:focus {
 		border: solid 2px var(--tournament-color);
 	}
-    span {
+	span {
 		visibility: hidden;
 	}
 	.modified {
@@ -94,7 +99,7 @@
 		width: 4px;
 		height: 4px;
 		border-radius: 2px;
-		background-color:aquamarine;
+		background-color: aquamarine;
 		box-shadow: 0 0 3px 3px aquamarine;
 		transition: visibility 200ms ease;
 	}
