@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
-	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
-	import UserCard from '$lib/components/UserCard.svelte';
+	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
+	import User from '$lib/components/common/cards/User.svelte';
+	import type { TeamInvite } from '@prisma/client';
 
-	export let data: any;
+	export let data: db.FullyPopulatedTournament & (TeamInvite & { Team: db.TeamWithMembers }); ;
 	export let form: any;
 	if (form) console.log(form);
 
@@ -43,7 +44,7 @@
 
 		{#if suggestedUserInvite && !loading}
 			{#key suggestedUserInvite}
-				<UserCard bind:user={suggestedUserInvite} color={data.tournament.color} />
+				<User bind:user={suggestedUserInvite} color={data.tournament.color} />
 			{/key}
 
 			<form
@@ -71,7 +72,7 @@
 
 	{#each data.invites as invite (invite.inviteeUserId)}
 		<div class="invite">
-			<UserCard user={invite.Invitee} color={data.tournament.color} />
+			<User user={invite.Invitee} color={data.tournament.color} />
 			<form method="POST" action="?/cancel_invite" use:enhance>
 				<button
 					type="submit"

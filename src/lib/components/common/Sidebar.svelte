@@ -2,9 +2,9 @@
 	export let data: { user: User };
 	import defaultPfp from '$lib/assets/person-circle.svg';
 	import type { User } from '@prisma/client';
-	import LoginButton from './LoginButton.svelte';
-	import LogoutButton from './LogoutButton.svelte';
-	import UserCard from './SidebarCard.svelte';
+	import LoginButton from '$lib/components/common/sidebar/LoginButton.svelte';
+	import LogoutButton from '$lib/components/common/sidebar/LogoutButton.svelte';
+	import UserCard from '$lib/components/common/sidebar/SidebarCard.svelte';
 
 	let pfp = defaultPfp;
 	if (data.user) {

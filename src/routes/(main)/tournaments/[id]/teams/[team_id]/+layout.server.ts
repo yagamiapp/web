@@ -20,5 +20,5 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		(member) => member.osuId === user?.id && member.member_order === 0
 	);
 
-	return { team, isTeamCaptain };
+	return { tournament, user, team, isTeamCaptain };
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-	import AddAccountButton from '$lib/components/AddAccountButton.svelte';
+	import AddAccountButton from '$lib/components/common/AddAccountButton.svelte';
 	import { browser } from '$app/environment';
 	import DiscordAccount from '$lib/components/settings/DiscordAccount.svelte';
 	import TwitchAccount from '$lib/components/settings/TwitchAccount.svelte';

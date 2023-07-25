@@ -83,12 +83,27 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 					Accept: 'application/json'
 				};
 
-				const refreshResponse = await fetch(refreshURL, {
-					method: 'POST',
-					headers: refreshHeaders
-				});
+				let refreshResponse;
+				try {
+					refreshResponse = await fetch(refreshURL, {
+						method: 'POST',
+						headers: refreshHeaders
+					});
+				} catch (error) {
+					console.log(error);
+					throw error;
+				}
+
 				const updatedToken = await refreshResponse.json();
 				// TODO: Fix 'The authorization grant type is not supported by the authorization server.' error
+				/* Full erroneous response: 
+				{
+					error: 'unsupported_grant_type',
+					error_description: 'The authorization grant type is not supported by the authorization server.',
+					hint: 'Check that all required parameters have been provided',
+					message: 'The authorization grant type is not supported by the authorization server.'
+				} 
+				*/
 				// Searching for players by username in a team page/team invites section is an easy way to test.
 				if (refreshResponse.ok) {
 					OsuToken = await prisma.osuOauth.update({

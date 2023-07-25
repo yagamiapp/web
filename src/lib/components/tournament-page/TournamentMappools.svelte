@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Mappool from './Mappool.svelte';
+	import Mappool from '$lib/components/common/cards/MappoolFull.svelte';
 
 	export let tournament: db.FullyPopulatedTournament;
 	let { rounds } = tournament;
@@ -11,10 +11,3 @@
 		<Mappool {round} />
 	{/each}
 </section>
-
-<style>
-	section {
-		padding: 20px;
-		z-index: 1;
-	}
-</style>

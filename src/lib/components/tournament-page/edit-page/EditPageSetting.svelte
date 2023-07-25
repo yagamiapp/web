@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ToggleSwitch from '$lib/components/ToggleSwitch.svelte';
+	import ToggleSwitch from '$lib/components/common/ToggleSwitch.svelte';
 
 	export let name: string;
 	export let label: string;
@@ -17,18 +17,27 @@
 <label for={name}>{label}</label>
 
 {#if type == 'text'}
+
 	<input bind:value {name} type="text" autocomplete="off" />
+
 {:else if type == 'textarea'}
+
 	<br /><textarea bind:value {name} />
+
 {:else if type == 'number'}
+
 	<input bind:value {name} type="number" />
+
 {:else if type == 'select' && options}
+
 	<select {name} bind:value>
 		{#each Object.entries(options) as [n, modeName]}
 			<option value={Number(n)} selected={value == Number(n)}>{modeName}</option>
 		{/each}
 	</select>
+
 {:else if type == 'switch'}
+
 	<input bind:value {name} type="hidden" />
 	<ToggleSwitch
 		on:check={({ detail }) => {
@@ -39,6 +48,7 @@
 		offColor="var(--bg3)"
 		handleColor="var(--font-color)"
 	/>
+	
 	<!-- TODO: color -->
 {/if}
 

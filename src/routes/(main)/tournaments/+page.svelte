@@ -1,12 +1,19 @@
 <script>
+	import CentreNarrowPanel from "$lib/components/common/CentreNarrowPanel.svelte";
+
 	export let data;
 
 	let { tournaments } = data;
 </script>
 
-<h1>Tournaments</h1>
-<ul>
-	{#each tournaments as tournament}
-		<li><a href="/t/{tournament.id}">{tournament.name}</a></li>
-	{/each}
-</ul>
+<CentreNarrowPanel title="Tournaments">
+
+	<h1>Tournaments</h1>
+	<ul>
+		{#each tournaments as tournament}
+			<li><a href="/t/{tournament.id}">{tournament.name}</a></li>
+		{/each}
+	</ul>
+
+</CentreNarrowPanel>
+

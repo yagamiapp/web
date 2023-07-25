@@ -4,7 +4,6 @@ import type { PageServerLoad } from './$types';
 import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
 import { StatusCodes } from '$lib/StatusCodes';
-import type { TeamInvite } from '@prisma/client';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
 	const { tournament, user } = await parent();
@@ -128,7 +127,7 @@ export const actions: Actions = {
 	accept_invite: async ({ locals, request, params }) => {
 		// TODO: accepts this invite and deletes all others related to this tournament and this user
 		const formData = await request.formData();
-		const teamId = formData.get('team_id');
+		const teamId = String(formData.get('team_id'));
 
 		if (!/^[0-9]+$/.test(teamId)) {
 			return fail(StatusCodes.NOT_ACCEPTABLE, { message: 'Invalid team ID somehow.' });
@@ -213,7 +212,7 @@ export const actions: Actions = {
 
 	reject_invite: async ({ locals, request }) => {
 		const formData = await request.formData();
-		const teamId = formData.get('team_id');
+		const teamId = String(formData.get('team_id'));
 
 		if (!/^[0-9]+$/.test(teamId)) {
 			return fail(StatusCodes.NOT_ACCEPTABLE, { message: 'Invalid team ID somehow.' });

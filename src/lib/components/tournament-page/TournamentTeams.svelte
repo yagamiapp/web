@@ -1,8 +1,7 @@
 <script lang="ts">
-	import UserCard from '$lib/components/UserCard.svelte';
-	import Session from '../settings/Session.svelte';
-	import Team from './Team.svelte';
-	import Button from './TournamentHeaderButton.svelte';
+	import User from '$lib/components/common/cards/User.svelte';
+	import Team from '$lib/components/common/cards/Team.svelte';
+	import Button from '$lib/components/common/LargeButton.svelte';
 
 	export let tournament: db.FullyPopulatedTournament;
 	export let editPerms: boolean;
@@ -10,7 +9,7 @@
 	let { team_size, Teams } = tournament;
 </script>
 
-<section>
+<section id={tournament.team_size == 1 ? 'players' : 'teams'}>
 	<div class="title">
 		<h1>{tournament.team_size == 1 ? 'Players' : 'Teams'}</h1>
 		{#if !editPerms && !sessionUserTeam}
@@ -26,7 +25,7 @@
 	{#if tournament.team_size == 1}
 		<div class="list">
 			{#each Teams as team}
-				<UserCard user={team.Members[0].User} color={team.color} />
+				<User user={team.Members[0].User} color={team.color} />
 			{/each}
 		</div>
 	{:else}
@@ -39,11 +38,6 @@
 </section>
 
 <style>
-	section {
-		background-color: var(--bg3);
-		padding: 20px;
-		z-index: 1;
-	}
 	.list {
 		display: flex;
 		width: 100%;

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import MatchList from './MatchList.svelte';
-	import Switch from '../ToggleSwitch.svelte';
+	import MatchList from '$lib/components/common/MatchList.svelte';
+	import Switch from '$lib/components/common/ToggleSwitch.svelte';
 
 	export let tournament: db.FullyPopulatedTournament;
 	let section: HTMLElement;
@@ -30,17 +30,17 @@
 	</div>
 	<div class="list">
 		{#each tournament.rounds as round}
-			<MatchList {round} />
+			<h3>{round.name}</h3>
+			<MatchList matches={round.Match} />
 		{/each}
 	</div>
 </section>
 
 <style>
-	section {
-		position: relative;
-		background-color: var(--bg2);
-		padding: 20px;
-		z-index: 1;
+	h3 {
+		width: 100%;
+		padding-bottom: 5px;
+		border-bottom: solid 2px var(--bg3);
 	}
 	.list {
 		display: flex;

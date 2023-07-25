@@ -1,17 +1,40 @@
-<script>
-	import Tournament from '$lib/components/tournament-page/Tournament.svelte';
-	export let data;
+<script lang="ts">
+	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
+	import Mappools from '$lib/components/tournament-page/TournamentMappools.svelte';
+	import Teams from '$lib/components/tournament-page/TournamentTeams.svelte';
+	import Matches from '$lib/components/tournament-page/TournamentMatches.svelte';
+	import Button from '$lib/components/common/LargeButton.svelte';
+
+	export let data: {
+		tournament: db.FullyPopulatedTournament;
+		editPerms: boolean;
+		sessionUserTeam: db.TeamWithMembers | null;
+	};
+	let { tournament, editPerms, sessionUserTeam } = data;
+	let { name, acronym, id, color, team_size } = tournament;
 </script>
 
-<div class="wrap">
-	<Tournament {data} />
-</div>
+<TournamentPageTemplate title="{acronym}: {name}" {tournament}>
 
-<style>
-	.wrap {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-</style>
+	<div slot="top">
+		{#if editPerms}
+			<Button url="/tournaments/{id}/edit" text="EDIT TOURNAMENT" />
+		{/if}
+	</div>
+
+	<nav slot="nav">
+		<a href="#home">home</a>
+		<a href="#mappools">mappools</a>
+		{#if team_size == 1}
+			<a href="#players">players</a>
+		{:else}
+			<a href="#teams">teams</a>
+		{/if}
+		<a href="#matches">matches</a>
+	</nav>
+
+	<Mappools {tournament} />
+	<Teams {tournament} {editPerms} {sessionUserTeam} />
+	<Matches {tournament} />
+
+</TournamentPageTemplate>

@@ -1,5 +1,5 @@
 <script>
-	import CautionTape from './CautionTape.svelte';
+	import CautionTape from '$lib/components/common/CautionTape.svelte';
 	import logoWhite from '$lib/assets/icons/white.svg';
 </script>
 

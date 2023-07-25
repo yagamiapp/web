@@ -1,10 +1,9 @@
 import prisma from '$lib/prisma';
-import type { User } from '@prisma/client';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { StatusCodes } from '$lib/StatusCodes';
 
-export const load: PageServerLoad = async ({ params, depends, fetch }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	// Retrieve list of existing player invites
 	const invites = await prisma.teamInvite.findMany({
 		where: {
@@ -127,7 +126,7 @@ export const actions: Actions = {
 
 	invite_player: async ({ params, request }) => {
 		const formData = await request.formData();
-		const inviteeId = parseInt(formData.get('invite_player'));
+		const inviteeId = parseInt(String(formData.get('invite_player')));
 		const teamId = params.team_id;
 
 		// Validate invitee isn't already in the team
@@ -201,7 +200,7 @@ export const actions: Actions = {
 		}
 
 		const team_id = parseInt(params.team_id);
-		const deleteTeam = await prisma.team.delete({
+		await prisma.team.delete({
 			where: {
 				id: team_id
 			}
@@ -222,7 +221,7 @@ export const actions: Actions = {
 			return fail(StatusCodes.BAD_REQUEST, { message: 'Tournament registrations are closed.' });
 		}
 
-		const deleteMember = await prisma.userInTeam.delete({
+		await prisma.userInTeam.delete({
 			where: {
 				osuId_teamId: {
 					osuId: locals.user.id,

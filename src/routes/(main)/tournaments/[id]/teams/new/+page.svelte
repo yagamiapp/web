@@ -1,5 +1,7 @@
 <script lang="ts">
-	import TournamentHeaderButton from '$lib/components/tournament-page/TournamentHeaderButton.svelte';
+	import { invalidate } from '$app/navigation';
+	import TournamentHeaderButton from '$lib/components/common/LargeButton.svelte';
+	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import CreateTeam from '$lib/components/tournament-page/team-page/CreateTeam.svelte';
 	import type { ActionData, PageServerData } from './$types';
 
@@ -8,23 +10,19 @@
 	let { tournament } = data;
 </script>
 
-<div class="wrap">
-	{#if tournament.team_size == 1}
-		<h1>Registration</h1>
 
-		<p>{data.feedback}</p>
+{#if tournament.team_size == 1}
+	<TournamentPageTemplate {tournament} title="Register for {tournament.name}">
+		<section>
+			<h1>Registration</h1>
 
-		<TournamentHeaderButton url="/tournaments/{data.tournament.id}" text={'BACK'} />
-	{:else}
-		<CreateTeam {data} {form} />
-	{/if}
-</div>
+			<p>{data.feedback}</p>
 
-<style>
-	.wrap {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-</style>
+			<TournamentHeaderButton url="/tournaments/{data.tournament.id}" text={'BACK'} />
+			<!-- TODO: Fix bug that this button doesn't refresh the tournament page, so it appears as if the player hasn't signed up yet (until the page is relaoded) -->
+			<!-- Note: I tried using on:change(() => {invalidate...}) but it didn't work -->
+		</section>
+	</TournamentPageTemplate>
+{:else}
+	<CreateTeam {data} {form} />
+{/if}

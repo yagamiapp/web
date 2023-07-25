@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { TeamInvite, Team, UserInTeam, User } from '@prisma/client';
-	import TeamCard from '../Team.svelte';
+	import TeamCard from '$lib/components/common/cards/Team.svelte';
 
 	export let invites: (TeamInvite & {
 		Team: Team & { Members: (UserInTeam & { User: User })[] };
 	})[];
 </script>
 
-<div class="received_invites">
+<section class="received_invites">
 	<h1>Received Invites</h1>
 
 	{#each invites as invite}
@@ -21,4 +21,4 @@
 			</form>
 		</div>
 	{/each}
-</div>
+</section>

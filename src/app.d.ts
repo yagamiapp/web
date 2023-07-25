@@ -23,5 +23,11 @@ declare global {
 			Teams: TeamWithMembers[];
 			rounds: RoundWithEverything[];
 		};
+		type TeamInMatchWithMaps = TeamInMatch & {
+			Bans: MapInMatch[];
+			Picks: MapInMatch[];
+			Wins: MapInMatch[];
+			Team: db.TeamWithMembers;
+		};
 	}
 }

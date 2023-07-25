@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Map from '../Map.svelte';
+	import Map from '$lib/components/common/cards/Map.svelte';
 
 	export let round: db.RoundWithEverything;
 

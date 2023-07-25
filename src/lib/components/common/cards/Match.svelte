@@ -1,13 +1,7 @@
 <script lang="ts">
 	import type { MapInMatch, Match, TeamInMatch } from '@prisma/client';
-	type TeamInMatchWithMaps = TeamInMatch & {
-		Bans: MapInMatch[];
-		Picks: MapInMatch[];
-		Wins: MapInMatch[];
-		Team: db.TeamWithMembers;
-	};
 	export let match: Match & {
-		Teams: TeamInMatchWithMaps[];
+		Teams: db.TeamInMatchWithMaps[];
 	};
 
 	let teams = match.Teams;
@@ -15,10 +9,10 @@
 	// Sort picks from both teams
 	// into ordered pick array
 	let picks: MapInMatch[] = [];
-	teams[0].Picks.forEach((x) => {
+	teams[0].Picks.forEach((x: MapInMatch) => {
 		picks.push(x);
 	});
-	teams[1].Picks.forEach((x) => {
+	teams[1].Picks.forEach((x: MapInMatch) => {
 		picks.push(x);
 	});
 	picks.sort((a, b) => {

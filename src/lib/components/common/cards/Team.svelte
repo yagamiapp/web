@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Player from './TeamUser.svelte';
+	import Player from '$lib/components/common/cards/TeamUser.svelte';
 
 	export let team: db.TeamWithMembers;
 	export let averageRank: number | null = null;
