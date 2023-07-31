@@ -1,4 +1,17 @@
-import type { User } from '@prisma/client';
+import type { 
+	User,
+	UserInTeam,
+	Team, 
+	TeamInMatch, 
+	MapInMatch, 
+	Match, 
+	Mappool, 
+	MapInPool, 
+	Map,
+	Round, 
+	Tournament, 
+	UsersHostingTournament 
+} from '@prisma/client';
 
 declare global {
 	namespace App {
@@ -11,9 +24,10 @@ declare global {
 		type HostWithUser = UsersHostingTournament & { User: User };
 		type UserInTeamWithUser = UserInTeam & { User: User };
 		type TeamWithMembers = Team & { Members: UserInTeamWithUser[] };
+		type TeamWithMembersAndMatches = TeamWithMembers & { InBracketMatches: TeamInMatchWithMaps[] };
 		type MapInPoolWithMap = MapInPool & { Map: Map };
 		type RoundWithEverything = Round & {
-			Match: Match[];
+			Match: MatchWithTeams[];
 			mappool: Mappool & {
 				Maps: MapInPoolWithMaps[];
 			};
@@ -29,5 +43,17 @@ declare global {
 			Wins: MapInMatch[];
 			Team: db.TeamWithMembers;
 		};
+		type MatchWithTeams = Match & {
+			Teams: TeamInMatchWithMaps[]
+		};
+	}
+
+	declare type Item = import('svelte-dnd-action').Item;
+	declare type DndEvent<ItemType = Item> = import('svelte-dnd-action').DndEvent<ItemType>;
+	declare namespace svelteHTML {
+		interface HTMLAttributes<T> {
+			'on:consider'?: (event: CustomEvent<DndEvent<ItemType>> & { target: EventTarget & T }) => void;
+			'on:finalize'?: (event: CustomEvent<DndEvent<ItemType>> & { target: EventTarget & T }) => void;
+		}
 	}
 }

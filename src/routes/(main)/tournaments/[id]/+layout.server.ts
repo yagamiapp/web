@@ -1,10 +1,11 @@
+import type { LayoutServerLoad } from './$types';
 import { StatusCodes } from '$lib/StatusCodes';
 import prisma from '../../../../lib/prisma';
 import { error } from '@sveltejs/kit';
 
 export const prerender = 'auto';
 
-export async function load({ params, cookies }) {
+export const load: LayoutServerLoad = async ({ params, cookies }) => {
 	const tournamentId = parseInt(params.id);
 
 	const tournament = await prisma.tournament.findUnique({
