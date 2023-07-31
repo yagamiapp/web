@@ -32,6 +32,9 @@ dependencies:
   svelte-awesome-color-picker:
     specifier: ^2.4.6
     version: 2.4.6
+  svelte-dnd-action:
+    specifier: ^0.9.24
+    version: 0.9.24(svelte@3.54.0)
 
 devDependencies:
   '@sveltejs/adapter-auto':
@@ -1918,6 +1921,14 @@ packages:
     resolution: {integrity: sha512-8AEyNaq+E4m/OI6lU1mEgDDfCIye8mpYDHXOXpV04H53hizBtEbL3xfCFD9a7eK11bRysYCbhKB/ls4tGnk3GA==}
     dependencies:
       colord: 2.9.3
+    dev: false
+
+  /svelte-dnd-action@0.9.24(svelte@3.54.0):
+    resolution: {integrity: sha512-rp+LqH4Pq8uYVko6Qpe9hvQeJkrmG0erT8N0DffLYeFFp2u1cxpj/icB0j4eJNqYPfHQYEyo1nyol4tnq+iOew==}
+    peerDependencies:
+      svelte: '>=3.23.0'
+    dependencies:
+      svelte: 3.54.0
     dev: false
 
   /svelte-eslint-parser@0.31.0(svelte@3.54.0):
