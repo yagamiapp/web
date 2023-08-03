@@ -2,6 +2,8 @@ import prisma from '$lib/prisma';
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { StatusCodes } from '$lib/StatusCodes';
+import { parseFormData } from 'parse-nested-form-data';
+import vine, { errors } from '@vinejs/vine';
 
 export const load: PageServerLoad = async ({ params }) => {
 	// Retrieve list of existing player invites
@@ -231,6 +233,34 @@ export const actions: Actions = {
 		});
 
 		return { left: "You've left the team." };
+	},
+
+	update_team: async ({ request, params }) => {
+		// TODO: Validate local user is team captain?
+		const data = parseFormData(await request.formData());
+		const schema = vine.object({
+			name: vine.string(),
+			color: vine.string().regex(new RegExp(/#([a-f0-9]{6})/g)),
+		});
+
+		try {
+			const result = await vine.validate({ schema, data });
+
+			// Yeah this should probably validate if the data is staying the same before
+			//  querying the database, but I'm sure I'll come back to this page eventually
+			await prisma.team.update({
+				where: {
+					id: parseInt(params.team_id)
+				},
+				data: result
+			});
+		} catch (err) {
+			if (err instanceof errors.E_VALIDATION_ERROR) {
+				const status = err.status;
+				const messages = err.messages;
+				return fail(status, { data, messages });
+			}
+		}
 	}
 };
 

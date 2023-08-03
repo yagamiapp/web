@@ -3,8 +3,9 @@ import prisma from '../../../../../lib/prisma';
 import { fail, error, type Actions } from '@sveltejs/kit';
 import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
+import type { PageServerLoad } from './$types';
 
-export async function load({ params, cookies }) {
+export const load: PageServerLoad = async ({ params, cookies }) => {
 	const tournamentId = parseInt(params.id);
 
 	const tournament = await prisma.tournament.findUnique({
@@ -109,6 +110,8 @@ export const actions: Actions = {
 			double_ban: vine.number().range([0, 2]),
 			private: vine.boolean()
 		});
+
+		// TODO: If the color is being updated, change all the teams with default (tournament) color to match
 
 		try {
 			const result = await vine.validate({ schema, data });

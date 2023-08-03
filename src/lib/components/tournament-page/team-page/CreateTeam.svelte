@@ -38,9 +38,14 @@
 				type="text"
 			/>
 	
-			<!-- TODO: team color -->
-			<input type="hidden" name="color" value={color} />
-	
+			<EditPageSetting
+				name="color"
+				label="Team Color"
+				value={color}
+				errors={form?.messages}
+				type="color"
+			/>
+			
 			<button type="submit">Create Team</button>
 		</form>
 	</section>

@@ -1,8 +1,9 @@
 <script lang="ts">
+	import HexSimpleColorPicker from '$lib/components/common/HexSimpleColorPicker.svelte';
 	import ToggleSwitch from '$lib/components/common/ToggleSwitch.svelte';
-
+	
 	export let name: string;
-	export let label: string;
+	export let label: string = "";
 	export let value: any;
 	export let errors: { message: string; rule: string; field: string }[];
 	export let type: string;
@@ -48,8 +49,12 @@
 		offColor="var(--bg3)"
 		handleColor="var(--font-color)"
 	/>
-	
-	<!-- TODO: color -->
+
+{:else if type == 'color'}
+	<div class="colorPicker">
+		<HexSimpleColorPicker bind:hex={value} />
+	</div>
+	<input type="hidden" {name} bind:value />
 {/if}
 
 <span class:modified={value !== original} />
@@ -101,6 +106,11 @@
 	span {
 		visibility: hidden;
 	}
+	.colorPicker {
+		margin: 0.4rem 2rem;
+		width: fit-content;
+		display: inline-block;
+	}
 	.modified {
 		visibility: visible;
 		display: inline-block;
@@ -111,7 +121,7 @@
 		border-radius: 2px;
 		background-color: aquamarine;
 		box-shadow: 0 0 3px 3px aquamarine;
-		transition: visibility 200ms ease;
+		transition: visibility 200ms; /* transition doesn't do anything */
 	}
 	.error {
 		visibility: visible;

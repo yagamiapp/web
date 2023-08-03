@@ -58,15 +58,12 @@
 			type="text"
 		/>
 
-		<!-- TODO: color picker -->
-		<!-- <label for="color">Theme Colour</label>
-		<input bind:value={color} name="color" type="color" /><br> -->
 		<EditPageSetting
 			name={Str({ color })}
 			label="Theme Colour"
 			value={color}
 			errors={form?.messages}
-			type="text"
+			type="color"
 		/>
 
 		<EditPageSetting

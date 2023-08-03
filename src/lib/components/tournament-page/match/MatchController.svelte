@@ -211,4 +211,6 @@
         padding: 0.4rem;
         text-align: center;
     }
+
+    /* TODO: Style buttons and drop down list (do in a parent component?) */
 </style>
