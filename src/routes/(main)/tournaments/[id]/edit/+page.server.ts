@@ -76,12 +76,12 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	});
 
 	if (!user) {
-		throw error(StatusCodes.UNAUTHORIZED);
+		throw error(StatusCodes.UNAUTHORIZED, 'You are not signed in.');
 	}
 
 	const hosts = tournament.Hosts.map((x) => x.userId);
 	if (!hosts.includes(user.id)) {
-		throw error(StatusCodes.UNAUTHORIZED, './');
+		throw error(StatusCodes.UNAUTHORIZED, 'You do not have permission.');
 	}
 
 	return { tournament };

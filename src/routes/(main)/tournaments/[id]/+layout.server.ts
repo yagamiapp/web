@@ -89,7 +89,7 @@ export const load: LayoutServerLoad = async ({ params, cookies }) => {
 	});
 
 	if (!tournamentRaw) {
-		throw error(StatusCodes.NOT_FOUND);
+		throw error(StatusCodes.NOT_FOUND, "Tournament not found.");
 	}
 
 	const tournament: db.FullyPopulatedTournament = tournamentRaw;
