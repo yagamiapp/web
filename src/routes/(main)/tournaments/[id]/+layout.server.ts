@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 
 export const prerender = 'auto';
 
-export const load: LayoutServerLoad = async ({ params, cookies }) => {
+export const load: LayoutServerLoad = async ({ params, locals }) => {
 	const tournamentId = parseInt(params.id);
 
 	// Retrieved tournament data should correspond to type db.FullyPopulatedTournament
@@ -95,16 +95,7 @@ export const load: LayoutServerLoad = async ({ params, cookies }) => {
 	const tournament: db.FullyPopulatedTournament = tournamentRaw;
 
 	let editPerms = false;
-	const session = cookies.get('yagami_session');
-	const user = await prisma.user.findFirst({
-		where: {
-			Sessions: {
-				some: {
-					id: session
-				}
-			}
-		}
-	});
+	const user = locals.user;
 
 	let sessionUserTeam = null;
 
