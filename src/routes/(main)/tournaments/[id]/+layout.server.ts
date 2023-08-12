@@ -9,6 +9,51 @@ export const load: LayoutServerLoad = async ({ params, locals }) => {
 	const tournamentId = parseInt(params.id);
 
 	// Retrieved tournament data should correspond to type db.FullyPopulatedTournament
+	//
+	/// Structure:
+	// Tournament & {
+	// 	Hosts: (UsersHostingTournament & {
+	// 		User: User
+	// 	})[]
+	// 	rounds: (Rounds & {
+	// 		Match: (Match & {
+	// 			Teams: (TeamInMatch & {
+	// 				Bans: MapInMatch[]
+	// 				Picks: MapInMatch[]
+	// 				Wins: MapInMatch[]
+	// 				Team: Team & { 
+	// 					Members: (UserInTeam & {
+	// 						User: User
+	// 					})[]
+	// 				}
+	// 			})[]
+	// 		})[]
+	// 		mappool: (Mappool & {
+	// 			Maps: (MapInPool & {
+	// 				Map: Map
+	// 			})[]
+	// 		}) | null
+	// 	})[]
+	// 	Teams: (Team & {
+	// 		Members: (UserInTeam & {
+	// 			User: User
+	// 		})[]
+	// 		InBracketMatches: (TeamInMatch & {
+	// 			Match: Match & {
+	// 				Teams: TeamInMatch & {
+	// 					Bans: MapInMatch[]
+	// 					Picks: MapInMatch[]
+	// 					Wins: MapInMatch[]
+	// 					Team: Team & { 
+	// 						Members: (UserInTeam & {
+	// 							User: User
+	// 						})[]
+	// 					}
+	// 				}
+	// 			}
+	// 		})[]
+	// 	})[]
+	// }
 	const tournamentRaw = await prisma.tournament.findUnique({
 		where: {
 			id: tournamentId
@@ -89,7 +134,7 @@ export const load: LayoutServerLoad = async ({ params, locals }) => {
 	});
 
 	if (!tournamentRaw) {
-		throw error(StatusCodes.NOT_FOUND, "Tournament not found.");
+		throw error(StatusCodes.NOT_FOUND, 'Tournament not found.');
 	}
 
 	const tournament: db.FullyPopulatedTournament = tournamentRaw;

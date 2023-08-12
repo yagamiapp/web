@@ -5,7 +5,7 @@
 </script>
 
 <div class="draggable-team">
-    <img src={item.icon_url} class="icon" alt="Team icon" />
+    <img src={item.icon_url} class="icon" alt="" />
     {item.name}
 </div>
 

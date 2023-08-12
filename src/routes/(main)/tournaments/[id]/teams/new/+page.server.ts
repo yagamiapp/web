@@ -129,7 +129,6 @@ export const actions: Actions = {
 	},
 
 	accept_invite: async ({ locals, request, params }) => {
-		// TODO: accepts this invite and deletes all others related to this tournament and this user
 		const formData = await request.formData();
 		const teamId = String(formData.get('team_id'));
 

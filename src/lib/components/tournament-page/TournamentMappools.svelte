@@ -20,6 +20,6 @@
 		{/if}
 	{/each}
 	{#if mappoolCount === 0}
-		<p>No mappool(s) released yet.</p>
+		<p>No mappools released yet.</p>
 	{/if}
 </section>

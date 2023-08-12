@@ -4,7 +4,7 @@
 
     export let tournament: db.FullyPopulatedTournament;
     export let color: string = tournament.color;
-    export let title: string = tournament.acronym + ": " + tournament.name;
+    export let title: string = tournament.acronym + ': ' + tournament.name;
 </script>
 
 <CentreNarrowPanel title={title} --tournament-color={color}>
@@ -66,9 +66,5 @@
 		margin-bottom: 2rem;
 		transition: border-color 200ms ease;
 		background-color: var(--bg1);
-	}
-
-	:global(button:hover) {
-		cursor: pointer;
 	}
 </style>
