@@ -15,8 +15,13 @@ import type {
 
 declare global {
 	namespace App {
+		type Perms = {
+			edit: boolean,
+			playing: boolean
+		}
 		interface Locals {
 			user: User;
+			perms: Perms;
 		}
 	}
 
