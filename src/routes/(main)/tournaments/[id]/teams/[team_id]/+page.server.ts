@@ -170,8 +170,8 @@ export const actions: Actions = {
 	},
 
 	cancel_invite: async ({ params, request }) => {
-		const formData = await request.formData();
-		const inviteeId = formData.get('cancel_invite');
+		const formData = parseFormData(await request.formData());
+		const inviteeId = String(formData['cancel_invite']);
 		const teamId = params.team_id;
 
 		const cancelInvite = await prisma.teamInvite.delete({

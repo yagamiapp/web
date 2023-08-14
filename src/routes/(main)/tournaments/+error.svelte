@@ -17,7 +17,6 @@
 
 <style>
 	.error {
-		width: 95%;
 		max-width: 1000px;
 		background-color: var(--bg3);
 		height: 300px;
@@ -29,6 +28,6 @@
 
 	.logo {
 		margin-top: 1.5rem;
-		height: 300px;
+		height: 150px;
 	}
 </style>
