@@ -176,20 +176,6 @@
 		background-color: rgba(0, 0, 0, 0);
 	}
 
-	button {
-		color: var(--font-color);
-		outline: none;
-
-		font-family: inherit;
-		font-size: inherit;
-
-		border: solid 2px var(--font-color);
-		border-radius: 6px;
-		padding: 5px;
-		margin-bottom: 2rem;
-		transition: border-color 200ms ease;
-		background-color: var(--bg1);
-	}
 	#save_changes {
 		margin-left: 70%;
 		font-size: 22px;

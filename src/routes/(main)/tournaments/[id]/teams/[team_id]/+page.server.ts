@@ -260,6 +260,9 @@ export const actions: Actions = {
 				const messages = err.messages;
 				return fail(status, { data, messages });
 			}
+			else {
+				throw err;
+			}
 		}
 	}
 };
