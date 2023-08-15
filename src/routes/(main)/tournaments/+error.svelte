@@ -4,7 +4,11 @@
 	import CentreNarrowPanel from '$lib/components/common/CentreNarrowPanel.svelte';
 </script>
 
-<CentreNarrowPanel title="{$page.status} - {$page.error?.message}">
+<svelte:head>
+	<title>{$page.status} - {$page.error?.message ?? "No error message."}</title>
+</svelte:head>
+
+<CentreNarrowPanel>
 
 	<div class="error">
 		<img class="logo" src={logo} alt="logo" />

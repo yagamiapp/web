@@ -10,9 +10,12 @@
 	let { tournament } = data;
 </script>
 
+<svelte:head>
+	<title>Register for {tournament.name}</title>
+</svelte:head>
 
 {#if tournament.team_size == 1}
-	<TournamentPageTemplate {tournament} title="Register for {tournament.name}">
+	<TournamentPageTemplate {tournament}>
 		<section>
 			<h1>Registration</h1>
 

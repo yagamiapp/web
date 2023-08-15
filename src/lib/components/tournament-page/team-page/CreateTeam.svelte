@@ -21,7 +21,7 @@
 	// (use:enhance)
 </script>
 
-<TournamentPageTemplate {tournament} title="Registering for {tournament.name}">
+<TournamentPageTemplate {tournament}>
 	<div slot="top">
 		<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
 	</div>

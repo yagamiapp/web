@@ -21,7 +21,11 @@
 	}
 </script>
 
-<TournamentPageTemplate {tournament} title="{name} - {tournament.name}">
+<svelte:head>
+	<title>{name} - {tournament.name}</title>
+</svelte:head>
+
+<TournamentPageTemplate {tournament}>
 	<div slot="top">
 		<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
 	</div>

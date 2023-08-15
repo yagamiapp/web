@@ -33,7 +33,11 @@
 	}
 </script>
 
-<CentreNarrowPanel title="Edit Tournament" --tournament-color={data.tournament.color}>
+<svelte:head>
+	<title>Edit Tournament - {name}</title>
+</svelte:head>
+
+<CentreNarrowPanel --tournament-color={data.tournament.color}>
 
 	<div slot="top">
 		<Button url="/tournaments/{id}" text="TOURNAMENT PAGE" />
