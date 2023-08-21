@@ -4,10 +4,9 @@
 
     export let tournament: db.FullyPopulatedTournament;
     export let color: string = tournament.color;
-    export let title: string = tournament.acronym + ": " + tournament.name;
 </script>
 
-<CentreNarrowPanel title={title} --tournament-color={color}>
+<CentreNarrowPanel --tournament-color={color}>
 
 	<div slot="top">
 		<slot name="top" />

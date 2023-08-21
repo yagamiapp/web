@@ -14,7 +14,11 @@
 	let { name, acronym, id, color, team_size } = tournament;
 </script>
 
-<TournamentPageTemplate title="{acronym}: {name}" {tournament}>
+<svelte:head>
+	<title>{acronym}: {name}</title>
+</svelte:head>
+
+<TournamentPageTemplate {tournament}>
 
 	<div slot="top">
 		{#if editPerms}

@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms';
 	import LoadingSpinner from '$lib/components/common/LoadingSpinner.svelte';
-	import User from '$lib/components/common/cards/User.svelte';
-	import type { TeamInvite } from '@prisma/client';
+	import UserCard from '$lib/components/common/cards/User.svelte';
+	import type { TeamInvite, User } from '@prisma/client';
 
-	export let data: db.FullyPopulatedTournament & (TeamInvite & { Team: db.TeamWithMembers }); ;
+	export let data: { 
+		tournament: db.FullyPopulatedTournament,
+		invites: (TeamInvite & { Invitee: User })[]
+	};
 	export let form: any;
 	if (form) console.log(form);
 
 	let player_id: string;
 	let loading = false;
+	let suggestedUserInvite: User | null;
 	$: suggestedUserInvite = null;
 
 	const playerSearch: SubmitFunction = async () => {
@@ -21,6 +25,7 @@
 
 			if (result.status == 200) {
 				suggestedUserInvite = result.data.user;
+				// Not sure why result.data is erroneous
 			}
 		};
 	};
@@ -44,7 +49,7 @@
 
 		{#if suggestedUserInvite && !loading}
 			{#key suggestedUserInvite}
-				<User bind:user={suggestedUserInvite} color={data.tournament.color} />
+				<UserCard bind:user={suggestedUserInvite} color={data.tournament.color} />
 			{/key}
 
 			<form
@@ -72,14 +77,15 @@
 
 	{#each data.invites as invite (invite.inviteeUserId)}
 		<div class="invite">
-			<User user={invite.Invitee} color={data.tournament.color} />
+			<UserCard user={invite.Invitee} color={data.tournament.color} />
 			<form method="POST" action="?/cancel_invite" use:enhance>
 				<button
 					type="submit"
 					name="cancel_invite"
 					class="cancel_invite"
-					value={invite.inviteeUserId}>Cancel Invite</button
-				>
+					value={invite.inviteeUserId}>
+					Cancel Invite
+				</button>
 			</form>
 
 			{#if form?.cancelErrorId == invite.inviteeUserId}

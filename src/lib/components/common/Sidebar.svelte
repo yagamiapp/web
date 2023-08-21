@@ -10,7 +10,6 @@
 	if (data.user) {
 		pfp = `https://s.ppy.sh/a/${data.user.id}`;
 	}
-	// console.log(data);
 
 	let el: HTMLDivElement;
 	let blur: HTMLDivElement;
@@ -51,7 +50,7 @@
 				/>
 			</svg>
 		</div>
-		<div class="title">YAGAMI</div>
+		<div class="title">YAGAMI</div> <!-- TODO: Change this text to match the colours of the hoem page logo (idk how to or if you can use gradients) -->
 		{#if data.user}
 			<UserCard user={data.user} />
 		{:else}
@@ -105,7 +104,8 @@
 	}
 
 	.menu {
-		width: 500px;
+		width: 100vw;
+		max-width: 500px;
 		height: 100%;
 		background-color: var(--bg2);
 		display: flex;
@@ -164,11 +164,6 @@
 			top: 5px;
 			right: 5px;
 			border-radius: 15px;
-		}
-	}
-	@media screen and (max-width: 500px) {
-		.menu {
-			width: 100vw;
 		}
 	}
 </style>

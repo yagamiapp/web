@@ -15,8 +15,13 @@ import type {
 
 declare global {
 	namespace App {
+		type Perms = {
+			edit: boolean,
+			playing: boolean
+		}
 		interface Locals {
 			user: User;
+			perms: Perms;
 		}
 	}
 
@@ -24,17 +29,17 @@ declare global {
 		type HostWithUser = UsersHostingTournament & { User: User };
 		type UserInTeamWithUser = UserInTeam & { User: User };
 		type TeamWithMembers = Team & { Members: UserInTeamWithUser[] };
-		type TeamWithMembersAndMatches = TeamWithMembers & { InBracketMatches: TeamInMatchWithMaps[] };
+		type TeamWithMembersAndMatches = TeamWithMembers & { InBracketMatches: TeamInMatchWithMatch[] };
 		type MapInPoolWithMap = MapInPool & { Map: Map };
 		type RoundWithEverything = Round & {
 			Match: MatchWithTeams[];
-			mappool: Mappool & {
+			mappool: (Mappool & {
 				Maps: MapInPoolWithMaps[];
-			};
+			}) | null;
 		};
 		type FullyPopulatedTournament = Tournament & {
 			Hosts: HostWithUser[];
-			Teams: TeamWithMembers[];
+			Teams: TeamWithMembersAndMatches[];
 			rounds: RoundWithEverything[];
 		};
 		type TeamInMatchWithMaps = TeamInMatch & {
@@ -46,6 +51,9 @@ declare global {
 		type MatchWithTeams = Match & {
 			Teams: TeamInMatchWithMaps[]
 		};
+		type TeamInMatchWithMatch = TeamInMatch & {
+			Match: MatchWithTeams;
+		}
 	}
 
 	declare type Item = import('svelte-dnd-action').Item;

@@ -3,84 +3,18 @@ import prisma from '../../../../../lib/prisma';
 import { fail, error, type Actions } from '@sveltejs/kit';
 import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
+import type { PageServerLoad } from './$types';
 
-export async function load({ params, cookies }) {
-	const tournamentId = parseInt(params.id);
-
-	const tournament = await prisma.tournament.findUnique({
-		where: {
-			id: tournamentId
-		},
-		include: {
-			Hosts: {
-				include: {
-					User: {
-						select: {
-							username: true,
-							country_code: true
-						}
-					}
-				}
-			},
-			rounds: {
-				include: {
-					Match: {
-						include: {
-							Teams: {
-								include: {
-									Bans: true,
-									Picks: true,
-									Wins: true,
-									Team: true
-								}
-							}
-						}
-					},
-					mappool: {
-						include: {
-							Maps: {
-								include: {
-									Map: true
-								}
-							}
-						}
-					}
-				}
-			},
-			Teams: {
-				include: {
-					Members: {
-						include: {
-							User: true
-						}
-					}
-				}
-			}
-		}
-	});
-
-	if (!tournament) {
-		throw error(StatusCodes.NOT_FOUND, 'Tournament not found');
-	}
-
-	const session = cookies.get('yagami_session');
-	const user = await prisma.user.findFirst({
-		where: {
-			Sessions: {
-				some: {
-					id: session
-				}
-			}
-		}
-	});
+export const load: PageServerLoad = async ({ parent }) => {
+	const { tournament, user } = await parent();
 
 	if (!user) {
-		throw error(StatusCodes.UNAUTHORIZED);
+		throw error(StatusCodes.UNAUTHORIZED, 'You are not signed in.');
 	}
 
 	const hosts = tournament.Hosts.map((x) => x.userId);
 	if (!hosts.includes(user.id)) {
-		throw error(StatusCodes.UNAUTHORIZED, './');
+		throw error(StatusCodes.UNAUTHORIZED, 'You do not have permission.');
 	}
 
 	return { tournament };
@@ -110,7 +44,10 @@ export const actions: Actions = {
 			private: vine.boolean()
 		});
 
+		// TODO: If the color is being updated, change all the teams with default (tournament) color to match
+
 		try {
+			// TODO: use vine's SimpleMessageProvider to refine error feedback (also do the same in teams/[team_id]/+page.server.ts)
 			const result = await vine.validate({ schema, data });
 
 			// Yeah this should probably validate if the data is staying the same before
@@ -126,6 +63,9 @@ export const actions: Actions = {
 				const status = err.status;
 				const messages = err.messages;
 				return fail(status, { data, messages });
+			}
+			else {
+				throw err;
 			}
 		}
 	}

@@ -5,22 +5,63 @@ import { error } from '@sveltejs/kit';
 
 export const prerender = 'auto';
 
-export const load: LayoutServerLoad = async ({ params, cookies }) => {
+export const load: LayoutServerLoad = async ({ params, locals }) => {
 	const tournamentId = parseInt(params.id);
 
-	const tournament = await prisma.tournament.findUnique({
+	// Retrieved tournament data should correspond to type db.FullyPopulatedTournament
+	//
+	/// Structure:
+	// Tournament & {
+	// 	Hosts: (UsersHostingTournament & {
+	// 		User: User
+	// 	})[]
+	// 	rounds: (Rounds & {
+	// 		Match: (Match & {
+	// 			Teams: (TeamInMatch & {
+	// 				Bans: MapInMatch[]
+	// 				Picks: MapInMatch[]
+	// 				Wins: MapInMatch[]
+	// 				Team: Team & { 
+	// 					Members: (UserInTeam & {
+	// 						User: User
+	// 					})[]
+	// 				}
+	// 			})[]
+	// 		})[]
+	// 		mappool: (Mappool & {
+	// 			Maps: (MapInPool & {
+	// 				Map: Map
+	// 			})[]
+	// 		}) | null
+	// 	})[]
+	// 	Teams: (Team & {
+	// 		Members: (UserInTeam & {
+	// 			User: User
+	// 		})[]
+	// 		InBracketMatches: (TeamInMatch & {
+	// 			Match: Match & {
+	// 				Teams: TeamInMatch & {
+	// 					Bans: MapInMatch[]
+	// 					Picks: MapInMatch[]
+	// 					Wins: MapInMatch[]
+	// 					Team: Team & { 
+	// 						Members: (UserInTeam & {
+	// 							User: User
+	// 						})[]
+	// 					}
+	// 				}
+	// 			}
+	// 		})[]
+	// 	})[]
+	// }
+	const tournamentRaw = await prisma.tournament.findUnique({
 		where: {
 			id: tournamentId
 		},
 		include: {
 			Hosts: {
 				include: {
-					User: {
-						select: {
-							username: true,
-							country_code: true
-						}
-					}
+					User: true
 				}
 			},
 			rounds: {
@@ -32,7 +73,15 @@ export const load: LayoutServerLoad = async ({ params, cookies }) => {
 									Bans: true,
 									Picks: true,
 									Wins: true,
-									Team: true
+									Team: {
+										include: {
+											Members: {
+												include: {
+													User: true
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -64,7 +113,15 @@ export const load: LayoutServerLoad = async ({ params, cookies }) => {
 											Bans: true,
 											Picks: true,
 											Wins: true,
-											Team: true
+											Team: {
+												include: {
+													Members: {
+														include: {
+															User: true
+														}
+													}
+												}
+											}
 										}
 									}
 								}
@@ -76,21 +133,14 @@ export const load: LayoutServerLoad = async ({ params, cookies }) => {
 		}
 	});
 
-	if (!tournament) {
-		throw error(StatusCodes.NOT_FOUND);
+	if (!tournamentRaw) {
+		throw error(StatusCodes.NOT_FOUND, 'Tournament not found.');
 	}
 
+	const tournament: db.FullyPopulatedTournament = tournamentRaw;
+
 	let editPerms = false;
-	const session = cookies.get('yagami_session');
-	const user = await prisma.user.findFirst({
-		where: {
-			Sessions: {
-				some: {
-					id: session
-				}
-			}
-		}
-	});
+	const user = locals.user;
 
 	let sessionUserTeam = null;
 

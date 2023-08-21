@@ -10,16 +10,19 @@
 	let { tournament } = data;
 </script>
 
+<svelte:head>
+	<title>Register for {tournament.name}</title>
+</svelte:head>
 
 {#if tournament.team_size == 1}
-	<TournamentPageTemplate {tournament} title="Register for {tournament.name}">
+	<TournamentPageTemplate {tournament}>
 		<section>
 			<h1>Registration</h1>
 
 			<p>{data.feedback}</p>
 
 			<TournamentHeaderButton url="/tournaments/{data.tournament.id}" text={'BACK'} />
-			<!-- TODO: Fix bug that this button doesn't refresh the tournament page, so it appears as if the player hasn't signed up yet (until the page is relaoded) -->
+			<!-- TODO: Fix bug that this button doesn't refresh the tournament page, so the player doesn't appear in the player list until the page is reloaded -->
 			<!-- Note: I tried using on:change(() => {invalidate...}) but it didn't work -->
 		</section>
 	</TournamentPageTemplate>

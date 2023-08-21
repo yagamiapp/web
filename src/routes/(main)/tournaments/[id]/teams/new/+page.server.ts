@@ -5,11 +5,16 @@ import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
 import { StatusCodes } from '$lib/StatusCodes';
 
-export const load: PageServerLoad = async ({ params, parent }) => {
-	const { tournament, user } = await parent();
+export const load: PageServerLoad = async ({ parent }) => {
+	const { tournament, user, editPerms } = await parent();
 	// If user isn't logged in
 	if (!user) {
 		throw error(StatusCodes.UNAUTHORIZED, 'You must log in with osu! to register.');
+	}
+
+	// Check if the user has staff permissions for this tournament
+	if (editPerms) {
+		throw error(StatusCodes.BAD_REQUEST, 'You can\'t sign up for your own tournament.');
 	}
 
 	// Check if this user is already in a team in this tournament
@@ -90,7 +95,6 @@ export const actions: Actions = {
 
 		try {
 			const result = await vine.validate({ schema, data });
-			console.log('Result: ' + result);
 
 			const team = await prisma.team.create({
 				data: {
@@ -99,7 +103,7 @@ export const actions: Actions = {
 					color: result.color,
 					Tournament: {
 						connect: {
-							id: parseInt(params.id)
+							id: Number(params.id)
 						}
 					},
 					Members: {
@@ -125,7 +129,6 @@ export const actions: Actions = {
 	},
 
 	accept_invite: async ({ locals, request, params }) => {
-		// TODO: accepts this invite and deletes all others related to this tournament and this user
 		const formData = await request.formData();
 		const teamId = String(formData.get('team_id'));
 
@@ -218,7 +221,7 @@ export const actions: Actions = {
 			return fail(StatusCodes.NOT_ACCEPTABLE, { message: 'Invalid team ID somehow.' });
 		}
 
-		const deleteInvite = await prisma.teamInvite.delete({
+		await prisma.teamInvite.delete({
 			where: {
 				inviteeUserId_teamId: {
 					inviteeUserId: locals.user.id,

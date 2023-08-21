@@ -1,12 +1,6 @@
 <script lang="ts">
 	import Default from '$lib/assets/icons/white.svg';
-
-    export let title: string;
 </script>
-
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
 
 <div class="centre_narrow">
     <section id="home" />

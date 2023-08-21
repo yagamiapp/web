@@ -1,8 +1,10 @@
 <script lang="ts">
+	import HexSimpleColorPicker from '$lib/components/common/HexSimpleColorPicker.svelte';
 	import ToggleSwitch from '$lib/components/common/ToggleSwitch.svelte';
-
+	import { fade } from 'svelte/transition';
+	
 	export let name: string;
-	export let label: string;
+	export let label: string = '';
 	export let value: any;
 	export let errors: { message: string; rule: string; field: string }[];
 	export let type: string;
@@ -48,12 +50,25 @@
 		offColor="var(--bg3)"
 		handleColor="var(--font-color)"
 	/>
-	
-	<!-- TODO: color -->
+
+{:else if type == 'color'}
+
+	<div class="color-picker">
+		<HexSimpleColorPicker bind:hex={value} />
+	</div>
+	<input type="hidden" {name} bind:value />
+
 {/if}
 
-<span class:modified={value !== original} />
-<span class:error>* {error?.message}</span><br />
+{#if value !== original}
+	<span class="modified" transition:fade={{ duration: 150 }} />
+{/if}
+
+{#if error}
+	<span class="error">* {error?.message}</span>
+{/if}
+
+<br />
 
 <style>
 	label,
@@ -98,11 +113,12 @@
 	select:focus {
 		border: solid 2px var(--tournament-color);
 	}
-	span {
-		visibility: hidden;
+	.color-picker {
+		margin: 0.4rem 2rem;
+		width: fit-content;
+		display: inline-block;
 	}
 	.modified {
-		visibility: visible;
 		display: inline-block;
 		margin-bottom: 6px;
 		margin-left: 0.4rem;
@@ -111,10 +127,8 @@
 		border-radius: 2px;
 		background-color: aquamarine;
 		box-shadow: 0 0 3px 3px aquamarine;
-		transition: visibility 200ms ease;
 	}
 	.error {
-		visibility: visible;
 		color: tomato;
 	}
 </style>

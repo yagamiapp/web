@@ -21,7 +21,7 @@
 	// (use:enhance)
 </script>
 
-<TournamentPageTemplate {tournament} title="Registering for {tournament.name}">
+<TournamentPageTemplate {tournament}>
 	<div slot="top">
 		<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
 	</div>
@@ -38,9 +38,14 @@
 				type="text"
 			/>
 	
-			<!-- TODO: team color -->
-			<input type="hidden" name="color" value={color} />
-	
+			<EditPageSetting
+				name="color"
+				label="Team Color"
+				value={color}
+				errors={form?.messages}
+				type="color"
+			/>
+			
 			<button type="submit">Create Team</button>
 		</form>
 	</section>

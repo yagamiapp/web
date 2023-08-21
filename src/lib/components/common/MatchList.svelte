@@ -5,7 +5,7 @@
 	export let matches: (Match & {
 		Teams: db.TeamInMatchWithMaps[];
 	})[] = [];
-	export let teamInMatches: db.TeamInMatchWithMaps[] = [];
+	export let teamInMatches: db.TeamInMatchWithMatch[] = [];
 
 	if (teamInMatches) {
 		for (const teamInMatch of teamInMatches) {

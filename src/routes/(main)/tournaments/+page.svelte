@@ -6,7 +6,11 @@
 	let { tournaments } = data;
 </script>
 
-<CentreNarrowPanel title="Tournaments">
+<svelte:head>
+	<title>Tournaments</title>
+</svelte:head>
+
+<CentreNarrowPanel>
 
 	<h1>Tournaments</h1>
 	<ul>

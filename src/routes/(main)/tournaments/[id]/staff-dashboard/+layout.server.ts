@@ -1,13 +1,12 @@
-import { fail } from "@sveltejs/kit";
-import type { LayoutServerData } from "./$types";
+import { error } from "@sveltejs/kit";
+import type { LayoutServerLoad } from "./$types";
 import { StatusCodes } from "$lib/StatusCodes";
 
-export const load: LayoutServerData = async ({ parent }) => {
+export const load: LayoutServerLoad = async ({ parent }) => {
     const { tournament, editPerms, user } = await parent();
 
     if (!editPerms) {
-        // TODO: fail is always returning a 500?
-        throw fail(StatusCodes.UNAUTHORIZED, { message: "You do not have permission to access this page."})
+        throw error(StatusCodes.UNAUTHORIZED, 'You do not have permission to access this page.');
     }
 
     return { tournament, user };

@@ -33,7 +33,11 @@
 	}
 </script>
 
-<CentreNarrowPanel title="Edit Tournament" --tournament-color={data.tournament.color}>
+<svelte:head>
+	<title>Edit Tournament - {name}</title>
+</svelte:head>
+
+<CentreNarrowPanel --tournament-color={data.tournament.color}>
 
 	<div slot="top">
 		<Button url="/tournaments/{id}" text="TOURNAMENT PAGE" />
@@ -58,15 +62,12 @@
 			type="text"
 		/>
 
-		<!-- TODO: color picker -->
-		<!-- <label for="color">Theme Colour</label>
-		<input bind:value={color} name="color" type="color" /><br> -->
 		<EditPageSetting
 			name={Str({ color })}
 			label="Theme Colour"
 			value={color}
 			errors={form?.messages}
-			type="text"
+			type="color"
 		/>
 
 		<EditPageSetting
@@ -179,20 +180,6 @@
 		background-color: rgba(0, 0, 0, 0);
 	}
 
-	button {
-		color: var(--font-color);
-		outline: none;
-
-		font-family: inherit;
-		font-size: inherit;
-
-		border: solid 2px var(--font-color);
-		border-radius: 6px;
-		padding: 5px;
-		margin-bottom: 2rem;
-		transition: border-color 200ms ease;
-		background-color: var(--bg1);
-	}
 	#save_changes {
 		margin-left: 70%;
 		font-size: 22px;

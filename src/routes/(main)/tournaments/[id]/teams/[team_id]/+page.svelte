@@ -5,6 +5,7 @@
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import MatchList from '$lib/components/common/MatchList.svelte';
 	import type { PageServerData, ActionData, LayoutServerData } from './$types';
+	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
 
 	export let data: PageServerData & LayoutServerData;
 	export let form: ActionData;
@@ -20,7 +21,11 @@
 	}
 </script>
 
-<TournamentPageTemplate {tournament} title="{name} - {tournament.name}">
+<svelte:head>
+	<title>{name} - {tournament.name}</title>
+</svelte:head>
+
+<TournamentPageTemplate {tournament}>
 	<div slot="top">
 		<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
 	</div>
@@ -57,6 +62,24 @@
 			<h1>Team Settings</h1>
 
 			<!-- TODO: Add team color picker, team name change -->
+			<form id="team_settings" method="POST" action="?/update_team">
+				<EditPageSetting
+					name="name"
+					label="Team Name"
+					value={name}
+					errors={form?.messages}
+					type="text"
+				/>
+				<EditPageSetting
+					name="color"
+					label="Team Color"
+					value={color}
+					errors={form?.messages}
+					type="color"
+				/>
+				<!-- TODO: fix z-index of color picker (< z-index of next session)-->
+				<button type="submit">Update Team</button>
+			</form>
 
 			{#if tournament.allow_registrations}
 				<form id="unregister" method="POST" action="?/unregister">

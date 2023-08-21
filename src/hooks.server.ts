@@ -8,9 +8,9 @@ const detector = new DeviceDetector();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('yagami_session');
-
+	
 	if (!sessionId) return await resolve(event);
-
+	
 	const user = await prisma.user.findFirst({
 		where: {
 			Sessions: {
@@ -20,17 +20,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 			}
 		}
 	});
-
+	
 	if (!user) {
 		event.cookies.delete('yagami_session', { path: '/' });
 		return await resolve(event);
 	}
-
+	
 	event.locals.user = user;
-
+	
 	const userAgent = event.request.headers.get('user-agent') ?? '';
 	const result = detector.detect(userAgent);
-
+	
 	await prisma.userSession.update({
 		where: {
 			id: sessionId
@@ -42,7 +42,58 @@ export const handle: Handle = async ({ event, resolve }) => {
 			lastUsed: new Date()
 		}
 	});
+	
+	// Add user permissions to locals based on tournament being viewed.
+	// TODO: expand in the future for more permissions, e.g. pooling, referee, etc
 
+	// Default permissions
+	const perms: App.Perms = {
+		edit: false,
+		playing: false
+	}
+
+	const tournamentId = event.params.id ?? null;
+	if (tournamentId) {
+		const tournament = await prisma.tournament.findUnique({
+			where: {
+				id: parseInt(tournamentId)
+			},
+			include: {
+				Hosts: {
+					select: {
+						userId: true
+					}
+				},
+				Teams: {
+					include: {
+						Members: {
+							select: {
+								osuId: true
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		if (tournament) {
+			// Check if user is a host
+			const hostIds = tournament.Hosts.map((x) => x.userId);
+			if (hostIds.includes(user.id)) {
+				perms.edit = true;
+			}
+
+			// Check if user is playing in tournament
+			const players = tournament.Teams.map((team) => team.Members.map((player) => player.osuId));
+			if (players.find((playerIds) => playerIds.includes(user.id))) {
+				perms.playing = true;
+			}
+		}
+	}
+
+	event.locals.perms = perms;
+	// TODO: Update existing permission checks to use this instead
+	
 	return await resolve(event);
 };
 
