@@ -16,9 +16,6 @@
 	let { tournament } = data;
 	let { color } = tournament;
 	let team_name: string;
-
-	// TODO: After submission, reveal a team invites panel, instead of redirecting to the team page
-	// (use:enhance)
 </script>
 
 <TournamentPageTemplate {tournament}>

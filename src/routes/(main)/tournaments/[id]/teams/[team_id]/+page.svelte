@@ -61,7 +61,6 @@
 		<section class="settings">
 			<h1>Team Settings</h1>
 
-			<!-- TODO: Add team color picker, team name change -->
 			<form id="team_settings" method="POST" action="?/update_team">
 				<EditPageSetting
 					name="name"
@@ -77,7 +76,6 @@
 					errors={form?.messages}
 					type="color"
 				/>
-				<!-- TODO: fix z-index of color picker (< z-index of next session)-->
 				<button type="submit">Update Team</button>
 			</form>
 

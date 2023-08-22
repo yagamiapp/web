@@ -44,10 +44,8 @@ export const actions: Actions = {
 			private: vine.boolean()
 		});
 
-		// TODO: If the color is being updated, change all the teams with default (tournament) color to match
 
 		try {
-			// TODO: use vine's SimpleMessageProvider to refine error feedback (also do the same in teams/[team_id]/+page.server.ts)
 			const result = await vine.validate({ schema, data });
 
 			// Yeah this should probably validate if the data is staying the same before

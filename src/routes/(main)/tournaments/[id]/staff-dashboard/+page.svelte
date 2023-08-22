@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Dashboard from '$lib/components/tournament-page/staff/StaffSidebar.svelte';
 	import type { LayoutServerData } from '../$types';
 
     export let data: LayoutServerData;

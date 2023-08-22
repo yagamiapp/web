@@ -50,7 +50,7 @@
 				/>
 			</svg>
 		</div>
-		<div class="title">YAGAMI</div> <!-- TODO: Change this text to match the colours of the hoem page logo (idk how to or if you can use gradients) -->
+		<div class="title">YAGAMI</div>
 		{#if data.user}
 			<UserCard user={data.user} />
 		{:else}

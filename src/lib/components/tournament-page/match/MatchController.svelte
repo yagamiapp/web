@@ -111,7 +111,6 @@
     <div id="match-settings">
         
         {#if selectedMatch}
-            <!-- TODO: Match settings -->
             <h1>Match {selectedMatch.id}</h1>
         {:else}
             {#if teamsSelected}
@@ -211,6 +210,4 @@
         padding: 0.4rem;
         text-align: center;
     }
-
-    /* TODO: Style buttons and drop down list (do in a parent component?) */
 </style>

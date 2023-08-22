@@ -51,7 +51,6 @@ export const actions: Actions = {
 
 		if (!user) {
 			// Fetch player from osu!api
-			// TODO: Make the fetch dependent on the gamemode of the tournament (not always just 'osu')?
 			const osuResponse = await fetch(`https://osu.ppy.sh/api/v2/users/${playerId}/osu`);
 			const userData = await osuResponse.json();
 
@@ -236,7 +235,6 @@ export const actions: Actions = {
 	},
 
 	update_team: async ({ request, params }) => {
-		// TODO: Validate local user is team captain?
 		const data = parseFormData(await request.formData());
 		const schema = vine.object({
 			name: vine.string(),

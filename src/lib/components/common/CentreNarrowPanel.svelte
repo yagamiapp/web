@@ -58,7 +58,6 @@
         /* Relative positioning allows absolute positioning of child elements */
         position: relative;
         padding: 20px;
-        z-index: 1;
     }
     .wrap :global(section:nth-child(2n)) {
         background-color: var(--bg2);

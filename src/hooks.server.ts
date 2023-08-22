@@ -44,7 +44,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 	
 	// Add user permissions to locals based on tournament being viewed.
-	// TODO: expand in the future for more permissions, e.g. pooling, referee, etc
 
 	// Default permissions
 	const perms: App.Perms = {
@@ -92,7 +91,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	event.locals.perms = perms;
-	// TODO: Update existing permission checks to use this instead
 	
 	return await resolve(event);
 };
@@ -146,16 +144,6 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 				}
 
 				const updatedToken = await refreshResponse.json();
-				// TODO: Fix 'The authorization grant type is not supported by the authorization server.' error
-				/* Full erroneous response: 
-				{
-					error: 'unsupported_grant_type',
-					error_description: 'The authorization grant type is not supported by the authorization server.',
-					hint: 'Check that all required parameters have been provided',
-					message: 'The authorization grant type is not supported by the authorization server.'
-				} 
-				*/
-				// Searching for players by username in a team page/team invites section is an easy way to test.
 				if (refreshResponse.ok) {
 					OsuToken = await prisma.osuOauth.update({
 						where: {
