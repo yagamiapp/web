@@ -14,7 +14,8 @@
     // Filter teams to only include those not scheduled for their next match
     for (const round of rounds) {
         for (const match of round.Match) {
-            if (match.state === MatchStates.NOT_STARTED) {
+            // The teams are removed if the match isn't finished
+            if (match.state !== MatchStates.ARCHIVED && match.state !== MatchStates.MATCH_CLOSED) {
                 for (const teamInMatch of match.Teams) {
                     // Remove this team from the teams list
                     const index = teams.findIndex((team) => team.id == teamInMatch.Team.id);
