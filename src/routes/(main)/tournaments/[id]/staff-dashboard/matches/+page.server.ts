@@ -104,6 +104,33 @@ export const actions: Actions = {
             status: StatusCodes.INTERNAL_SERVER_ERROR, 
             message: "Failed to create match. Try again later." 
         };
+    },
+
+    update_match: async ({ request }) => {
+        const formData = parseFormData(await request.formData());
+        const matchId = parseInt(String(formData.match_id));
+        const roundId = parseInt(String(formData.rounds));
+
+        // Update match record
+        await prisma.match.update({
+            where: {
+                id: matchId
+            },
+            data: {
+                roundId: roundId
+            }
+        });
+    },
+
+    delete_match: async ({ request }) => {
+        const matchId = parseInt(String((await request.formData()).get('match_id')));
+
+        // Delete match record
+        await prisma.match.delete({
+            where: {
+                id: matchId
+            }
+        });
     }
 }
 

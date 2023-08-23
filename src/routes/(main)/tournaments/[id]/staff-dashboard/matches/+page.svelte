@@ -10,7 +10,7 @@
     let { tournamentName, teams, rounds } = data;
     let selectedMatch: db.MatchWithTeams | undefined = undefined;
 
-    function onDrop(updatedTeams: db.TeamWithMembers[]) {
+    function onDrop(updatedTeams: db.TeamWithMembersAndMatches[]) {
         teams = updatedTeams;
     }
 
@@ -29,42 +29,45 @@
     <title>Matches - Staff View - {tournamentName}</title>
 </svelte:head>
 
-<div class="matches">
-    <h1>Matches</h1>
+<div class="wrapper">
+    <div class="matches">
+        <h1>Matches</h1>
 
-    <div class="match-list">
-        {#key rounds}
-            {#each rounds as round (round.id)}
-                <div class="round">
-                    <h2>{round.name}</h2>
-                    {#each round.Match as match}
-                        <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
-                            on:select={() => selectedMatch = match}/>
-                    {/each}
-                </div>
-            {/each}
-        {/key}
+        <div class="match-list">
+            {#key rounds}
+                {#each rounds as round (round.id)}
+                    <div class="round">
+                        <h2>{round.name}</h2>
+                        {#each round.Match as match}
+                            <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
+                                on:select={() => selectedMatch = match}/>
+                        {/each}
+                    </div>
+                {/each}
+            {/key}
+        </div>
+
+        <MatchController {rounds} {form} bind:selectedMatch />
     </div>
 
-    <MatchController {rounds} {form} bind:selectedMatch />
-</div>
+    <div class="idle-teams">
+        <h1>Idle Teams</h1>
 
-<div class="idle-teams">
-    <h1>Idle Teams</h1>
-
-    <div class="team-list">
-        <List itemsData={teams} itemComponent={DraggableTeam} {onDrop} 
-            dropTargetStyle={{
-                'border': '0.2rem dashed yellow',
-                'border-radius': '0.3rem',
-                'padding': '0.3rem'
-            }}
-        />
+        <div class="team-list">
+            <List itemsData={teams} itemComponent={DraggableTeam} {onDrop} 
+                dropTargetStyle={{
+                    'border': '0.2rem dashed yellow',
+                    'border-radius': '0.3rem',
+                    'padding': '0.3rem'
+                }}
+            />
+        </div>
     </div>
 </div>
 
 <style>
-    :global(main) {
+    .wrapper {
+        margin: 0;
         display: flex;
         flex-direction: row;
         justify-content: stretch;

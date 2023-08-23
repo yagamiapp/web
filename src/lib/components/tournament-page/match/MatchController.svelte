@@ -5,6 +5,7 @@
 	import type { Match, Round, Team, TeamInMatch } from "@prisma/client";
 	import type { ActionData } from "../../../../routes/(main)/tournaments/[id]/staff-dashboard/matches/$types";
 	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
+	import MatchSettings from "$lib/components/tournament-page/match/MatchSettings.svelte";
     
     export let rounds: db.RoundWithEverything[] = [];
     export let form: ActionData;
@@ -111,7 +112,7 @@
     <div id="match-settings">
         
         {#if selectedMatch}
-            <h1>Match {selectedMatch.id}</h1>
+            <MatchSettings match={selectedMatch} {rounds} />
         {:else}
             {#if teamsSelected}
                 {#if matchSelectionSuggestions.length == 0}
