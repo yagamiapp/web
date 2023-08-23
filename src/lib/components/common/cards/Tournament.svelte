@@ -8,7 +8,7 @@
 	$: score_mode = scoreModeEnum[tournament.score_mode];
 </script>
 
-<a class="tournament" href="/t/{tournament.id}">
+<a class="tournament" href="/tournaments/{tournament.id}">
 	<div class="bg-wrap">
 		<img src={tournament.banner_url} alt="mappool" />
 	</div>
@@ -17,6 +17,7 @@
 			{tournament.x_v_x_mode}V{tournament.x_v_x_mode}, {score_mode}
 		</div>
 	</div>
+	<img class="icon" src={tournament.icon_url} alt="icon" />
 	<div class="name">
 		{tournament.name}
 	</div>
@@ -61,17 +62,19 @@
 	.bg-wrap img {
 		width: 410px;
 		transform: scale(1);
-		filter: brightness(0.5) blur(2px);
+		filter: brightness(0.5);
 		transition: 0.3s ease-in-out;
 	}
-	.tournament:hover img {
-		filter: brightness(0.4) blur(5px);
-		transform: scale(1.2);
-		animation: breathe 5s ease-out;
-	}
-	.tournament:hover .name {
-		padding-left: 30px;
-		animation: slide 0.3s ease 0s;
+	.icon {
+		position: absolute;
+		width: 75px;
+		height: 75px;
+		bottom: 10px;
+		right: 10px;
+		transform-origin: 100% 100%;
+		transition: transform 0.5s ease;
+		border-radius: 10px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 	}
 	.name {
 		display: flex;
@@ -90,6 +93,14 @@
 		color: #aaaaaa;
 		font-size: 14px;
 	}
+	.tournament:hover .bg-wrap img {
+		filter: brightness(0.4) blur(5px);
+		transform: scale(1.2);
+		animation: breathe 5s ease-out;
+	}
+	.tournament:hover .icon {
+		transform: scale(1.1);
+	}
 	@keyframes breathe {
 		0% {
 			transform: scale(1);
@@ -99,14 +110,6 @@
 		}
 		100% {
 			transform: scale(1.2);
-		}
-	}
-	@keyframes slide {
-		0% {
-			padding-left: 10px;
-		}
-		100% {
-			padding-left: 30px;
 		}
 	}
 </style>
