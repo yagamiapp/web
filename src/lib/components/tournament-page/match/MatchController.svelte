@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { enhance, type SubmitFunction } from "$app/forms";
     import List from "$lib/components/common/drag-and-drop/List.svelte";
 	import DraggableTeam from "$lib/components/tournament-page/match/DraggableTeam.svelte";
 	import type { Match, Round, Team, TeamInMatch } from "@prisma/client";
 	import type { ActionData } from "../../../../routes/(main)/tournaments/[id]/staff-dashboard/matches/$types";
-	import LoadingSpinner from "$lib/components/common/LoadingSpinner.svelte";
 	import MatchSettings from "$lib/components/tournament-page/match/MatchSettings.svelte";
     
     export let rounds: db.RoundWithEverything[] = [];
@@ -31,14 +29,14 @@
     
     function team1Drop (updatedTeams: Team[]) {
         team1 = updatedTeams;
-        updateSelectedMatch();
+        updateMatchSuggestions();
     }
     function team2Drop (updatedTeams: Team[]) {
         team2 = updatedTeams;
-        updateSelectedMatch();
+        updateMatchSuggestions();
     }
     
-    function updateSelectedMatch() {
+    function updateMatchSuggestions() {
         if (team1.length == 1 && team2.length == 1) {
             teamsSelected = true;
             
@@ -53,24 +51,11 @@
                     }
                 });
             });
-
-            console.log(matchSelectionSuggestions);
-            if (matchSelectionSuggestions.length > 0) {
-            }
         }
         else {
             teamsSelected = false;
             matchSelectionSuggestions = [];
             selectedMatch = undefined;
-        }
-    }
-
-    let loading = false;
-    const matchCreated: SubmitFunction = async () => {
-        loading = true;
-        return async ({ update, result }) => {
-            await update();
-            loading = false;
         }
     }
 </script>
@@ -112,14 +97,16 @@
     <div id="match-settings">
         
         {#if selectedMatch}
-            <MatchSettings match={selectedMatch} {rounds} />
+            <MatchSettings match={selectedMatch} {rounds}
+                on:clear={() => { team1 = []; team2 = []; updateMatchSuggestions() }} 
+            />
         {:else}
             {#if teamsSelected}
                 {#if matchSelectionSuggestions.length == 0}
                     <p>No match exists for this matchup.</p>
                 {:else}
                     <p>Select a match or create a new match:
-                    {#each matchSelectionSuggestions as match}
+                    {#each matchSelectionSuggestions as match (match.id)}
                         <br><button on:click={() => selectedMatch = match}>
                             Match {match.id} ({rounds.find((round) => round.id == match.roundId)?.acronym})
                         </button>
@@ -129,19 +116,15 @@
                 
                 {#if rounds.length > 0}
 
-                    {#if loading}
-                        <LoadingSpinner scale={0.3} />
-                    {:else}
-                        <form method="POST" action="?/create_match" use:enhance={matchCreated}>
-                            <button name="matchup_id" type="submit" value="{team1[0].id}vs{team2[0].id}">Create New Match</button>
-                            <label for="rounds">for round: </label>
-                            <select name="rounds" required>
-                                {#each rounds as round}
-                                    <option value={round.id}>{round.name}</option>
-                                {/each}
-                            </select>
-                        </form>
-                    {/if}
+                    <form method="POST" action="?/create_match">
+                        <button name="matchup_id" type="submit" value="{team1[0].id}vs{team2[0].id}">Create New Match</button>
+                        <label for="rounds">for round: </label>
+                        <select name="rounds" required>
+                            {#each rounds as round}
+                                <option value={round.id}>{round.name}</option>
+                            {/each}
+                        </select>
+                    </form>
 
                     {#if form?.status == 500}
                         <p class="error">{form.message}</p>

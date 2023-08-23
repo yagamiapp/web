@@ -1,5 +1,7 @@
 <script lang="ts">
     import { matchStates, MatchStates } from "$lib/MatchStates";
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
 
     export let match: db.MatchWithTeams;
     export let rounds: db.RoundWithEverything[];
@@ -22,6 +24,7 @@
         <p>
             <button type="submit">Update</button>
             <button type="submit" formaction="?/delete_match">Delete</button>
+            <button type="button" on:click={() => { dispatch('clear') }}>Clear</button>
         </p>
     </form>
 {/if}

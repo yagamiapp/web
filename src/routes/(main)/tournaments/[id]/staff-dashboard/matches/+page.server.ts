@@ -6,8 +6,7 @@ import { MatchStates } from '$lib/MatchStates';
 import { StatusCodes } from '$lib/StatusCodes';
 import { parseFormData } from 'parse-nested-form-data';
 
-export const load: PageServerLoad = async ({ parent, depends }) => {
-    depends('rounds');
+export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const tournament: db.FullyPopulatedTournament = parentData.tournament;
 

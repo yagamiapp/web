@@ -4,23 +4,34 @@
 	import MatchController from "$lib/components/tournament-page/match/MatchController.svelte";
     import type { ActionData, PageServerData } from "./$types";
 	import CompactMatchCard from "$lib/components/tournament-page/match/CompactMatchCard.svelte";
+	import { MatchStates } from "$lib/MatchStates";
 
     export let data: PageServerData;
     export let form: ActionData;
     let { tournamentName, teams, rounds } = data;
     let selectedMatch: db.MatchWithTeams | undefined = undefined;
 
+    // Filter teams to only include those not scheduled for their next match
+    for (const round of rounds) {
+        for (const match of round.Match) {
+            if (match.state === MatchStates.NOT_STARTED) {
+                for (const teamInMatch of match.Teams) {
+                    // Remove this team from the teams list
+                    const index = teams.findIndex((team) => team.id == teamInMatch.Team.id);
+                    if (index != -1) {
+                        teams.splice(index, 1);
+                    }
+                }
+            }
+        }
+    }
+
     function onDrop(updatedTeams: db.TeamWithMembersAndMatches[]) {
         teams = updatedTeams;
     }
 
-    $: if (form?.status == 200) {
+    if (form?.status == 200) {
         selectedMatch = form.match;
-
-        // Update round match list
-        if (selectedMatch != undefined) {
-            rounds.find((round) => round.id == selectedMatch?.roundId)?.Match.push(selectedMatch);
-        }
     }
 
 </script>
@@ -38,7 +49,7 @@
                 {#each rounds as round (round.id)}
                     <div class="round">
                         <h2>{round.name}</h2>
-                        {#each round.Match as match}
+                        {#each round.Match as match (match.id)}
                             <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
                                 on:select={() => selectedMatch = match}/>
                         {/each}
