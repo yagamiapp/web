@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import CentreNarrowPanel from '$lib/components/common/CentreNarrowPanel.svelte';
 	import Tournament from '$lib/components/common/cards/Tournament.svelte';
+	import type { PageServerData } from './$types';
 
-	export let data;
+	export let data: PageServerData;
 
 	let { tournaments } = data;
 </script>
