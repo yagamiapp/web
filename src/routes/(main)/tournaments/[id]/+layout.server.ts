@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
 import { StatusCodes } from '$lib/StatusCodes';
-import prisma from '../../../../lib/prisma';
+import prisma from '$lib/prisma';
 import { error } from '@sveltejs/kit';
 
 export const prerender = 'auto';
@@ -139,24 +139,15 @@ export const load: LayoutServerLoad = async ({ params, locals }) => {
 
 	const tournament: db.FullyPopulatedTournament = tournamentRaw;
 
-	let editPerms = false;
 	const user = locals.user;
 
-	let sessionUserTeam = null;
-
-	if (!user) {
-		return { tournament, editPerms, sessionUserTeam };
+	// Get the session user's team (only if logged in and playing in tournament)
+	let sessionUserTeam = undefined;
+	if (user && locals.perms.playing) {
+		sessionUserTeam = tournament.Teams?.find((team) =>
+			team.Members.find((member) => member.osuId === user.id)
+		);
 	}
 
-	// Get the session user's team
-	sessionUserTeam = tournament.Teams?.find((team) =>
-		team.Members.find((member) => member.osuId === user.id)
-	);
-
-	const hosts = tournament.Hosts.map((x) => x.userId);
-	if (hosts.includes(user.id)) {
-		editPerms = true;
-	}
-
-	return { tournament, editPerms, sessionUserTeam };
+	return { tournament, perms: locals.perms, sessionUserTeam };
 }

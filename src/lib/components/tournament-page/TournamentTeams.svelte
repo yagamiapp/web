@@ -5,7 +5,7 @@
 
 	export let tournament: db.FullyPopulatedTournament;
 	export let editPerms: boolean;
-	export let sessionUserTeam: db.TeamWithMembers | null;
+	export let sessionUserTeam: db.TeamWithMembers | undefined;
 	let { team_size, Teams } = tournament;
 </script>
 

@@ -10,7 +10,7 @@
     let { tournamentName, teams, rounds } = data;
     let selectedMatch: db.MatchWithTeams | undefined = undefined;
 
-    function onDrop(updatedTeams: db.TeamWithMembers[]) {
+    function onDrop(updatedTeams: db.TeamWithMembersAndMatches[]) {
         teams = updatedTeams;
     }
 
