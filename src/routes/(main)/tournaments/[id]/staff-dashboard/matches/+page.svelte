@@ -5,11 +5,13 @@
     import type { ActionData, PageServerData } from "./$types";
 	import CompactMatchCard from "$lib/components/tournament-page/match/CompactMatchCard.svelte";
 	import { MatchStates } from "$lib/MatchStates";
+	import ToggleSwitch from "$lib/components/common/ToggleSwitch.svelte";
 
     export let data: PageServerData;
     export let form: ActionData;
-    let { tournamentName, teams, rounds } = data;
+    let { tournamentName, tournamentColor, teams, rounds } = data;
     let selectedMatch: db.MatchWithTeams | undefined = undefined;
+    $: hideFinishedMatches = false;
 
     // Filter teams to only include those not scheduled for their next match
     for (const round of rounds) {
@@ -51,8 +53,10 @@
                     <div class="round">
                         <h2>{round.name}</h2>
                         {#each round.Match as match (match.id)}
-                            <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
-                                on:select={() => selectedMatch = match}/>
+                            {#if !( (match.state == MatchStates.ARCHIVED || match.state == MatchStates.MATCH_CLOSED) && hideFinishedMatches ) }
+                                <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
+                                    on:select={() => selectedMatch = match}/>
+                            {/if}
                         {/each}
                     </div>
                 {/each}
@@ -63,6 +67,18 @@
     </div>
 
     <div class="idle-teams">
+        <div id="hide-finished-matches">
+            <p>Hide finished matches: </p>
+            <ToggleSwitch 
+                onColor={tournamentColor}
+                handleColor="var(--bg4)"
+                on:check={({ detail }) => {
+                    hideFinishedMatches = detail;
+                }}
+                checked={hideFinishedMatches}
+            />
+        </div>
+
         <h1>Idle Teams</h1>
 
         <div class="team-list">
@@ -107,6 +123,19 @@
         width: 25%;
         background-color: var(--bg4);
     }
+
+    #hide-finished-matches {
+        margin-left: 3%;
+        margin-right: 3%;
+        background-color: var(--bg3);
+        width: 44%;
+        border-radius: 0.6rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .team-list {
         margin-left: 3%;
         margin-right: 3%;

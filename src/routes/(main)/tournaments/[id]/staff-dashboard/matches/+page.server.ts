@@ -17,6 +17,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
     return { 
         tournamentName: tournament.name, 
+        tournamentColor: tournament.color,
         teams, 
         rounds: tournament.rounds 
     };
