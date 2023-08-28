@@ -33,7 +33,6 @@
                 </td>
                 <td>
                     <form method="POST" action="?/search_map">
-                        <input name="mappool_id" type="hidden" value={slot.mappoolId} />
                         <input name="local_id" type="hidden" value={slot.identifier} />
                         <input name="id" type="number" value={slot.mapId} placeholder="Enter Map ID" />
                     </form>
@@ -44,5 +43,5 @@
 </table>
 
 <form method="POST" action="?/release_mappool">
-    <button type="submit" name="round_id" value={mappool.id} >Release Mappool</button>
+    <button type="submit">Release Mappool</button>
 </form>
