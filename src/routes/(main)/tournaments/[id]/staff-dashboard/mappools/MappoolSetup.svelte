@@ -1,6 +1,9 @@
 <script lang="ts">
+	import type { ActionData } from "./$types";
+
     // Whether mappool is null should be handled in parent component
     export let mappool: db.MappoolWithMaps;
+    export let form: ActionData;
 
     let maps: db.MapInPoolWithMap[] = mappool.Maps;
 </script>
@@ -19,14 +22,19 @@
                 <td>{slot.identifier}</td>
                 <td>
                     {#if slot.mapId}
-                        {slot.Map?.title}
+                        {slot.Map?.artist} - {slot.Map?.title}
                     {:else}
-                        No map selected...
+                        {#if form?.mapSearchError}
+                            {form.mapSearchError.message}
+                        {:else}
+                            No map selected...
+                        {/if}
                     {/if}
                 </td>
                 <td>
                     <form method="POST" action="?/search_map">
-                        <input name="map_in_pool_id" type="hidden" value="{slot.identifier}{slot.mappoolId}" />
+                        <input name="mappool_id" type="hidden" value={slot.mappoolId} />
+                        <input name="local_id" type="hidden" value={slot.identifier} />
                         <input name="id" type="number" value={slot.mapId} placeholder="Enter Map ID" />
                     </form>
                 </td>
@@ -34,3 +42,7 @@
         {/each}
     </tbody>
 </table>
+
+<form method="POST" action="?/release_mappool">
+    <button type="submit" name="round_id" value={mappool.id} >Release Mappool</button>
+</form>

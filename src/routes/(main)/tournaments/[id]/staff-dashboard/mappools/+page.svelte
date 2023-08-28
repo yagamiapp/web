@@ -120,7 +120,7 @@
             <h2>Mappool Setup</h2>
 
             {#if selectedRound.mappool}
-                <MappoolSetup mappool={selectedRound.mappool} />
+                <MappoolSetup mappool={selectedRound.mappool} {form} />
             {/if}
         </div>
     {/key}

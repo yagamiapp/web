@@ -270,6 +270,146 @@ export const actions: Actions = {
             message: 'Mappool generated.',
             roundId: roundId
         }
+    },
+
+    search_map: async ({ request, params }) => {
+        const formData = parseFormData(await request.formData());
+
+        // Create return error message object
+        const mapSearchError: { slot: string, message: string } = {
+            slot: String(formData.local_id),
+            message: ''
+        };
+
+        if (!formData.id) {
+            mapSearchError.message = 'No map ID provided.';
+            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        }
+
+        // Retrieve mappool
+        const mappool = await prisma.mappool.findUnique({
+            where: {
+                id: Number(formData.mappool_id)
+            },
+            select: {
+                Round: {
+                    select: {
+                        id: true,
+                        tournamentId: true
+                    }
+                }
+            }
+        });
+
+        // Validate mappool and round are linked/exist
+        // (it should not be possible for the mappool not to be linked to a round at this point)
+        if (!mappool?.Round) {
+            mapSearchError.message = 'Mappool not found.';
+            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        }
+
+        // Validate this mappool/round are from this tournament
+        if (mappool.Round.tournamentId != Number(params.id)) {
+            mapSearchError.message = 'Invalid mappool ID.';
+            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        }
+
+        const beatmapId = String(formData.id);
+        let beatmap;
+
+        // Lookup beatmap in DB
+        beatmap = await prisma.map.findUnique({
+            where: {
+                beatmap_id: beatmapId
+            }
+        });
+        // console.log(beatmap);
+        
+        if (!beatmap) {
+            // Lookup beatmap in osu!web API
+            // OMG the test DB data used v1 API lmao
+            // const apiResponse = await fetch('https://osu.ppy.sh/api/v2/beatmaps/' + formData.id);
+            // const beatmapData = await apiResponse.json();
+            
+            beatmap = await prisma.map.create({
+                data: {
+                    beatmap_id: beatmapId
+                }
+            });
+        }
+
+
+        // Connect beatmap to MapInPool
+        const mapInPool = await prisma.mapInPool.update({
+            where: {
+                identifier_mappoolId: {
+                    identifier: String(formData.local_id),
+                    mappoolId: Number(formData.mappool_id)
+                }
+            },
+            data: {
+                Map: {
+                    connect: {
+                        beatmap_id: beatmapId,
+                    }
+                }
+            }
+        });
+
+        if (!mapInPool) {
+            mapSearchError.message = 'Mappool slot not found.';
+            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        }
+
+        return {
+            status: StatusCodes.OK,
+            roundId: mappool.Round.id
+        }
+    },
+
+    release_mappool: async ({ request }) => {
+        const mappoolId = Number((await request.formData()).get('mappool_id'));
+
+        if (isNaN(mappoolId)) {
+            return fail(StatusCodes.BAD_REQUEST, {
+                message: 'Invalid mappool ID provided.'
+            });
+        }
+
+        const mappool = await prisma.mappool.findUnique({
+            where: {
+                id: mappoolId
+            },
+            select: {
+                Round: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
+        });
+
+        if (!mappool?.Round) {
+            return fail(StatusCodes.BAD_REQUEST, {
+                message: 'Mappool not found.'
+            });
+        }
+
+        const roundId = mappool.Round.id;
+
+        await prisma.round.update({
+            where: {
+                id: roundId
+            },
+            data: {
+                show_mappool: true
+            }
+        });
+
+        return {
+            status: StatusCodes.OK,
+            message: 'Mappool released.',
+        }
     }
 }
 
