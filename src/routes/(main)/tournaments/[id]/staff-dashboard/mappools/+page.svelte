@@ -12,38 +12,10 @@
     // Right now, rounds and mappools are 1:1, but in the future this should change
     // So the svelte code below should be switched to using mappool objects instead of round objects
     // when we do that
-    let selectedRound: db.RoundWithEverything | undefined = undefined;
+    let selectedRound: db.RoundWithEverything | undefined = rounds.find((r) => r.id == form?.roundId);
 
-    // Generate mappool format logic
-    // Unfortunately, this is completely client-side (resets on refresh unless mappool is released)
-    // In the future the format can be stored in the database so poolers can suggest maps for different slots
-    
     // List of local mappool IDs
     let mappoolSlots: string[] = [];
-
-    // const generateMappoolFormat = () => {
-    //     // Get number of slots per mod
-    //     let slotsPerMod: [string, number][] = [];
-    //     for (const mod of ModList) {
-    //         const nOfSlots = document.getElementById(mod)?.valueAsNumber;
-    //         if (nOfSlots) {
-    //             slotsPerMod.push([mod, nOfSlots]);
-    //         }
-    //     }
-
-    //     // Construct list of local IDs of maps in the mappool
-    //     let localIds: string[] = [];
-    //     for (const modPool of slotsPerMod) {
-    //         const modPoolName = modPool[0];
-    //         const nOfSlots = modPool[1];
-
-    //         for (let slot = 1; slot <= nOfSlots; slot++) {
-    //             localIds.push(modPoolName + slot);
-    //         }
-    //     }
-        
-    //     return localIds;
-    // };
 </script>
 
 <svelte:head>
@@ -139,6 +111,7 @@
                 </tbody>
             </table>
             <form id="generate-mappool" method="POST" action="?/generate_mappool">
+                <input name="round_id" value={selectedRound.id} type="hidden" />
                 <button>Generate Mappool Format</button>
             </form>
         </div>

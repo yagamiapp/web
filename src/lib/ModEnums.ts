@@ -35,3 +35,15 @@ export const ModNames: { [key: string]: string } = {
     [Mods.HT]: 'Half Time',
     [Mods.TB]: 'Tiebreaker'
 }
+
+export const ModInGameNames: { [key: string]: string } = {
+    [Mods.NM]: '',
+    [Mods.HD]: 'HD',
+    [Mods.HR]: 'HR',
+    [Mods.DT]: 'DT',
+    [Mods.FM]: 'Freemod',
+    [Mods.EZ]: 'EZ',
+    [Mods.FL]: 'FL',
+    [Mods.HT]: 'HT',
+    [Mods.TB]: 'Freemod'
+}

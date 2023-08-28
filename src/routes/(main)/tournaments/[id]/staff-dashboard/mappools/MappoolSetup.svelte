@@ -26,7 +26,7 @@
                 </td>
                 <td>
                     <form method="POST" action="?/search_map">
-                        <input name="db_id" type="hidden" value="{slot.identifier}{slot.mappoolId}" />
+                        <input name="map_in_pool_id" type="hidden" value="{slot.identifier}{slot.mappoolId}" />
                         <input name="id" type="number" value={slot.mapId} placeholder="Enter Map ID" />
                     </form>
                 </td>
