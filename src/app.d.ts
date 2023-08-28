@@ -31,11 +31,10 @@ declare global {
 		type TeamWithMembers = Team & { Members: UserInTeamWithUser[] };
 		type TeamWithMembersAndMatches = TeamWithMembers & { InBracketMatches: TeamInMatchWithMatch[] };
 		type MapInPoolWithMap = MapInPool & { Map: Map };
+		type MappoolWithMaps = Mappool & { Maps: MapInPoolWithMaps[] };
 		type RoundWithEverything = Round & {
 			Match: MatchWithTeams[];
-			mappool: (Mappool & {
-				Maps: MapInPoolWithMaps[];
-			}) | null;
+			mappool: MappoolWithMaps | null;
 		};
 		type FullyPopulatedTournament = Tournament & {
 			Hosts: HostWithUser[];
