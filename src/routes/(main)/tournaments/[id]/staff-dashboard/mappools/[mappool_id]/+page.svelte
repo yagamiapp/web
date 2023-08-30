@@ -3,15 +3,19 @@
 	import EditPageSetting from "$lib/components/tournament-page/edit-page/EditPageSetting.svelte";
 	import MappoolSetup from "./MappoolSetup.svelte";
 	import type { ActionData, PageData, PageServerData } from "./$types";
+	import MappoolFull from "$lib/components/common/cards/MappoolFull.svelte";
+	import { enhance } from "$app/forms";
 
     export let data: PageServerData & PageData;
     export let form: ActionData;
-    const { tournament, round } = data;
+    $: tournament = data.tournament;
+    $: round = data.round;
+    $: mappoolReleased = round.show_mappool;
 </script>
 
 {#key round}
     <div id="mappool-settings">
-        <form method="POST" action="?/update_mappool">
+        <form method="POST" action="?/update_mappool" use:enhance>
             <EditPageSetting
                 name="name"
                 label="Round/Mappool Name"
@@ -52,39 +56,51 @@
         </form>
     </div>
 
-    <div id="mappool-format-creator">
-        <h2>Mappool Format</h2>
-        <table id="mappool-format">
-            <thead>
-                <tr>
-                    <th>Mod</th>
-                    <th>Number of slots</th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each ModList as mod}
+    {#if !mappoolReleased}
+
+        <div id="mappool-format-creator">
+            <h2>Mappool Format</h2>
+            <table id="mappool-format">
+                <thead>
                     <tr>
-                        <td style="color: {ModColors[mod]}">
-                            {ModNames[mod]}
-                        </td>
-                        <td>
-                            <input name="{mod}" form="generate-mappool" type="number" value="0" />
-                        </td>
+                        <th>Mod</th>
+                        <th>Number of slots</th>
                     </tr>
-                {/each}
-            </tbody>
-        </table>
-        <form id="generate-mappool" method="POST" action="?/generate_mappool">
-            <input name="round_id" value={round.id} type="hidden" />
-            <button>Generate Mappool Format</button>
-        </form>
-    </div>
+                </thead>
+                <tbody>
+                    {#each ModList as mod}
+                        <tr>
+                            <td style="color: {ModColors[mod]}">
+                                {ModNames[mod]}
+                            </td>
+                            <td>
+                                <input name="{mod}" form="generate-mappool" type="number" value="0" />
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+            <form id="generate-mappool" method="POST" action="?/generate_mappool">
+                <button>Generate Mappool Format</button>
+            </form>
+        </div>
+    {/if}
 
-    <div id="mappool-final">
-        <h2>Mappool Setup</h2>
+    {#if round?.mappool?.Maps?.length}
+        <div id="mappool-final">
+            <h2>Mappool {!mappoolReleased ? "Setup" : ""}</h2>
 
-        {#if round.mappool}
-            <MappoolSetup mappool={round.mappool} {form} />
-        {/if}
-    </div>
+            {#if round.mappool}
+                <MappoolSetup mappool={round.mappool} locked={mappoolReleased} {form} />
+            {/if}
+
+            <form method="POST" action="?/release_mappool">
+                <button type="submit">{mappoolReleased ? "Unrelease" : "Release"} Mappool</button>
+                {#if form?.releasePoolResponse}
+                    {form.releasePoolResponse}
+                {/if}
+            </form>
+        </div>
+    {/if}
+
 {/key}

@@ -3,6 +3,7 @@ import prisma from "$lib/prisma";
 import { StatusCodes } from "$lib/StatusCodes";
 
 export const actions: Actions = {
+    // create_mappool
     create_mappool: async ({ params }) => {
         const tournamentId = parseInt(String(params.id));
 
@@ -40,7 +41,9 @@ export const actions: Actions = {
         });
 
         if (newRound) {
-            return redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${tournamentId}/staff-dashboard/mappools/${newRound.id}`);
+            throw redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${tournamentId}/staff-dashboard/mappools/${newRound.id}?/new_mappool`);
+            // This redirect always looks for an action on the redirected page for some reason.
+            // I can't figure out why or how to prevent it so it just calls to an empty action called ?/new_mappool for now
         }
 
         throw error(StatusCodes.INTERNAL_SERVER_ERROR, {

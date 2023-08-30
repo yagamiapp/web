@@ -2,8 +2,8 @@
     import type { PageData } from "./$types";
 
     export let data: PageData;
-    let { tournament } = data;
-    let { rounds } = tournament;
+    $: tournament = data.tournament;
+    $: rounds = tournament.rounds;
 </script>
 
 <svelte:head>
@@ -14,14 +14,16 @@
     <h1>Mappools</h1>
 
     <div id="mappool-nav">
-        {#each rounds as round (round.id)}
-            <a href="/tournaments/{tournament.id}/staff-dashboard/mappools/{round.id}">
-                <button>
-                    {round.name}
-                </button>
-            </a>
-        {/each}
-        <form method="POST" action="?/create_mappool">
+        {#key rounds}
+            {#each rounds as round (round.id)}
+                <a href="/tournaments/{tournament.id}/staff-dashboard/mappools/{round.id}">
+                    <button>
+                        {round.name}
+                    </button>
+                </a>
+            {/each}
+        {/key}
+        <form method="POST" action="/tournaments/{tournament.id}/staff-dashboard/mappools?/create_mappool">
             <button id="new-mappool">
                 +
             </button>

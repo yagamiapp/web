@@ -1,5 +1,5 @@
 import prisma from "$lib/prisma";
-import { error, type Actions, fail } from "@sveltejs/kit";
+import { error, type Actions, fail, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { StatusCodes } from "$lib/StatusCodes";
 import { parseFormData } from "parse-nested-form-data";
@@ -46,6 +46,10 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 
 export const actions: Actions = {
+    new_mappool: () => {
+        return {};
+    },
+
     delete_mappool: async ({ params }) => {
         const roundId = Number(params.mappool_id);
 
@@ -90,7 +94,9 @@ export const actions: Actions = {
             where: {
                 id: roundId
             }
-        })
+        });
+
+        throw redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${params.id}/staff-dashboard/mappools`);
     },
 
     update_mappool: async ({ request, params }) => {
@@ -214,7 +220,7 @@ export const actions: Actions = {
             }
         });
 
-        allMapsInPool.forEach(async mapInPool =>{
+        for (const mapInPool of allMapsInPool) {
             if (!mapIds.some(m => m == mapInPool.identifier)) {
                 await prisma.mapInPool.delete({
                     where: {
@@ -225,12 +231,11 @@ export const actions: Actions = {
                     }
                 });
             }
-        });
+        }
 
         return {
             status: StatusCodes.CREATED,
             message: 'Mappool generated.',
-            roundId: roundId
         }
     },
 
@@ -244,12 +249,14 @@ export const actions: Actions = {
             message: ''
         };
 
-        if (!isNaN(roundId)) {
+        if (isNaN(roundId)) {
             mapSearchError.message = 'No map ID provided.';
             return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
         }
 
         // Retrieve mappool ID through round
+        // This is slower than just having mappool ID in the form
+        // But this prevents a mappool not tied to the round from being edited
         const round = await prisma.round.findUnique({
             where: {
                 id: roundId
@@ -270,6 +277,12 @@ export const actions: Actions = {
         }
 
         const beatmapId = String(formData.id);
+
+        if (!beatmapId.match(/^\d+$/g)) {
+            mapSearchError.message = 'Invalid beatmap ID provided.';
+            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        }
+
         let beatmap;
 
         // Lookup beatmap in DB
@@ -291,7 +304,6 @@ export const actions: Actions = {
                 }
             });
         }
-
 
         // Connect beatmap to MapInPool
         const mapInPool = await prisma.mapInPool.update({
@@ -317,7 +329,6 @@ export const actions: Actions = {
 
         return {
             status: StatusCodes.OK,
-            roundId: roundId
         }
     },
 
@@ -326,22 +337,48 @@ export const actions: Actions = {
 
         if (isNaN(roundId) || !roundId) {
             return fail(StatusCodes.BAD_REQUEST, {
-                message: 'Invalid mappool ID provided.'
+                releasePoolError: 'Invalid mappool ID provided.'
             });
         }
 
+        // Validate all mappool slots have been filled
+        const round = await prisma.round.findUnique({
+            where: {
+                id: roundId
+            },
+            select: {
+                mappool: {
+                    select: {
+                        Maps: {
+                            select: {
+                                mapId: true
+                            }
+                        }
+                    }
+                },
+                show_mappool: true
+            }
+        });
+
+        if (!round || round.mappool?.Maps.some((map) => !map.mapId)) {
+            return fail(StatusCodes.BAD_REQUEST, {
+                releasePoolResponse: 'Mappool not completed.'
+            });
+        }
+
+        // Toggle show_mappool
         await prisma.round.update({
             where: {
                 id: roundId
             },
             data: {
-                show_mappool: true
+                show_mappool: !round.show_mappool
             }
         });
 
         return {
             status: StatusCodes.OK,
-            message: 'Mappool released.',
+            releasePoolResponse: !round.show_mappool ? 'Mappool released.' : 'Mappool unreleased.',
         }
     }
 }
