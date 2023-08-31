@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -23,7 +24,7 @@
                 </a>
             {/each}
         {/key}
-        <form method="POST" action="/tournaments/{tournament.id}/staff-dashboard/mappools?/create_mappool">
+        <form method="POST" action="/tournaments/{tournament.id}/staff-dashboard/mappools?/create_mappool" use:enhance>
             <button id="new-mappool">
                 +
             </button>

@@ -49,10 +49,6 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 
 export const actions: Actions = {
-    new_mappool: () => {
-        return {};
-    },
-
     delete_mappool: async ({ params }) => {
         const roundId = Number(params.mappool_id);
         if (isNaN(roundId) || !roundId) {
