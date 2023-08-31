@@ -5,23 +5,22 @@ import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
 import { StatusCodes } from '$lib/StatusCodes';
 
-export const load: PageServerLoad = async ({ parent }) => {
-	const { tournament, user, editPerms } = await parent();
+export const load: PageServerLoad = async ({ parent, locals }) => {
+	const { user, perms } = locals;
+	const { tournament } = await parent();
+
 	// If user isn't logged in
 	if (!user) {
 		throw error(StatusCodes.UNAUTHORIZED, 'You must log in with osu! to register.');
 	}
 
 	// Check if the user has staff permissions for this tournament
-	if (editPerms) {
+	if (perms.edit) {
 		throw error(StatusCodes.BAD_REQUEST, 'You can\'t sign up for your own tournament.');
 	}
 
 	// Check if this user is already in a team in this tournament
-	const isInTeam = tournament?.Teams?.find((team) =>
-		team.Members.some((member) => member.osuId === user?.id)
-	);
-	if (isInTeam) {
+	if (perms.playing) {
 		throw error(StatusCodes.BAD_REQUEST, 'You are already registered in this tournament.');
 	}
 

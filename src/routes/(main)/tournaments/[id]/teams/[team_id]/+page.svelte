@@ -4,21 +4,17 @@
 	import InvitePlayer from '$lib/components/tournament-page/team-page/InvitePlayer.svelte';
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import MatchList from '$lib/components/common/MatchList.svelte';
-	import type { PageServerData, ActionData, LayoutServerData } from './$types';
+	import type { PageServerData, ActionData, LayoutServerData, LayoutData } from './$types';
 	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
 
-	export let data: PageServerData & LayoutServerData;
+	export let data: PageServerData & LayoutServerData & LayoutData;
 	export let form: ActionData;
-	let { tournament, team, isTeamCaptain } = data;
+	let { tournament, team, isTeamCaptain, sessionUserTeam } = data;
+	let { team_size: maxTeamSize } = tournament;
 	let { name, Members, color, InBracketMatches } = team;
 
-	let inTeam: boolean = false;
-	function updateInTeam(memberId: number) {
-		if (memberId == data.user?.id) {
-			inTeam = true;
-		}
-		return '';
-	}
+	// Check if this team is the current user's team
+	let inTeam: boolean = (team.id == sessionUserTeam?.id);
 </script>
 
 <svelte:head>
@@ -32,19 +28,18 @@
 
 	<section class="team_header">
 		<h1>
-			{tournament.team_size == 1 ? 'Player: ' : 'Team: '}
+			{maxTeamSize == 1 ? 'Player: ' : 'Team: '}
 			{team.name}
 		</h1>
 	</section>
 
 	<section class="players">
-		{#if tournament.team_size != 1}
+		{#if maxTeamSize != 1}
 			<h1>Players</h1>
 		{/if}
 		<div class="player_cards">
 			{#each Members as member}
 				<User user={member.User} {color} />
-				{updateInTeam(member.User.id)}
 			{/each}
 		</div>
 		{#if inTeam && !isTeamCaptain}
@@ -62,13 +57,15 @@
 			<h1>Team Settings</h1>
 
 			<form id="team_settings" method="POST" action="?/update_team">
-				<EditPageSetting
-					name="name"
-					label="Team Name"
-					value={name}
-					errors={form?.messages}
-					type="text"
-				/>
+				{#if maxTeamSize != 1}
+					<EditPageSetting
+						name="name"
+						label="Team Name"
+						value={name}
+						errors={form?.messages}
+						type="text"
+					/>
+				{/if}
 				<EditPageSetting
 					name="color"
 					label="Team Color"
@@ -92,11 +89,11 @@
 			{/if}
 		</section>
 
-		{#if tournament.team_size != 1 && tournament.allow_registrations}
+		{#if maxTeamSize != 1 && tournament.allow_registrations}
 			<section class="invites">
 				<h1>Team Invites</h1>
 
-				{#if team.Members.length < tournament.team_size}
+				{#if team.Members.length < maxTeamSize}
 					<InvitePlayer {data} {form} />
 				{:else}
 					<p>Your team is full. You can't invite anymore players.</p>

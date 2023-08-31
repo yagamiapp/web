@@ -4,13 +4,11 @@
 	import Teams from '$lib/components/tournament-page/TournamentTeams.svelte';
 	import Matches from '$lib/components/tournament-page/TournamentMatches.svelte';
 	import Button from '$lib/components/common/LargeButton.svelte';
+	import type { LayoutServerData } from './$types';
 
-	export let data: {
-		tournament: db.FullyPopulatedTournament;
-		editPerms: boolean;
-		sessionUserTeam: db.TeamWithMembers | null;
-	};
-	let { tournament, editPerms, sessionUserTeam } = data;
+	export let data: LayoutServerData;
+	let { tournament, perms, sessionUserTeam } = data;
+	let editPerms = perms.edit;
 	let { name, acronym, id, color, team_size } = tournament;
 </script>
 

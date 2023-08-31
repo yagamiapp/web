@@ -5,15 +5,15 @@ import vine, { errors } from '@vinejs/vine';
 import { parseFormData } from 'parse-nested-form-data';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ parent }) => {
-	const { tournament, user } = await parent();
+export const load: PageServerLoad = async ({ parent, locals }) => {
+	const { user, perms } = locals;
+	const { tournament } = await parent();
 
 	if (!user) {
 		throw error(StatusCodes.UNAUTHORIZED, 'You are not signed in.');
 	}
 
-	const hosts = tournament.Hosts.map((x) => x.userId);
-	if (!hosts.includes(user.id)) {
+	if (!perms.edit) {
 		throw error(StatusCodes.UNAUTHORIZED, 'You do not have permission.');
 	}
 
@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 export const actions: Actions = {
 	save: async ({ locals, request, params }) => {
 		const tournamentId = parseInt(params.id ?? '-1');
-		if (!hasEditPermission(tournamentId, locals.user.id)) throw error(StatusCodes.UNAUTHORIZED);
+		if (locals.perms.edit) throw error(StatusCodes.UNAUTHORIZED);
 
 		const data = parseFormData(await request.formData());
 
@@ -67,22 +67,6 @@ export const actions: Actions = {
 			}
 		}
 	}
-};
-
-const hasEditPermission = async (tournament: number, user: number) => {
-	// Check edit permissions
-	const permissionCheck = await prisma.tournament.findFirst({
-		where: {
-			id: tournament,
-			Hosts: {
-				some: {
-					userId: user
-				}
-			}
-		}
-	});
-
-	return permissionCheck != null;
 };
 
 export const prerender = false;
