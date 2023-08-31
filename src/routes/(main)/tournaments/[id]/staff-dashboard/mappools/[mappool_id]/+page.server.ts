@@ -5,6 +5,9 @@ import { StatusCodes } from "$lib/StatusCodes";
 import { parseFormData } from "parse-nested-form-data";
 import vine, { errors } from "@vinejs/vine";
 import { ModInGameNames, ModList, Mods } from "$lib/ModEnums";
+import { deleteMappool } from "./ActionDeleteMapoool";
+import { assignMap } from "./ActionAssignMap";
+import { releaseMappool } from "./ActionReleaseMappool";
 
 export const load: PageServerLoad = async ({ params, parent }) => {
     // Because rounds and mappools are 1:1 for now, retrieve the round data
@@ -52,56 +55,25 @@ export const actions: Actions = {
 
     delete_mappool: async ({ params }) => {
         const roundId = Number(params.mappool_id);
-
         if (isNaN(roundId) || !roundId) {
-            throw error(StatusCodes.NOT_FOUND, "Mappool/Round not found.");
+            return {
+                status: StatusCodes.NOT_FOUND,
+                message: "Mappool/Round not found."
+            }
         }
 
-        // Retrieve round before deletion
-        const round = await prisma.round.findFirst({
-            where: {
-                id: roundId
-            },
-            select: {
-                id: true,
-                mappoolId: true,
-                tournamentId: true
-            }
-        });
+        const result = await deleteMappool(roundId);
 
-        if (!round) {
-            throw error(StatusCodes.BAD_REQUEST, {
-                message: 'This round does not exist.'
-            })
+        if (result.status == StatusCodes.OK) {
+            throw redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${params.id}/staff-dashboard/mappools`);
         }
-
-        // Validate the tournament ID is correct
-        if (parseInt(String(params.id)) != round.tournamentId) {
-            throw error(StatusCodes.BAD_REQUEST, {
-                message: 'Invalid tournament ID.'
-            });
+        else {
+            throw error(result.status, result.message);
         }
-
-        // Delete the round's mappool
-        await prisma.mappool.delete({
-            where: {
-                id: round.mappoolId ?? undefined
-            }
-        });
-
-        // Finally, detele the round
-        await prisma.round.delete({
-            where: {
-                id: roundId
-            }
-        });
-
-        throw redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${params.id}/staff-dashboard/mappools`);
     },
 
     update_mappool: async ({ request, params }) => {
         const data = parseFormData(await request.formData());
-
         const roundId = Number(params.mappool_id);
 
         if (isNaN(roundId) || !roundId) {
@@ -239,96 +211,23 @@ export const actions: Actions = {
         }
     },
 
-    search_map: async ({ request, params }) => {
+    assign_map: async ({ request, params }) => {
         const formData = parseFormData(await request.formData());
         const roundId = Number(params.mappool_id);
 
-        // Create return error message object
-        const mapSearchError: { slot: string, message: string } = {
-            slot: String(formData.local_id),
-            message: ''
-        };
+        const result = await assignMap(roundId, String(formData.local_id), String(formData.id));
 
-        if (isNaN(roundId)) {
-            mapSearchError.message = 'No map ID provided.';
-            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
+        if (result.status == StatusCodes.OK) {
+            return result
         }
+        else {
+            // Create return error message object
+            const mapSearchError: { slot: string, message: string } = {
+                slot: String(formData.local_id),
+                message: result.message ?? ''
+            };
 
-        // Retrieve mappool ID through round
-        // This is slower than just having mappool ID in the form
-        // But this prevents a mappool not tied to the round from being edited
-        const round = await prisma.round.findUnique({
-            where: {
-                id: roundId
-            },
-            select: {
-                mappool: {
-                    select: {
-                        id: true
-                    }
-                }
-            }
-        });
-        const mappoolId = round?.mappool?.id;
-
-        if (!mappoolId) {
-            mapSearchError.message = 'Mappool not found.';
-            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
-        }
-
-        const beatmapId = String(formData.id);
-
-        if (!beatmapId.match(/^\d+$/g)) {
-            mapSearchError.message = 'Invalid beatmap ID provided.';
-            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
-        }
-
-        let beatmap;
-
-        // Lookup beatmap in DB
-        beatmap = await prisma.map.findUnique({
-            where: {
-                beatmap_id: beatmapId
-            }
-        });
-        
-        if (!beatmap) {
-            // Lookup beatmap in osu!web API
-            // OMG the test DB data used v1 API lmao
-            // const apiResponse = await fetch('https://osu.ppy.sh/api/v2/beatmaps/' + formData.id);
-            // const beatmapData = await apiResponse.json();
-            
-            beatmap = await prisma.map.create({
-                data: {
-                    beatmap_id: beatmapId
-                }
-            });
-        }
-
-        // Connect beatmap to MapInPool
-        const mapInPool = await prisma.mapInPool.update({
-            where: {
-                identifier_mappoolId: {
-                    identifier: String(formData.local_id),
-                    mappoolId: Number(mappoolId)
-                }
-            },
-            data: {
-                Map: {
-                    connect: {
-                        beatmap_id: beatmapId,
-                    }
-                }
-            }
-        });
-
-        if (!mapInPool) {
-            mapSearchError.message = 'Mappool slot not found.';
-            return fail(StatusCodes.BAD_REQUEST, { mapSearchError });
-        }
-
-        return {
-            status: StatusCodes.OK,
+            return fail(result.status, { mapSearchError });
         }
     },
 
@@ -337,48 +236,20 @@ export const actions: Actions = {
 
         if (isNaN(roundId) || !roundId) {
             return fail(StatusCodes.BAD_REQUEST, {
-                releasePoolError: 'Invalid mappool ID provided.'
+                releasePoolResponse: 'Invalid mappool ID provided.'
             });
         }
 
-        // Validate all mappool slots have been filled
-        const round = await prisma.round.findUnique({
-            where: {
-                id: roundId
-            },
-            select: {
-                mappool: {
-                    select: {
-                        Maps: {
-                            select: {
-                                mapId: true
-                            }
-                        }
-                    }
-                },
-                show_mappool: true
-            }
-        });
+        const result = await releaseMappool(roundId);
 
-        if (!round || round.mappool?.Maps.some((map) => !map.mapId)) {
-            return fail(StatusCodes.BAD_REQUEST, {
-                releasePoolResponse: 'Mappool not completed.'
-            });
+        if (result.status == StatusCodes.OK) {
+            return {
+                status: StatusCodes.OK,
+                releasePoolResponse: result.message
+            }
         }
-
-        // Toggle show_mappool
-        await prisma.round.update({
-            where: {
-                id: roundId
-            },
-            data: {
-                show_mappool: !round.show_mappool
-            }
-        });
-
-        return {
-            status: StatusCodes.OK,
-            releasePoolResponse: !round.show_mappool ? 'Mappool released.' : 'Mappool unreleased.',
+        else {
+            return fail(result.status, { releasePoolResponse: result.message });
         }
     }
 }

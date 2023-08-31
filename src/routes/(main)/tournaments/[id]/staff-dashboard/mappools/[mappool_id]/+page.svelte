@@ -3,7 +3,6 @@
 	import EditPageSetting from "$lib/components/tournament-page/edit-page/EditPageSetting.svelte";
 	import MappoolSetup from "./MappoolSetup.svelte";
 	import type { ActionData, PageData, PageServerData } from "./$types";
-	import MappoolFull from "$lib/components/common/cards/MappoolFull.svelte";
 	import { enhance } from "$app/forms";
 
     export let data: PageServerData & PageData;
@@ -80,7 +79,7 @@
                     {/each}
                 </tbody>
             </table>
-            <form id="generate-mappool" method="POST" action="?/generate_mappool">
+            <form id="generate-mappool" method="POST" action="?/generate_mappool" use:enhance>
                 <button>Generate Mappool Format</button>
             </form>
         </div>

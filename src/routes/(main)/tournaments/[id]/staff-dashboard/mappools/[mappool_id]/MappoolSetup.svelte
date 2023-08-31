@@ -31,7 +31,7 @@
                 </td>
                 <td>
                     {#if !locked}
-                        <form method="POST" action="?/search_map" use:enhance>
+                        <form method="POST" action="?/assign_map" use:enhance>
                             <input name="local_id" type="hidden" value={slot.identifier} />
                             <input name="id" type="number" value={slot.mapId} placeholder="Enter Map ID" />
                             {#if form?.mapSearchError?.slot == slot.identifier}
