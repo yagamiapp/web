@@ -1,7 +1,9 @@
-<script>
-	import CentreNarrowPanel from "$lib/components/common/CentreNarrowPanel.svelte";
+<script lang="ts">
+	import CentreNarrowPanel from '$lib/components/common/CentreNarrowPanel.svelte';
+	import Tournament from '$lib/components/common/cards/Tournament.svelte';
+	import type { PageServerData } from './$types';
 
-	export let data;
+	export let data: PageServerData;
 
 	let { tournaments } = data;
 </script>
@@ -11,13 +13,18 @@
 </svelte:head>
 
 <CentreNarrowPanel>
-
 	<h1>Tournaments</h1>
-	<ul>
+	<div class="tournaments">
 		{#each tournaments as tournament}
-			<li><a href="/t/{tournament.id}">{tournament.name}</a></li>
+			<Tournament {tournament} />
 		{/each}
-	</ul>
-
+	</div>
 </CentreNarrowPanel>
 
+<style>
+	.tournaments {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+</style>
