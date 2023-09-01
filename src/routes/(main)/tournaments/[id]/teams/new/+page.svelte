@@ -3,11 +3,16 @@
 	import TournamentHeaderButton from '$lib/components/common/LargeButton.svelte';
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import CreateTeam from '$lib/components/tournament-page/team-page/CreateTeam.svelte';
+	import { onDestroy } from 'svelte';
 	import type { ActionData, PageServerData } from './$types';
 
 	export let data: PageServerData;
 	export let form: ActionData;
 	let { tournament } = data;
+
+	onDestroy(() => {
+		invalidate('tournament:teams');
+	});
 </script>
 
 <svelte:head>
@@ -21,7 +26,7 @@
 
 			<p>{data.feedback}</p>
 
-			<TournamentHeaderButton url="/tournaments/{data.tournament.id}" text={'BACK'} />
+			<TournamentHeaderButton url="/tournaments/{data.tournament.id}/" text={'BACK'} />
 		</section>
 	</TournamentPageTemplate>
 {:else}

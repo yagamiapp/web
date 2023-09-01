@@ -6,7 +6,9 @@
 	export let tournament: db.FullyPopulatedTournament;
 	export let editPerms: boolean;
 	export let sessionUserTeam: db.TeamWithMembers | null;
-	let { team_size, Teams } = tournament;
+	let { team_size, Teams: teams } = tournament;
+
+	// Teams are sorted by who registered first (i.e. low to high ID)
 </script>
 
 <section id={tournament.team_size == 1 ? 'players' : 'teams'}>
@@ -24,13 +26,13 @@
 
 	{#if tournament.team_size == 1}
 		<div class="list">
-			{#each Teams as team}
+			{#each teams as team}
 				<User user={team.Members[0].User} color={team.color} />
 			{/each}
 		</div>
 	{:else}
 		<div class="list">
-			{#each Teams as team}
+			{#each teams as team}
 				<Team {team} />
 			{/each}
 		</div>

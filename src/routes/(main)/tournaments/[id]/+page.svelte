@@ -10,8 +10,11 @@
 		editPerms: boolean;
 		sessionUserTeam: db.TeamWithMembers | null;
 	};
-	let { tournament, editPerms, sessionUserTeam } = data;
-	let { name, acronym, id, color, team_size } = tournament;
+	let { tournament, editPerms } = data;
+	let { name, acronym, id, team_size } = tournament;
+
+	$: tournament = data.tournament;
+	$: sessionUserTeam = data.sessionUserTeam;
 </script>
 
 <svelte:head>
@@ -38,7 +41,9 @@
 	</nav>
 
 	<Mappools {tournament} />
-	<Teams {tournament} {editPerms} {sessionUserTeam} />
+	{#key sessionUserTeam}
+		<Teams {tournament} {editPerms} {sessionUserTeam} />
+	{/key}
 	<Matches {tournament} />
 
 </TournamentPageTemplate>
