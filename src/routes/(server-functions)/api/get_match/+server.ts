@@ -3,6 +3,11 @@ import prisma from '$lib/prisma';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
+// I hate javascript
+BigInt.prototype.toJSON = function () {
+	return this.toString();
+};
+
 export const GET: RequestHandler = async ({ url }) => {
 	const id = url.searchParams.get('id');
 
