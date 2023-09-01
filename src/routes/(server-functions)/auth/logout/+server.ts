@@ -1,6 +1,7 @@
 import prisma from '$lib/prisma';
+import type { RequestHandler } from './$types.js';
 
-export async function POST({ cookies }) {
+export const POST: RequestHandler = async ({ cookies }) => {
 	const session = cookies.get('yagami_session');
 
 	await prisma.userSession.deleteMany({

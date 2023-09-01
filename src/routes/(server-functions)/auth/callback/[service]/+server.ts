@@ -4,8 +4,9 @@ import { StatusCodes } from '$lib/StatusCodes';
 const { OSU_CLIENT_SECRET, DISCORD_CLIENT_SECRET, TWITCH_CLIENT_SECRET } = private_env;
 const { PUBLIC_OSU_CLIENT_ID, PUBLIC_DISCORD_CLIENT_ID, PUBLIC_TWITCH_CLIENT_ID } = public_env;
 
-import prisma from '../../../../../lib/prisma';
+import prisma from '$lib/prisma';
 import { error, redirect } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 type Service = {
 	auth_url: string;
@@ -37,7 +38,7 @@ const services: { [key: string]: Service } = {
 	}
 };
 
-export async function GET({ url, params, cookies }) {
+export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 	const service = services[params.service];
 	if (!service) {
 		throw redirect(302, '/');

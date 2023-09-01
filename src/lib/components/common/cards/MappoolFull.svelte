@@ -8,7 +8,7 @@
 	const switchClosed = () => {
 		pool.classList.toggle('closed');
 	};
-	let maps = round.mappool.Maps;
+	let maps = round.mappool?.Maps?.filter((m) => m.Map) ?? [];
 </script>
 
 <div class="closed details" bind:this={pool} style="--count:{maps.length}">

@@ -1,6 +1,8 @@
 import prisma from '$lib/prisma';
 import { redirect } from '@sveltejs/kit';
-export async function GET({ cookies }) {
+import type { RequestHandler } from './$types';
+
+export const GET: RequestHandler = async ({ cookies }) => {
 	const session = cookies.get('yagami_session');
 
 	if (!session) {

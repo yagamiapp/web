@@ -1,10 +1,11 @@
 import prisma from '../../../../lib/prisma';
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types.js';
 
 export const ssr = false;
 export const prerender = false;
 
-export async function load({ url }) {
+export const load: PageServerLoad = async function({ url }) {
 	const res = url.searchParams.get('res');
 	const ws = url.searchParams.get('ws');
 

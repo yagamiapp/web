@@ -1,8 +1,9 @@
 import { StatusCodes } from '$lib/StatusCodes';
 import prisma from '../../../../../lib/prisma';
 import { error, redirect } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-export async function GET({ params, url, cookies }) {
+export const GET: RequestHandler = async ({ url, params, cookies }) => {
 	const token = cookies.get('yagami_session');
 
 	if (params.service == 'twitch') {

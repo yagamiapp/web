@@ -122,13 +122,15 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 			if (secondsSinceLastUpdate >= OsuToken.expires_in) {
 				// The token has expired. Refresh token.
 				console.log('Refreshing token (user: ' + OsuToken.userId + ')...');
-				const refreshURL = new URL('https://osu.ppy.sh/oauth/token');
-				refreshURL.searchParams.append('client_id', PUBLIC_OSU_CLIENT_ID);
-				refreshURL.searchParams.append('client_secret', OSU_CLIENT_SECRET);
-				refreshURL.searchParams.append('grant_type', 'refresh_token');
-				refreshURL.searchParams.append('refresh_token', OsuToken.refresh_token);
+				const refreshURL = 'https://osu.ppy.sh/oauth/token';
+				const refreshBody = {
+					client_id: PUBLIC_OSU_CLIENT_ID,
+					client_secret: OSU_CLIENT_SECRET,
+					grant_type: 'refresh_token',
+					refresh_token: OsuToken.refresh_token,
+				};
 				const refreshHeaders = {
-					'Content-Type': 'application/x-www-form-urlencoded',
+					'Content-Type': 'application/json',
 					Accept: 'application/json'
 				};
 
@@ -136,7 +138,8 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 				try {
 					refreshResponse = await fetch(refreshURL, {
 						method: 'POST',
-						headers: refreshHeaders
+						headers: refreshHeaders,
+						body: JSON.stringify(refreshBody)
 					});
 				} catch (error) {
 					console.log(error);
@@ -157,10 +160,11 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 							last_update: new Date()
 						}
 					});
+					console.log("Token successfully refreshed.");
 				} else {
 					console.log(
 						'Something went wrong refreshing the token for user ' +
-							user.username +
+							user.id +
 							' (' +
 							user.username +
 							'): '

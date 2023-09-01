@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Map from '$lib/components/common/cards/Map.svelte';
 
-	export let maps: db.MapInPoolWithMap;
+	export let maps: db.MapInPoolWithMap[];
 
 	let el: HTMLDivElement;
 	let dark: HTMLDivElement;

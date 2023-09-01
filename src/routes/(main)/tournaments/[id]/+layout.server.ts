@@ -1,11 +1,12 @@
 import type { LayoutServerLoad } from './$types';
 import { StatusCodes } from '$lib/StatusCodes';
-import prisma from '../../../../lib/prisma';
+import prisma from '$lib/prisma';
 import { error } from '@sveltejs/kit';
 
 export const prerender = 'auto';
 
-export const load: LayoutServerLoad = async ({ params, locals }) => {
+export const load: LayoutServerLoad = async ({ params, locals, depends }) => {
+	depends('tournament:teams');
 	const tournamentId = parseInt(params.id);
 
 	// Retrieved tournament data should correspond to type db.FullyPopulatedTournament

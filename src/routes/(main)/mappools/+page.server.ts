@@ -1,8 +1,9 @@
 import prisma from '$lib/prisma';
+import type { PageServerLoad } from './$types';
 
 // export const ssr = true;
 
-export async function load() {
+export const load: PageServerLoad = async () => {
 	const mappools = await prisma.mappool.findMany({
 		where: {
 			global: true

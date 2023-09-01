@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import banner from '$lib/assets/home-logo.png';
 	import bgVideo from '$lib/assets/clip.webm';
 
-	let bg;
-	function parallax(event) {
+	let bg: HTMLVideoElement;
+	function parallax(event: MouseEvent) {
 		bg.style.transform =
 			'translate(' + event.clientX * -0.01 + 'px, ' + event.clientY * -0.01 + 'px)';
 	}
