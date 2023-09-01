@@ -1,9 +1,7 @@
 <script lang="ts">
-	import type { Map, MapInPool } from '@prisma/client';
-
 	import clipMinus from '$lib/assets/clipboard-minus.svg';
 	import clipCheck from '$lib/assets/clipboard-check.svg';
-	export let map: MapInPool & { Map: Map };
+	export let map: db.MapInPoolWithMap
 
 	let colors: { [key: string]: string } = {
 		NM: '#3d85c6',

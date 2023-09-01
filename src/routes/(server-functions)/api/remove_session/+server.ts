@@ -1,7 +1,8 @@
 import prisma from '../../../../lib/prisma';
 import { error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-export async function DELETE({ cookies, request }) {
+export const DELETE: RequestHandler = async ({ cookies, request }) => {
 	const { sessionCreationDate } = await request.json();
 
 	if (!sessionCreationDate) {

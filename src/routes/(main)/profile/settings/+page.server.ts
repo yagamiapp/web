@@ -1,10 +1,10 @@
 import prisma from '$lib/prisma';
-import { redirect } from '@sveltejs/kit';
+import { redirect} from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 export const ssr = false;
 
-/** @type {import("@sveltejs/kit").ServerLoad} */
-export async function load(req) {
+export const load: PageServerLoad = async (req) => {
 	const session = req.cookies.get('yagami_session');
 
 	if (!session) {
