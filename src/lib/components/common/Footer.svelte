@@ -31,7 +31,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		background-color: var(--bg1);
+		background-color: var(--bg2);
 	}
 	.links {
 		width: 100%;
@@ -60,6 +60,7 @@
 	a:hover {
 		transform: translate(-5px, -5px);
 		/* background: rgba(255, 255, 255, 0.05); */
+		background: var(--bg3);
 		box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
 	}
 </style>
