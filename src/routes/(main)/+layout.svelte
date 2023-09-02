@@ -11,4 +11,21 @@
 <main>
 	<slot />
 </main>
-<footer><Footer /></footer>
+<footer>
+	<Footer />
+</footer>
+
+<style>
+	header,
+	footer,
+	main {
+		position: relative;
+	}
+	header,
+	footer {
+		z-index: 1;
+	}
+	main {
+		z-index: 0;
+	}
+</style>

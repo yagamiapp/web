@@ -39,7 +39,7 @@
 		top: 0;
 		left: 0;
 		width: 250px;
-		height: 100%;
+		height: 100vh;
 		background-color: var(--bg2);
 		/* z-index: -1; */
 	}
