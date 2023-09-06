@@ -194,6 +194,14 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 			body: tokenRequestForm.toString()
 		});
 		const token = await tokenRequest.json();
+		
+		if (token.error) {
+			console.log("token: " + JSON.stringify(token));
+			throw error(
+				StatusCodes.INTERNAL_SERVER_ERROR,
+				"Something went wrong talking to Discord."	
+			)
+		}
 
 		// Get user from discord API
 		const reqUrl = `${service.base_url}/users/@me`;
@@ -203,6 +211,14 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 			}
 		});
 		const userData = await userRequest.json();
+
+		if (!userData.id) {
+			console.log("userDate: " + JSON.stringify(userData));
+			throw error(
+				StatusCodes.INTERNAL_SERVER_ERROR,
+				"Something went wrong talking to Discord."
+			)
+		}
 
 		const user = await prisma.user.findFirst({
 			where: {

@@ -24,7 +24,7 @@ const clientIds: { [key: string]: Service } = {
 	discord: {
 		login_url: 'https://discord.com/oauth2/authorize',
 		client_id: PUBLIC_DISCORD_CLIENT_ID,
-		scope: 'guilds.join guilds'
+		scope: 'guilds.join guilds identify'
 	},
 	// OAuth URL https://id.twitch.tv/oauth2/authorize?client_id=3x4h9ud5bqjsh164ifxywll9wao6oe&redirect_uri=http://localhost:4000/auth/twitch&response_type=code&scope=user_read&force_verify=true
 	twitch: {
