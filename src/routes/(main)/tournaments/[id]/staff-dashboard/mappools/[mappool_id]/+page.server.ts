@@ -5,9 +5,9 @@ import { StatusCodes } from "$lib/StatusCodes";
 import { parseFormData } from "parse-nested-form-data";
 import vine, { errors } from "@vinejs/vine";
 import { ModInGameNames, ModList, Mods } from "$lib/ModEnums";
-import { deleteMappool } from "./ActionDeleteMapoool";
-import { assignMap } from "./ActionAssignMap";
-import { releaseMappool } from "./ActionReleaseMappool";
+import { deleteMappool } from "./actions/ActionDeleteMapoool";
+import { assignMap } from "./actions/ActionAssignMap";
+import { releaseMappool } from "./actions/ActionReleaseMappool";
 
 export const load: PageServerLoad = async ({ params, parent }) => {
     // Because rounds and mappools are 1:1 for now, retrieve the round data
@@ -207,11 +207,11 @@ export const actions: Actions = {
         }
     },
 
-    assign_map: async ({ request, params }) => {
+    assign_map: async ({ request, params, fetch }) => {
         const formData = parseFormData(await request.formData());
         const roundId = Number(params.mappool_id);
 
-        const result = await assignMap(roundId, String(formData.local_id), String(formData.id));
+        const result = await assignMap(roundId, String(formData.local_id), String(formData.id), fetch);
 
         if (result.status == StatusCodes.OK) {
             return result

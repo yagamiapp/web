@@ -1,9 +1,8 @@
-import { fetchBeatmap } from "$lib/osu/FetchBeatmap";
 import { StatusCodes } from "$lib/StatusCodes";
 import prisma from "$lib/prisma";
 import type { Map } from "@prisma/client";
 
-export const assignMap = async (roundId: number, localId: string, beatmapId: string) => {
+export const assignMap = async (roundId: number, localId: string, beatmapId: string, svelteFetch: (input: URL | RequestInfo, init?: RequestInit | undefined) => Promise<Response>) => {
     if (isNaN(roundId)) {
         return {
             status: StatusCodes.BAD_REQUEST,
@@ -44,7 +43,10 @@ export const assignMap = async (roundId: number, localId: string, beatmapId: str
 
     let beatmap: Map;
     try {
-        beatmap = await fetchBeatmap(beatmapId);
+        const internalFetchUrl = `/api/get_map?id=${beatmapId}`;
+        const beatmapJson = await svelteFetch(internalFetchUrl);
+        if (beatmapJson.status != 200) throw {}
+        beatmap = await beatmapJson.json();
     } catch (error) {
         return {
             status: StatusCodes.BAD_REQUEST,

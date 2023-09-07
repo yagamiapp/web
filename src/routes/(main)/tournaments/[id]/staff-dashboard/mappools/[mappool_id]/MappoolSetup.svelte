@@ -23,11 +23,13 @@
             <tr>
                 <td>{slot.identifier}</td>
                 <td>
-                    {#if slot.mapId}
-                        {slot.Map?.artist} - {slot.Map?.title}
-                    {:else}
-                        No map selected...
-                    {/if}
+                    {#key slot}
+                        {#if slot.mapId}
+                            {slot.Map?.artist} - {slot.Map?.title}
+                        {:else}
+                            No map selected...
+                        {/if}
+                    {/key}
                 </td>
                 <td>
                     {#if !locked}

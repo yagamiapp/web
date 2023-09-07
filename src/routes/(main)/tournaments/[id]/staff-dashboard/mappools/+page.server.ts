@@ -42,8 +42,6 @@ export const actions: Actions = {
 
         if (newRound) {
             throw redirect(StatusCodes.PERMANENT_REDIRECT, `/tournaments/${tournamentId}/staff-dashboard/mappools/${newRound.id}`);
-            // This redirect always looks for an action on the redirected page for some reason.
-            // I can't figure out why or how to prevent it so it just calls to an empty action called ?/new_mappool for now
         }
 
         throw error(StatusCodes.INTERNAL_SERVER_ERROR, {
