@@ -250,8 +250,8 @@ model TeamInvite {
 model MapInPool {
   identifier  String // NM1, NM2 etc.
   mods        String
-  Map         Map          @relation(fields: [mapId], references: [beatmap_id])
-  mapId       String
+  Map         Map?         @relation(fields: [mapId], references: [beatmap_id])
+  mapId       String?
   modPriority Int          @default(0)
   Mappool     Mappool      @relation(fields: [mappoolId], references: [id], onDelete: Cascade)
   mappoolId   Int

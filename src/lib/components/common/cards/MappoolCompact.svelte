@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Mappool } from '@prisma/client';
+	import { ModColors } from '$lib/ModEnums';
 
 	export let pool: Mappool & { Maps: db.MapInPoolWithMap[]; Round: db.RoundWithEverything };
 
@@ -29,14 +30,7 @@
 	let name = pool.Round?.Tournament?.name ?? pool.tournament_name ?? 'Unknown';
 	let round = pool.Round?.name ?? pool.round_name ?? 'Unknown';
 
-	let colors: { [key: string]: string } = {
-		NM: '#3d85c677',
-		HD: '#bf900077',
-		HR: '#cc000077',
-		DT: '#9263d277',
-		FM: '#6aa84f77',
-		TB: '#aaaaaa77'
-	};
+	let colors = ModColors;
 </script>
 
 <article class="card">

@@ -14,7 +14,7 @@
 <section id="mappools">
 	<h1>Mappools</h1>
 	{#each rounds as round}
-		{#if round.mappool}
+		{#if round.show_mappool}
 			{incrCount()}
 			<Mappool {round} />
 		{/if}

@@ -16,7 +16,7 @@
         <div class="team-{index+1} icon">
             <img src={team.Team.icon_url} alt="Team {index+1} icon" />
         </div>
-        <h4 class="team-{index+1} name">{team.Team.name}</h4>
+        <h4 class="team-{index+1} name"><a href="/tournaments/{team.Team.tournamentId}/teams/{team.Team.id}">{team.Team.name}</a></h4>
         <p class="team-{index+1} score-box">
             {team.score}
         </p>
@@ -51,6 +51,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    a {
+        text-decoration: none;
+        color: var(--font-color);
     }
 
     img {
