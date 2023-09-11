@@ -62,13 +62,15 @@
 			<h1>Team Settings</h1>
 
 			<form id="team_settings" method="POST" action="?/update_team">
-				<EditPageSetting
-					name="name"
-					label="Team Name"
-					value={name}
-					errors={form?.messages}
-					type="text"
-				/>
+				{#if tournament.team_size != 1}
+					<EditPageSetting
+						name="name"
+						label="Team Name"
+						value={name}
+						errors={form?.messages}
+						type="text"
+					/>
+				{/if}
 				<EditPageSetting
 					name="color"
 					label="Team Color"
@@ -109,7 +111,6 @@
 		<h1>Matches</h1>
 		<MatchList teamInMatches={InBracketMatches} />
 	</section>
-
 </TournamentPageTemplate>
 
 <style>
