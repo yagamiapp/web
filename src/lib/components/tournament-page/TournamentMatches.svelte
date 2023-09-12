@@ -21,7 +21,7 @@
 <section id="matches" class="spoilered" bind:this={section}>
 	<h1>Matches</h1>
 
-	<div class="spoiler">
+	<!-- <div class="spoiler">
 		<span>Only show score on hover:</span>
 		<Switch
 			on:check={toggleScoreVis}
@@ -30,7 +30,7 @@
 			offColor="var(--bg1)"
 			handleColor="var(--bg2)"
 		/>
-	</div>
+	</div> -->
 	<div class="list">
 		{#each rounds as round}
 			<h3>{round.name}</h3>
@@ -51,7 +51,7 @@
 		justify-content: center;
 		flex-wrap: wrap;
 	}
-	.spoiler {
+	/* .spoiler {
 		position: absolute;
 		top: 40px;
 		right: 0;
@@ -62,5 +62,5 @@
 		display: flex;
 		align-items: center;
 		background-color: var(--bg3);
-	}
+	} */
 </style>
