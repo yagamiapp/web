@@ -8,13 +8,13 @@ RUN npm install
 
 COPY . . 
 
-RUN npm run build
-
 ENV DATABASE_URL="file:/app/src/lib/prisma/db/dev.db"
 
 RUN npx prisma generate
 
 RUN npx prisma migrate deploy
+
+RUN npm run build
 
 ENV PORT=3000
 

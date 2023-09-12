@@ -103,9 +103,6 @@
 		overflow: hidden;
 		z-index: 3;
 	}
-	.banner-bg {
-		z-index: -1;
-	}
 	.names {
 		font-weight: bold;
 		z-index: 1;
@@ -118,6 +115,10 @@
 		height: 75px;
 		place-items: center;
 	}
+	/*
+	.banner-bg {
+		z-index: -1;
+	}
 	.banner img {
 		position: absolute;
 		top: 0;
@@ -128,7 +129,7 @@
 		filter: blur(3px) brightness(0.5);
 		z-index: -1;
 	}
-	/*
+
 	.banner::after {
 		position: absolute;
 		top: -50%;
