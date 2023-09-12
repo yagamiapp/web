@@ -22,7 +22,7 @@
 	<title>{acronym}: {name}</title>
 </svelte:head>
 
-<TournamentPageTemplate {tournament}>
+<TournamentPageTemplate {tournament} header noTitle>
 	<div slot="top">
 		{#if editPerms}
 			<Button url="/tournaments/{id}/edit" text="EDIT TOURNAMENT" />
@@ -58,3 +58,10 @@
 		<Matches {tournament} />
 	{/if}
 </TournamentPageTemplate>
+
+<style>
+	div[slot='sub-nav'] {
+		width: fit-content;
+		margin: auto;
+	}
+</style>

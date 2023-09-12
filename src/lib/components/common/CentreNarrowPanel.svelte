@@ -3,26 +3,28 @@
 </script>
 
 <div class="centre_narrow">
-    <section id="home" />
-    <div class="wrap">
-        <div class="top">
-            <a href="/"><img src={Default} alt="" class="icon" /></a>
-            <slot name="top" />
-        </div>
-        
-        <slot />
-    </div>
+	<section id="home" />
+	<div class="wrap">
+		<div class="top">
+			<a href="/">
+				<img src={Default} alt="" class="icon" />
+			</a>
+			<slot name="top" />
+		</div>
+
+		<slot />
+	</div>
 </div>
 
 <style>
-    .centre_narrow {
-        width: 100%;
+	.centre_narrow {
+		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-    }
+	}
 
-    #home {
+	#home {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -42,29 +44,30 @@
 		opacity: 1;
 	}
 	.top .icon {
-		height: 60%;
+		height: 40px;
 		padding: 1.125%;
 		opacity: 0.25;
 	}
 
-    .top > :global(div) {
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-    }
+	.top > :global(div) {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: calc(100% - 70px);
+		height: 100%;
+	}
 
 	.wrap :global(section) {
-        /* Relative positioning allows absolute positioning of child elements */
-        position: relative;
-        padding: 20px;
-    }
-    .wrap :global(section:nth-child(2n)) {
-        background-color: var(--bg2);
-    }
-    .wrap :global(section:nth-child(2n+1)) {
-        background-color: var(--bg3);
-    }
+		/* Relative positioning allows absolute positioning of child elements */
+		position: relative;
+		padding: 10px;
+	}
+	.wrap :global(section:nth-child(2n)) {
+		background-color: var(--bg3);
+	}
+	.wrap :global(section:nth-child(2n + 1)) {
+		background-color: var(--bg2);
+	}
 
 	@media screen and (max-width: 600px) {
 		.wrap {

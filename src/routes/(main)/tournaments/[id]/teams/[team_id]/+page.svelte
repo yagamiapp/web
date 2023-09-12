@@ -26,16 +26,13 @@
 </svelte:head>
 
 <TournamentPageTemplate {tournament}>
-	<div slot="top">
-		<Button url="/tournaments/{tournament.id}/" text="TOURNAMENT HOME" />
-	</div>
-
-	<section class="team_header">
-		<h1>
-			{tournament.team_size == 1 ? 'Player: ' : 'Team: '}
-			{team.name}
-		</h1>
-	</section>
+	{#if tournament.team_size > 1}
+		<section class="team_header">
+			<h1>
+				Team: {team.name}
+			</h1>
+		</section>
+	{/if}
 
 	<section class="players">
 		{#if tournament.team_size != 1}

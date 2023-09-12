@@ -20,6 +20,7 @@
 		border-bottom-right-radius: 20px;
 	}
 	a {
+		position: relative;
 		border-radius: 20px;
 		color: white;
 		background: linear-gradient(90deg, var(--yagami-pink), var(--yagami-orange));
@@ -34,5 +35,17 @@
 	a div {
 		display: grid;
 		place-items: center;
+	}
+	a::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 25px;
+		filter: blur(10px);
+		background: linear-gradient(90deg, var(--yagami-pink), var(--yagami-orange));
+		z-index: -1;
 	}
 </style>
