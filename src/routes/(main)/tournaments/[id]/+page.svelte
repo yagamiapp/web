@@ -44,6 +44,8 @@
 	{#key sessionUserTeam}
 		<Teams {tournament} {editPerms} {sessionUserTeam} />
 	{/key}
-	<Matches {tournament} />
+	{#if !tournament.allow_registrations}
+		<Matches {tournament} />
+	{/if}
 
 </TournamentPageTemplate>
