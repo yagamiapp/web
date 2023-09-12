@@ -1,11 +1,9 @@
-import {
-	PUBLIC_DISCORD_CLIENT_ID,
-	PUBLIC_OSU_CLIENT_ID,
-	PUBLIC_TWITCH_CLIENT_ID
-} from '$env/static/public';
+import { env as public_env } from '$env/dynamic/public';
 import { error, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { StatusCodes } from '$lib/StatusCodes';
+
+const { PUBLIC_OSU_CLIENT_ID, PUBLIC_TWITCH_CLIENT_ID, PUBLIC_DISCORD_CLIENT_ID } = public_env;
 
 type Service = {
 	login_url: string;

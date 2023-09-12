@@ -1,16 +1,19 @@
-import { OSU_CLIENT_SECRET } from '$env/static/private';
-import { PUBLIC_OSU_CLIENT_ID } from '$env/static/public';
+import { env as private_env } from '$env/dynamic/private';
+import { env as public_env } from '$env/dynamic/public';
 import prisma from '$lib/prisma';
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import DeviceDetector from 'node-device-detector';
+
+const { PUBLIC_OSU_CLIENT_ID } = public_env;
+const { OSU_CLIENT_SECRET } = private_env;
 
 const detector = new DeviceDetector();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('yagami_session');
-	
+
 	if (!sessionId) return await resolve(event);
-	
+
 	const user = await prisma.user.findFirst({
 		where: {
 			Sessions: {
@@ -20,17 +23,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 			}
 		}
 	});
-	
+
 	if (!user) {
 		event.cookies.delete('yagami_session', { path: '/' });
 		return await resolve(event);
 	}
-	
+
 	event.locals.user = user;
-	
+
 	const userAgent = event.request.headers.get('user-agent') ?? '';
 	const result = detector.detect(userAgent);
-	
+
 	await prisma.userSession.update({
 		where: {
 			id: sessionId
@@ -42,14 +45,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 			lastUsed: new Date()
 		}
 	});
-	
+
 	// Add user permissions to locals based on tournament being viewed.
 
 	// Default permissions
 	const perms: App.Perms = {
 		edit: false,
 		playing: false
-	}
+	};
 
 	const tournamentId = event.params.id ?? null;
 	if (tournamentId) {
@@ -74,7 +77,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				}
 			}
 		});
-		
+
 		if (tournament) {
 			// Check if user is a host
 			const hostIds = tournament.Hosts.map((x) => x.userId);
@@ -91,7 +94,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	event.locals.perms = perms;
-	
+
 	return await resolve(event);
 };
 
@@ -127,7 +130,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 					client_id: PUBLIC_OSU_CLIENT_ID,
 					client_secret: OSU_CLIENT_SECRET,
 					grant_type: 'refresh_token',
-					refresh_token: OsuToken.refresh_token,
+					refresh_token: OsuToken.refresh_token
 				};
 				const refreshHeaders = {
 					'Content-Type': 'application/json',
@@ -160,7 +163,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 							last_update: new Date()
 						}
 					});
-					console.log("Token successfully refreshed.");
+					console.log('Token successfully refreshed.');
 				} else {
 					console.log(
 						'Something went wrong refreshing the token for user ' +

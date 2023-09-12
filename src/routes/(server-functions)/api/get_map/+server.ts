@@ -2,11 +2,11 @@ import { StatusCodes } from '$lib/StatusCodes';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import prisma from '$lib/prisma';
-import { OSU_API_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 // TEMPORARY OSU V1 USAGE UNTIL THE EXTERNAL API IS FINISHED
 
-const OSU_V1_API_KEY = OSU_API_TOKEN;
+const OSU_V1_API_KEY = env.OSU_API_TOKEN;
 
 // URL params:
 //  'id' - the beatmap ID
