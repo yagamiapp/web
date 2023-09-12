@@ -80,7 +80,7 @@
 
 	.details {
 		position: relative;
-		background-color: var(--bg3);
+		background-color: var(--bg2);
 		height: calc(var(--count) * (20px + 75px) + (60px + 20px));
 		overflow: hidden;
 		transition: height 0.5s ease-in-out;

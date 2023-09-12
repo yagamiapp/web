@@ -13,12 +13,15 @@
 
 		section.classList.remove('spoilered');
 	}
+
+	// Create list of rounds only including rounds with matches
+	const rounds = tournament.rounds.filter((round) => round.Match.length > 0);
 </script>
 
 <section id="matches" class="spoilered" bind:this={section}>
 	<h1>Matches</h1>
 
-	<div class="spoiler">
+	<!-- <div class="spoiler">
 		<span>Only show score on hover:</span>
 		<Switch
 			on:check={toggleScoreVis}
@@ -27,9 +30,9 @@
 			offColor="var(--bg1)"
 			handleColor="var(--bg2)"
 		/>
-	</div>
+	</div> -->
 	<div class="list">
-		{#each tournament.rounds as round}
+		{#each rounds as round}
 			<h3>{round.name}</h3>
 			<MatchList matches={round.Match} />
 		{/each}
@@ -40,7 +43,7 @@
 	h3 {
 		width: 100%;
 		padding-bottom: 5px;
-		border-bottom: solid 2px var(--bg3);
+		border-bottom: solid 2px var(--bg4);
 	}
 	.list {
 		display: flex;
@@ -48,7 +51,7 @@
 		justify-content: center;
 		flex-wrap: wrap;
 	}
-	.spoiler {
+	/* .spoiler {
 		position: absolute;
 		top: 40px;
 		right: 0;
@@ -59,5 +62,5 @@
 		display: flex;
 		align-items: center;
 		background-color: var(--bg3);
-	}
+	} */
 </style>

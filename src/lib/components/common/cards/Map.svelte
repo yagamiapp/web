@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clipMinus from '$lib/assets/clipboard-minus.svg';
 	import clipCheck from '$lib/assets/clipboard-check.svg';
-	export let map: db.MapInPoolWithMap
+	export let map: db.MapInPoolWithMap;
 
 	let colors: { [key: string]: string } = {
 		NM: '#3d85c6',
@@ -198,6 +198,8 @@
 		right: 0;
 		border: 0;
 		color: white;
+		border-bottom-left-radius: 0px;
+		border-top-left-radius: 0px;
 		font-family: 'MavenPro';
 		background-color: var(--bg1);
 		width: 75px;

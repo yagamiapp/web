@@ -9,12 +9,12 @@ export const load: PageServerLoad = async ({ parent }) => {
 	const { tournament, user, editPerms } = await parent();
 	// If user isn't logged in
 	if (!user) {
-		throw error(StatusCodes.UNAUTHORIZED, 'You must log in with osu! to register.');
+		throw redirect(StatusCodes.TEMPORARY_REDIRECT, `/auth/login/osu`);
 	}
 
 	// Check if the user has staff permissions for this tournament
 	if (editPerms) {
-		throw error(StatusCodes.BAD_REQUEST, 'You can\'t sign up for your own tournament.');
+		throw error(StatusCodes.BAD_REQUEST, "You can't sign up for your own tournament.");
 	}
 
 	// Check if this user is already in a team in this tournament
