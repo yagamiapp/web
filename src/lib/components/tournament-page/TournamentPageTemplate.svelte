@@ -17,6 +17,7 @@
 	<div class="sticky">
 		<slot name="nav" />
 		<div class="line" />
+		<slot name="sub-nav" />
 	</div>
 	
 	<!-- The main content slot should be divided into <section>'s -->

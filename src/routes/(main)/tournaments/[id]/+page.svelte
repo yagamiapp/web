@@ -4,6 +4,7 @@
 	import Teams from '$lib/components/tournament-page/TournamentTeams.svelte';
 	import Matches from '$lib/components/tournament-page/TournamentMatches.svelte';
 	import Button from '$lib/components/common/LargeButton.svelte';
+	import RegistrationButton from '$lib/components/tournament-page/RegistrationButton.svelte';
 
 	export let data: {
 		tournament: db.FullyPopulatedTournament;
@@ -39,10 +40,23 @@
 		{/if}
 		<a href="#matches">matches</a>
 	</nav>
+	<div slot="sub-nav">
+		{#if !editPerms && !sessionUserTeam}
+			<RegistrationButton 
+				url="/tournaments/{tournament.id}/teams/new"
+				text="SIGN UP" 
+			/>
+		{:else if sessionUserTeam}
+			<RegistrationButton
+				url="/tournaments/{tournament.id}/teams/{sessionUserTeam.id}"
+				text={team_size == 1 ? 'MANAGE REGISTRATION' : 'MANAGE TEAM'}
+			/>
+		{/if}
+	</div>
 
 	<Mappools {tournament} />
 	{#key sessionUserTeam}
-		<Teams {tournament} {editPerms} {sessionUserTeam} />
+		<Teams {tournament} />
 	{/key}
 	{#if !tournament.allow_registrations}
 		<Matches {tournament} />
