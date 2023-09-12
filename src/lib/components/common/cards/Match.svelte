@@ -35,14 +35,14 @@
 				{teams[1].Team.name}
 			</span>
 		</div>
-		<div class="banner-bg">
-			<div class="team1">
-				<img src={teams[0].Team.icon_url} alt="team 1 logo" />
-			</div>
-			<div class="team2">
-				<img src={teams[1].Team.icon_url} alt="team 2 logo" />
-			</div>
-		</div>
+		<!-- <div class="banner-bg"> -->
+		<!-- 	<div class="team1"> -->
+		<!-- 		<img src={teams[0].Team.icon_url} alt="team 1 logo" /> -->
+		<!-- 	</div> -->
+		<!-- 	<div class="team2"> -->
+		<!-- 		<img src={teams[1].Team.icon_url} alt="team 2 logo" /> -->
+		<!-- 	</div> -->
+		<!-- </div> -->
 	</div>
 	<div class="fold">
 		<b>Score</b>
@@ -86,7 +86,7 @@
 	.fold {
 		margin: auto;
 		position: relative;
-		background-color: var(--bg3);
+		background-color: var(--bg2);
 		width: 90%;
 		top: -30px;
 		padding: 10px;
@@ -98,6 +98,7 @@
 		position: relative;
 		width: 100%;
 		height: 75px;
+		background: var(--bg1);
 		border-radius: 25px;
 		overflow: hidden;
 		z-index: 3;
@@ -127,6 +128,7 @@
 		filter: blur(3px) brightness(0.5);
 		z-index: -1;
 	}
+	/*
 	.banner::after {
 		position: absolute;
 		top: -50%;
@@ -138,12 +140,5 @@
 		transform: rotate(45deg);
 		background: #000000;
 	}
-	.banner .team1 img {
-		mask-image: linear-gradient(135deg, #000 0%, #000 50%, transparent 50%);
-		-webkit-mask-image: linear-gradient(135deg, #000 0%, #000 50%, transparent 50%);
-	}
-	.banner .team2 img {
-		mask-image: linear-gradient(-45deg, #000 0%, #000 50%, transparent 50%);
-		-webkit-mask-image: linear-gradient(-45deg, #000 0%, #000 50%, transparent 50%);
-	}
+  */
 </style>

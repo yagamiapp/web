@@ -43,7 +43,7 @@
 	h3 {
 		width: 100%;
 		padding-bottom: 5px;
-		border-bottom: solid 2px var(--bg3);
+		border-bottom: solid 2px var(--bg4);
 	}
 	.list {
 		display: flex;
