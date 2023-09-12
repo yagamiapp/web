@@ -12,8 +12,12 @@
 <style>
 	.wrap {
 		display: grid;
-		height: 100%;
-		place-items: center;
+		margin: auto;
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(5px);
+		width: fit-content;
+		border-bottom-left-radius: 20px;
+		border-bottom-right-radius: 20px;
 	}
 	a {
 		border-radius: 20px;
@@ -21,11 +25,11 @@
 		background: linear-gradient(90deg, var(--yagami-pink), var(--yagami-orange));
 		text-decoration: none;
 		font-weight: bold;
-        padding: 0.7rem 10px;
-		margin: 10px;
+		width: 300px;
+		padding: 0.7rem 10px;
+		margin: 20px;
 		font-family: 'MavenPro', sans-serif;
-        font-size: 1.5rem;
-        box-shadow: 0 0 0.5rem 0 var(--tournament-color);
+		font-size: 1.5rem;
 	}
 	a div {
 		display: grid;

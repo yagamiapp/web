@@ -23,7 +23,6 @@
 </svelte:head>
 
 <TournamentPageTemplate {tournament}>
-
 	<div slot="top">
 		{#if editPerms}
 			<Button url="/tournaments/{id}/edit" text="EDIT TOURNAMENT" />
@@ -42,11 +41,8 @@
 	</nav>
 	<div slot="sub-nav">
 		{#if !editPerms && !sessionUserTeam}
-			<RegistrationButton 
-				url="/tournaments/{tournament.id}/teams/new"
-				text="SIGN UP" 
-			/>
-		{:else if sessionUserTeam}
+			<RegistrationButton url="/tournaments/{tournament.id}/teams/new" text="SIGN UP" />
+		{:else if sessionUserTeam && tournament.allow_registrations}
 			<RegistrationButton
 				url="/tournaments/{tournament.id}/teams/{sessionUserTeam.id}"
 				text={team_size == 1 ? 'MANAGE REGISTRATION' : 'MANAGE TEAM'}
@@ -61,5 +57,4 @@
 	{#if !tournament.allow_registrations}
 		<Matches {tournament} />
 	{/if}
-
 </TournamentPageTemplate>
