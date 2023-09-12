@@ -57,7 +57,7 @@
 		{/if}
 	</section>
 
-	{#if isTeamCaptain}
+	{#if isTeamCaptain && tournament.allow_registrations}
 		<section class="settings">
 			<h1>Team Settings</h1>
 
@@ -81,17 +81,10 @@
 				<button type="submit">Update Team</button>
 			</form>
 
-			{#if tournament.allow_registrations}
-				<form id="unregister" method="POST" action="?/unregister">
-					Registrations are still open.
-					<button type="submit">Unregister Team?</button>
-				</form>
-			{:else}
-				<p>
-					Registrations are closed. You cannot unregister your team, remove teammates, or invite new
-					players.
-				</p>
-			{/if}
+			<form id="unregister" method="POST" action="?/unregister">
+				Registrations are still open.
+				<button type="submit">Unregister Team?</button>
+			</form>
 		</section>
 
 		{#if tournament.team_size != 1 && tournament.allow_registrations}
