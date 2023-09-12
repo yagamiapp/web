@@ -22,6 +22,9 @@
 </CentreNarrowPanel>
 
 <style>
+	h1 {
+		text-align: center;
+	}
 	.tournaments {
 		display: flex;
 		justify-content: center;
