@@ -80,7 +80,7 @@ const exchangeCode = async (code: string, origin: string): Promise<unknown> => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'applicatin/json'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
   })
