@@ -74,12 +74,10 @@
 					errors={form?.messages}
 					type="color"
 				/>
-				<button type="submit">Update Team</button>
-			</form>
-
-			<form id="unregister" method="POST" action="?/unregister">
-				Registrations are still open.
-				<button type="submit">Unregister Team?</button>
+				<div class="submit-buttons">
+					<button type="submit" id="update-team">Update Team</button>
+					<button formaction="?/unregister" id="unregister-team">Unregister Team</button>
+				</div>
 			</form>
 		</section>
 
@@ -107,5 +105,22 @@
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
+	}
+
+	.submit-buttons {
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+		justify-content: end;
+	}
+	.submit-buttons button {
+		margin: 0.5rem 0.5rem;
+	}
+
+	#update-team {
+		border-color: rgb(15, 185, 15);
+	}
+	#unregister-team {
+		border-color: rgb(244, 54, 54);
 	}
 </style>
