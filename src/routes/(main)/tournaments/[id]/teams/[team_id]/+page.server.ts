@@ -236,8 +236,9 @@ export const actions: Actions = {
 
 	update_team: async ({ request, params }) => {
 		const data = parseFormData(await request.formData());
+		
 		const schema = vine.object({
-			name: vine.string(),
+			name: vine.string().optional(),
 			color: vine.string().regex(new RegExp(/#([a-f0-9]{6})/g)),
 		});
 
