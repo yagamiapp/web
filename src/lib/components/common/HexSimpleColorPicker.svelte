@@ -15,7 +15,7 @@
 <style>
 	.color-picker :global(.wrapper) {
 		background-color: var(--bg1);
-		border: 0.1rem solid var(--font-color);
+		border: 2px solid var(--font-color);
 	}
 	.color-picker :global(input) {
 		color: var(--font-color);
@@ -38,5 +38,6 @@
 		justify-content: center;
 		width: 10rem;
 		height: 2.5rem;
+		margin: 0;
 	}
 </style>
