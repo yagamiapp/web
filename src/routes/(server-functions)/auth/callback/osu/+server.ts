@@ -59,7 +59,7 @@ export const GET: RequestHandler = async ({ url, cookies, request }) => {
 
   // Verify session was set correctly:
   if (!user?.Sessions?.map(x => x.id).includes(sessionId)) {
-    console.log({ sessionId, userData });
+    console.log({ sessionId });
     throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong assigning the token.')
   }
   cookies.set('yagami_session', sessionId, { path: '/', maxAge: 60 * 60 * 24 * 365 })
@@ -128,9 +128,13 @@ const updateUser = async (userData: any, token: OsuToken, result: DetectResult, 
 
 
   // Update data
-  prisma.user.update({
+  const user = prisma.user.update({
     where: {
       id
+    },
+    include: {
+      OsuToken: true,
+      Sessions: true,
     },
     data: {
       country_code,
@@ -182,15 +186,7 @@ const updateUser = async (userData: any, token: OsuToken, result: DetectResult, 
     }
   })
 
-  return prisma.user.findUnique({
-    where: {
-      id
-    },
-    include: {
-      OsuToken: true,
-      Sessions: true,
-    }
-  })
+  return user;
 }
 
 const createNewUser = async (userData: any, token: OsuToken, result: DetectResult, sessionToken: string) => {
