@@ -1,6 +1,5 @@
 <script lang="ts">
 	import User from '$lib/components/common/cards/User.svelte';
-	import Button from '$lib/components/common/LargeButton.svelte';
 	import InvitePlayer from '$lib/components/tournament-page/team-page/InvitePlayer.svelte';
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import MatchList from '$lib/components/common/MatchList.svelte';
@@ -29,7 +28,7 @@
 	{#if tournament.team_size > 1}
 		<section class="team_header">
 			<h1>
-				Team: {team.name}
+				Team: {name}
 			</h1>
 		</section>
 	{/if}
@@ -40,7 +39,7 @@
 		{/if}
 		<div class="player_cards">
 			{#each Members as member}
-				<User user={member.User} {color} />
+				<User user={member.User} bind:color={color} />
 				{updateInTeam(member.User.id)}
 			{/each}
 		</div>
@@ -63,7 +62,7 @@
 					<EditPageSetting
 						name="name"
 						label="Team Name"
-						value={name}
+						bind:value={name}
 						errors={form?.messages}
 						type="text"
 					/>
@@ -71,7 +70,7 @@
 				<EditPageSetting
 					name="color"
 					label="Team Color"
-					value={color}
+					bind:value={color}
 					errors={form?.messages}
 					type="color"
 				/>
