@@ -108,16 +108,40 @@ export const actions: Actions = {
 
     update_match: async ({ request }) => {
         const formData = parseFormData(await request.formData());
-        const matchId = parseInt(String(formData.match_id));
+        const id = parseInt(String(formData.match_id));
         const roundId = parseInt(String(formData.rounds));
+
+        // Construct date object (if any)
+        let start_time: Date | null = null;
+        const startTimeRaw = formData.start_time;
+        if (startTimeRaw) {
+            if (String(startTimeRaw).match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/g)) {
+                // By default, JS Date objects are the local time zone
+                start_time = new Date(String(startTimeRaw));
+
+                // Correct time zone to UTC+0 / GMT
+                start_time.setMinutes(start_time.getMinutes() - start_time.getTimezoneOffset());
+
+                // Check for invalid date (e.g. 2024-13-32T00:00 -> 'new Date("Invalid Date")')
+                if (isNaN(start_time.getDate())) {
+                    start_time = null;
+                }
+
+                // Check the time is not in the past
+                else if (start_time.valueOf() < Date.now().valueOf()) {
+                    start_time = new Date();
+                }
+            }
+        }
 
         // Update match record
         await prisma.match.update({
             where: {
-                id: matchId
+                id
             },
             data: {
-                roundId: roundId
+                roundId,
+                start_time
             }
         });
     },
