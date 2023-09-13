@@ -148,7 +148,11 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 				expires_in,
 				refresh_token,
 				token_type,
-				userId: user.id
+				User: {
+					connect: {
+						id: user.id
+					}
+				}
 			},
 			update: {
 				access_token,
@@ -161,7 +165,11 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 
 		const session = await prisma.userSession.create({
 			data: {
-				osuId: user.id,
+				User: {
+					connect: {
+						id: userData.id
+					}
+				},
 				id: crypto.randomUUID()
 			}
 		});
@@ -194,13 +202,10 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 			body: tokenRequestForm.toString()
 		});
 		const token = await tokenRequest.json();
-		
+
 		if (token.error) {
-			console.log("token: " + JSON.stringify(token));
-			throw error(
-				StatusCodes.INTERNAL_SERVER_ERROR,
-				"Something went wrong talking to Discord."	
-			)
+			console.log('token: ' + JSON.stringify(token));
+			throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong talking to Discord.');
 		}
 
 		// Get user from discord API
@@ -213,11 +218,8 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 		const userData = await userRequest.json();
 
 		if (!userData.id) {
-			console.log("userDate: " + JSON.stringify(userData));
-			throw error(
-				StatusCodes.INTERNAL_SERVER_ERROR,
-				"Something went wrong talking to Discord."
-			)
+			console.log('userDate: ' + JSON.stringify(userData));
+			throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong talking to Discord.');
 		}
 
 		const user = await prisma.user.findFirst({
@@ -372,4 +374,4 @@ export const GET: RequestHandler = async ({ url, params, cookies, fetch }) => {
 	}
 
 	throw redirect(302, '/profile/settings');
-}
+};
