@@ -3,7 +3,7 @@ import { env as public_env } from '$env/dynamic/public';
 import { StatusCodes } from '$lib/StatusCodes';
 import type { RequestHandler } from './$types';
 import prisma from '$lib/prisma';
-import { error, json, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { OsuOauth, User, UserSession } from '@prisma/client';
 const { OSU_CLIENT_SECRET, } = private_env;
 const { PUBLIC_OSU_CLIENT_ID, } = public_env;
@@ -126,22 +126,9 @@ const updateUser = async (userData: any, token: OsuToken, result: DetectResult, 
 
   const { access_token, expires_in, refresh_token, token_type } = token;
 
-  // Update token
-  await prisma.osuOauth.update({
-    where: {
-      userId: id
-    },
-    data: {
-      access_token,
-      expires_in,
-      refresh_token,
-      token_type,
-      last_update: new Date()
-    }
-  })
 
   // Update data
-  return prisma.user.update({
+  prisma.user.update({
     where: {
       id
     },
@@ -166,10 +153,42 @@ const updateUser = async (userData: any, token: OsuToken, result: DetectResult, 
           lastUsed: new Date(),
         }
       }
+    }
+  })
+
+  // Update token
+  await prisma.osuOauth.upsert({
+    where: {
+      userId: id
+    },
+    update: {
+      access_token,
+      expires_in,
+      refresh_token,
+      token_type,
+      last_update: new Date()
+    },
+    create: {
+      User: {
+        connect: {
+          id
+        }
+      },
+      access_token,
+      expires_in,
+      refresh_token,
+      token_type,
+      last_update: new Date()
+    }
+  })
+
+  return prisma.user.findUnique({
+    where: {
+      id
     },
     include: {
+      OsuToken: true,
       Sessions: true,
-      OsuToken: true
     }
   })
 }
