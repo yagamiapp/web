@@ -9,6 +9,12 @@ const { OSU_CLIENT_SECRET } = private_env;
 
 const detector = new DeviceDetector();
 
+// I hate javascript
+// @ts-expect-error Add json functionality to BigInt type
+BigInt.prototype.toJSON = function () {
+	return this.toString();
+};
+
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('yagami_session');
 
@@ -167,10 +173,10 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 				} else {
 					console.log(
 						'Something went wrong refreshing the token for user ' +
-							user.id +
-							' (' +
-							user.username +
-							'): '
+						user.id +
+						' (' +
+						user.username +
+						'): '
 					);
 					console.log(updatedToken);
 				}

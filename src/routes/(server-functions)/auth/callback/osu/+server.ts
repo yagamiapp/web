@@ -1,12 +1,20 @@
 import { env as private_env } from '$env/dynamic/private';
 import { env as public_env } from '$env/dynamic/public';
 import { StatusCodes } from '$lib/StatusCodes';
-import { error } from 'console';
 import type { RequestHandler } from './$types';
 import prisma from '$lib/prisma';
-import { redirect } from '@sveltejs/kit';
+import { error, json, redirect } from '@sveltejs/kit';
+import type { OsuOauth, User, UserSession } from '@prisma/client';
 const { OSU_CLIENT_SECRET, } = private_env;
 const { PUBLIC_OSU_CLIENT_ID, } = public_env;
+import DeviceDetector, { type DetectResult } from 'node-device-detector';
+
+type OsuToken = {
+  token_type: string,
+  expires_in: number,
+  access_token: string,
+  refresh_token: string
+}
 
 const service =
 {
@@ -16,71 +24,188 @@ const service =
   client_secret: OSU_CLIENT_SECRET
 }
 
-export const GET: RequestHandler = async ({ url, cookies }) => {
-  const tokenRequestData = {
-    client_id: service.client_id,
-    client_secret: service.client_secret,
-    code: url.searchParams.get('code'),
-    grant_type: 'authorization_code',
-    redirect_uri: `${url.origin}/auth/callback/osu`
-  };
+const detector = new DeviceDetector();
+
+export const GET: RequestHandler = async ({ url, cookies, request }) => {
+  const code = url.searchParams.get('code');
+
+  if (!code) throw redirect(StatusCodes.TEMPORARY_REDIRECT, '/');
+
+  const token = await exchangeCode(code, url.origin);
+  if (!isToken(token)) {
+    throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong trying to contact the osu! authorization server')
+  }
+
+  const userData = await getUserInfo(token);
+  if (!userData.id) {
+    throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong trying to fetch osu! user information')
+  }
+  console.log(`Log in event from ${userData.username} (${userData.id})`)
+
+  let user: (User & {
+    Sessions?: UserSession[] | null,
+    OsuToken?: OsuOauth | null
+  }) | null = await getDBUser(userData.id);
+
+  const sessionId = crypto.randomUUID();
+  const userAgent = request.headers.get('user-agent') ?? '';
+  const result = detector.detect(userAgent);
+
+  if (!user) {
+    user = await createNewUser(userData, token, result, sessionId)
+  } else {
+    user = await updateUser(userData, token, result, sessionId)
+  }
+
+  // Verify session was set correctly:
+  if (!user?.Sessions?.map(x => x.id).includes(sessionId)) {
+    console.log({ sessionId, userData });
+    throw error(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong assigning the token.')
+  }
+  cookies.set('yagami_session', sessionId, { path: '/', maxAge: 60 * 60 * 24 * 365 })
+
+  throw redirect(StatusCodes.TEMPORARY_REDIRECT, '/');
+}
+
+const exchangeCode = async (code: string, origin: string): Promise<unknown> => {
+  const body = {
+    'client_id': PUBLIC_OSU_CLIENT_ID,
+    'client_secret': OSU_CLIENT_SECRET,
+    'code': code,
+    'grant_type': 'authorization_code',
+    'redirect_uri': `${origin}/auth/callback/osu`
+  }
+
   const tokenRequest = await fetch(service.auth_url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'applicatin/json'
     },
-    body: JSON.stringify(tokenRequestData)
-  });
-  const token = await tokenRequest.json();
+    body: JSON.stringify(body)
+  })
 
-  if (token.error) {
-    throw error(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      'Something went wrong while logging in to osu!'
-    );
-  }
+  return tokenRequest.json();
+}
 
-  // Get user from osu API
-  const reqUrl = `${service.base_url}/me`;
-  const userRequest = await fetch(reqUrl, {
+const getUserInfo = async (token: OsuToken): Promise<any> => {
+  const requestUrl = `${service.base_url}/me/osu`
+
+  const userRequest = await fetch(requestUrl, {
     headers: {
-      Authorization: `Bearer ${token.access_token}`,
-      Accept: 'application/json'
+      'Authorization': `${token.token_type} ${token.access_token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
-  });
-  const userData = await userRequest.json();
+  })
+  return userRequest.json();
+}
 
-  if (userData.authentication == 'basic') {
-    throw error(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      'Something went wrong while fetching osu user data'
-    );
-  }
+const updateUser = async (userData: any, token: OsuToken, result: DetectResult, sessionToken: string) => {
 
-  const { id, username, country_code, cover_url } = userData;
-  const country_name = userData.country.name;
   const {
-    ranked_score,
-    play_count,
-    total_score,
-    global_rank: pp_rank,
-    hit_accuracy,
-    pp
-  } = userData.statistics;
-  const { current: level, progress: level_progress } = userData.statistics.level;
-
-  let user = await prisma.user.findUnique({
-    where: {
-      id: userData.id
-    }
-  });
-
-  user = await prisma.user.upsert({
-    where: {
-      id: id
+    id,
+    cover_url,
+    country: {
+      code: country_code,
+      name: country_name
     },
-    create: {
+    statistics: {
+      pp,
+      global_rank: pp_rank,
+      ranked_score,
+      hit_accuracy,
+      play_count,
+      total_score,
+      level: {
+        current: level,
+        progress: level_progress
+      }
+    }
+  } = userData;
+
+  const { access_token, expires_in, refresh_token, token_type } = token;
+
+  // Update token
+  await prisma.osuOauth.update({
+    where: {
+      userId: id
+    },
+    data: {
+      access_token,
+      expires_in,
+      refresh_token,
+      token_type,
+      last_update: new Date()
+    }
+  })
+
+  // Update data
+  return prisma.user.update({
+    where: {
+      id
+    },
+    data: {
+      country_code,
+      country_name,
+      cover_url,
+      ranked_score,
+      play_count,
+      total_score,
+      pp,
+      pp_rank,
+      level,
+      level_progress,
+      hit_accuracy,
+      Sessions: {
+        "create": {
+          id: sessionToken,
+          device: result.device.type,
+          browser: result.client.name,
+          os: result.os.name,
+          lastUsed: new Date(),
+        }
+      }
+    },
+    include: {
+      Sessions: true,
+      OsuToken: true
+    }
+  })
+}
+
+const createNewUser = async (userData: any, token: OsuToken, result: DetectResult, sessionToken: string) => {
+
+  const {
+    id,
+    username,
+    cover_url,
+    country: {
+      code: country_code,
+      name: country_name
+    },
+    statistics: {
+      pp,
+      global_rank: pp_rank,
+      ranked_score,
+      hit_accuracy,
+      play_count,
+      total_score,
+      level: {
+        current: level,
+        progress: level_progress
+      }
+    }
+  } = userData;
+
+  const { access_token, expires_in, refresh_token, token_type } = token;
+
+  return await prisma.user.create({
+    include: {
+      OsuToken: true,
+      Sessions: true,
+    },
+    data: {
       id,
       username,
       country_code,
@@ -89,62 +214,37 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
       ranked_score,
       play_count,
       total_score,
-      pp_rank,
-      hit_accuracy,
-      level,
-      level_progress,
-      pp
-    },
-    update: {
-      username,
-      cover_url,
-      ranked_score,
-      play_count,
-      total_score,
       pp,
       pp_rank,
-      hit_accuracy,
       level,
-      level_progress
-    }
-  });
-
-  const { access_token, expires_in, refresh_token, token_type } = token;
-
-  await prisma.osuOauth.upsert({
-    where: {
-      userId: user.id
-    },
-    create: {
-      access_token,
-      expires_in,
-      refresh_token,
-      token_type,
-      User: {
-        connect: {
-          id: user.id
-        }
-      }
-    },
-    update: {
-      access_token,
-      expires_in,
-      refresh_token,
-      token_type,
-      last_update: new Date()
-    }
-  });
-
-  const session = await prisma.userSession.create({
-    data: {
-      User: {
-        connect: {
-          id: userData.id
+      level_progress,
+      hit_accuracy,
+      OsuToken: {
+        "create": {
+          access_token,
+          expires_in,
+          token_type,
+          refresh_token
         }
       },
-      id: crypto.randomUUID()
+      Sessions: {
+        "create": {
+          id: sessionToken,
+          device: result.device.type,
+          browser: result.client.name,
+          os: result.os.name,
+          lastUsed: new Date(),
+        }
+      }
     }
-  });
-  cookies.set('yagami_session', session.id, { path: '/', maxAge: 60 * 60 * 24 * 365 });
-  throw redirect(302, '/');
+  })
 }
+
+
+const getDBUser = async (id: number) => {
+  return prisma.user.findUnique({ where: { id: id } })
+}
+
+const isToken = (token: unknown): token is OsuToken => {
+  return (<OsuToken>token).access_token != undefined;
+};
