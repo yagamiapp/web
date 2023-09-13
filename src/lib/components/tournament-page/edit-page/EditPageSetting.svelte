@@ -61,7 +61,16 @@
 {/if}
 
 {#if value !== original}
-	<span class="modified" transition:fade={{ duration: 150 }} />
+	<div
+		class="reset-button"
+		on:click={() => value = original}
+		on:keypress={() => value = original}
+	>
+		<span
+			class="modified"
+			transition:fade={{ duration: 150 }}
+		/>
+	</div>
 {/if}
 
 {#if error}
@@ -114,14 +123,17 @@
 		border: solid 2px var(--tournament-color);
 	}
 	.color-picker {
-		margin: 0.4rem 2rem;
+		margin: 0.4rem 0;
 		width: fit-content;
 		display: inline-block;
 	}
+	.reset-button {
+		display: inline;
+		margin: 0.4rem 0.4rem;
+	}
 	.modified {
 		display: inline-block;
-		margin-bottom: 6px;
-		margin-left: 0.4rem;
+		margin: 5px 3px;
 		width: 4px;
 		height: 4px;
 		border-radius: 2px;
