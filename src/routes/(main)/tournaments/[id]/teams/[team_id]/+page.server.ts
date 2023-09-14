@@ -62,16 +62,14 @@ export const actions: Actions = {
 			}
 
 			if (query.username) {
-				// Double check database with username if queried with non-matching case
-				// (cannot query the database case-insensitively due to SQLite limitations)
+				// Double check database with the case-correct username retrieved from osu!
+				// (cannot query the database once case-insensitively due to SQLite limitations)
 				console.log(
 					'Double checking database for username: ' + query.username + '/' + userData.username
 				);
 				user = await prisma.user.findFirst({
 					where: {
-						username: {
-							contains: userData.username
-						}
+						username: userData.username
 					},
 					include: {
 						Invites: {
@@ -238,7 +236,7 @@ export const actions: Actions = {
 		const data = parseFormData(await request.formData());
 		
 		const schema = vine.object({
-			name: vine.string().optional(),
+			name: vine.string().minLength(1).optional(),
 			color: vine.string().regex(new RegExp(/#([a-f0-9]{6})/g)),
 		});
 

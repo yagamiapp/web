@@ -65,6 +65,7 @@
 						bind:value={name}
 						errors={form?.messages}
 						type="text"
+						placeholder="Enter team name..."
 					/>
 				{/if}
 				<EditPageSetting
@@ -73,7 +74,7 @@
 					bind:value={color}
 					errors={form?.messages}
 					type="color"
-					tooltip="Changes the accent colour on your team and player cards for this tournament."
+					tooltip="Changes the accent color on your team and player cards for this tournament."
 				/>
 				<div class="submit-buttons">
 					<button type="submit" id="update-team">Update Team</button>
