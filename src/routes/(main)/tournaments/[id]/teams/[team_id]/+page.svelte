@@ -4,7 +4,7 @@
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import MatchList from '$lib/components/common/MatchList.svelte';
 	import type { PageServerData, ActionData, LayoutServerData } from './$types';
-	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
+	import Setting from '$lib/components/common/Setting.svelte';
 
 	export let data: PageServerData & LayoutServerData;
 	export let form: ActionData;
@@ -59,7 +59,7 @@
 
 			<form id="team_settings" method="POST" action="?/update_team">
 				{#if tournament.team_size != 1}
-					<EditPageSetting
+					<Setting
 						name="name"
 						label="Team Name"
 						bind:value={name}
@@ -68,7 +68,7 @@
 						placeholder="Enter team name..."
 					/>
 				{/if}
-				<EditPageSetting
+				<Setting
 					name="color"
 					label="Team Color"
 					bind:value={color}

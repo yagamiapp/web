@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ModColors, ModList, ModNames } from "$lib/ModEnums";
-	import EditPageSetting from "$lib/components/tournament-page/edit-page/EditPageSetting.svelte";
+	import Setting from "$lib/components/common/Setting.svelte";
 	import MappoolSetup from "./MappoolSetup.svelte";
 	import type { ActionData, PageData, PageServerData } from "./$types";
 	import { enhance } from "$app/forms";
@@ -15,7 +15,7 @@
 {#key round}
     <div id="mappool-settings">
         <form method="POST" action="?/update_mappool" use:enhance>
-            <EditPageSetting
+            <Setting
                 name="name"
                 label="Round/Mappool Name"
                 value={round.name}
@@ -23,7 +23,7 @@
                 type="text"
                 --tournament-color={tournament.color}
             />
-            <EditPageSetting
+            <Setting
                 name="acronym"
                 label="Round/Mappool Acronym"
                 value={round.acronym}
@@ -31,7 +31,7 @@
                 type="text"
                 --tournament-color={tournament.color}
             />
-            <EditPageSetting
+            <Setting
                 name="bans"
                 label="Number of bans"
                 value={round.bans}
@@ -39,7 +39,7 @@
                 type="number"
                 --tournament-color={tournament.color}
             />
-            <EditPageSetting
+            <Setting
                 name="best_of"
                 label="Best of ?"
                 value={round.best_of}

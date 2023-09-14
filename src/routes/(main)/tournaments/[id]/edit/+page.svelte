@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
+	import Setting from '$lib/components/common/Setting.svelte';
 	import type { Tournament } from '@prisma/client';
 	import { teamModeEnum, scoreModeEnum, doublePickEnum, doubleBanEnum } from '$lib/TournamentEnums';
 	import type { ActionData } from './$types';
@@ -46,7 +46,7 @@
 	<form method="POST" action="?/save">
 		<h1>Tournament Page Settings</h1>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ name })}
 			label="Tournament Name"
 			value={name}
@@ -54,7 +54,7 @@
 			type="text"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ acronym })}
 			label="Tournament Acronym"
 			value={acronym}
@@ -62,7 +62,7 @@
 			type="text"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ color })}
 			label="Theme Colour"
 			value={color}
@@ -70,7 +70,7 @@
 			type="color"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ description })}
 			label="Tournament Description"
 			value={description}
@@ -78,7 +78,7 @@
 			type="textarea"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ allow_registrations })}
 			label="Player Registrations Open"
 			value={allow_registrations}
@@ -86,7 +86,7 @@
 			type="switch"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name="private"
 			label="Set Tournament to Private"
 			value={data.tournament.private}
@@ -96,7 +96,7 @@
 
 		<h1>Match Rules</h1>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ force_nf })}
 			label="Force NoFail?"
 			value={force_nf}
@@ -104,7 +104,7 @@
 			type="switch"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ score_mode })}
 			label="Map Win Condition"
 			value={score_mode}
@@ -113,7 +113,7 @@
 			options={scoreModeEnum}
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ team_mode })}
 			label="In-Match Team Mode"
 			value={team_mode}
@@ -122,7 +122,7 @@
 			options={teamModeEnum}
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ team_size })}
 			label="Team Size"
 			value={team_size}
@@ -130,7 +130,7 @@
 			type="number"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ x_v_x_mode })}
 			label="Players Per Team Per Map"
 			value={x_v_x_mode}
@@ -138,7 +138,7 @@
 			type="number"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ fm_mods })}
 			label="Min-Number of Mods per Player (FreeMod Picks, not including NF)"
 			value={fm_mods}
@@ -146,7 +146,7 @@
 			type="number"
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ double_pick })}
 			label="Double Picking Rule"
 			value={double_pick}
@@ -155,7 +155,7 @@
 			options={doublePickEnum}
 		/>
 
-		<EditPageSetting
+		<Setting
 			name={Str({ double_ban })}
 			label="Double Banning Rule"
 			value={double_ban}
