@@ -4,7 +4,7 @@
 		ActionData,
 		PageServerData
 	} from '../../../../routes/(main)/tournaments/[id]/teams/new/$types';
-	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
+	import Setting from '$lib/components/common/Setting.svelte';
 	import ReceivedInvites from '$lib/components/tournament-page/team-page/ReceivedInvites.svelte';
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 
@@ -27,7 +27,7 @@
 		<form method="POST" action="?/create_team">
 			<h1>Create New Team</h1>
 	
-			<EditPageSetting
+			<Setting
 				name="name"
 				label="Team Name"
 				value={team_name}
@@ -35,7 +35,7 @@
 				type="text"
 			/>
 	
-			<EditPageSetting
+			<Setting
 				name="color"
 				label="Team Color"
 				value={color}

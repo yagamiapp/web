@@ -58,9 +58,9 @@
 				use:enhance
 				on:submit={() => (suggestedUserInvite = null)}
 			>
-				<button name="invite_player" id="invite_player" value={suggestedUserInvite.id}
-					>Send Invite</button
-				>
+				<button name="invite_player" id="invite_player" value={suggestedUserInvite.id}>
+					Send Invite
+				</button>
 			</form>
 
 			{#if form?.success}

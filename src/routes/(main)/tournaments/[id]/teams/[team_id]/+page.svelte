@@ -1,11 +1,10 @@
 <script lang="ts">
 	import User from '$lib/components/common/cards/User.svelte';
-	import Button from '$lib/components/common/LargeButton.svelte';
 	import InvitePlayer from '$lib/components/tournament-page/team-page/InvitePlayer.svelte';
 	import TournamentPageTemplate from '$lib/components/tournament-page/TournamentPageTemplate.svelte';
 	import MatchList from '$lib/components/common/MatchList.svelte';
 	import type { PageServerData, ActionData, LayoutServerData } from './$types';
-	import EditPageSetting from '$lib/components/tournament-page/edit-page/EditPageSetting.svelte';
+	import Setting from '$lib/components/common/Setting.svelte';
 
 	export let data: PageServerData & LayoutServerData;
 	export let form: ActionData;
@@ -29,7 +28,7 @@
 	{#if tournament.team_size > 1}
 		<section class="team_header">
 			<h1>
-				Team: {team.name}
+				Team: {name}
 			</h1>
 		</section>
 	{/if}
@@ -40,7 +39,7 @@
 		{/if}
 		<div class="player_cards">
 			{#each Members as member}
-				<User user={member.User} {color} />
+				<User user={member.User} bind:color={color} />
 				{updateInTeam(member.User.id)}
 			{/each}
 		</div>
@@ -60,27 +59,27 @@
 
 			<form id="team_settings" method="POST" action="?/update_team">
 				{#if tournament.team_size != 1}
-					<EditPageSetting
+					<Setting
 						name="name"
 						label="Team Name"
-						value={name}
+						bind:value={name}
 						errors={form?.messages}
 						type="text"
+						placeholder="Enter team name..."
 					/>
 				{/if}
-				<EditPageSetting
+				<Setting
 					name="color"
 					label="Team Color"
-					value={color}
+					bind:value={color}
 					errors={form?.messages}
 					type="color"
+					tooltip="Changes the accent color on your team and player cards for this tournament."
 				/>
-				<button type="submit">Update Team</button>
-			</form>
-
-			<form id="unregister" method="POST" action="?/unregister">
-				Registrations are still open.
-				<button type="submit">Unregister Team?</button>
+				<div class="submit-buttons">
+					<button type="submit" id="update-team">Update Team</button>
+					<button formaction="?/unregister" id="unregister-team">Unregister Team</button>
+				</div>
 			</form>
 		</section>
 
@@ -108,5 +107,22 @@
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
+	}
+
+	.submit-buttons {
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+		justify-content: end;
+	}
+	.submit-buttons button {
+		margin: 0.5rem 0.5rem;
+	}
+
+	#update-team {
+		border-color: rgb(15, 185, 15);
+	}
+	#unregister-team {
+		border-color: rgb(244, 54, 54);
 	}
 </style>
