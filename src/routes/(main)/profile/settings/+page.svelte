@@ -23,6 +23,12 @@
 
 <svelte:head>
 	<title>{user.username} - Settings</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="User Settings" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Manage sessions and link Discord and Twitch accounts." />
+	<meta name="theme-color" content="#f34e87" /> <!-- var(--yagami-pink) -->
 </svelte:head>
 
 <div class="wrap">

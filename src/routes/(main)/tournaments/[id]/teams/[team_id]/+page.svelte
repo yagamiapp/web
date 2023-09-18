@@ -41,6 +41,12 @@
 
 <svelte:head>
 	<title>{name} - {tournament.name}</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content={name} />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Team playing in {tournament.name}. Members: {Members.join(', ')}" />
+	<meta name="theme-color" content={color} />
 </svelte:head>
 
 <TournamentPageTemplate {tournament}>

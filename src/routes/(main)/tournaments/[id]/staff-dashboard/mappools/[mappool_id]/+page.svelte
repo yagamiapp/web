@@ -20,6 +20,10 @@
 	}
 </script>
 
+<svelte:head>
+    <meta property="og:description" content="Edit the {round.name} mappool." />
+</svelte:head>
+
 {#key round}
     <div id="mappool-settings">
         <form method="POST" action="?/update_mappool" use:enhance={confirmDelete}>

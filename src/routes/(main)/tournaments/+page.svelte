@@ -10,6 +10,12 @@
 
 <svelte:head>
 	<title>Tournaments</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Tournaments" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Browse tournaments hosted on Yagami" />
+	<meta name="theme-color" content="#f34e87" /> <!-- var(--yagami-pink) -->
 </svelte:head>
 
 <CentreNarrowPanel>
