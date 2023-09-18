@@ -41,6 +41,11 @@
 
 <svelte:head>
     <title>Matches - Staff View - {tournamentName}</title>
+
+    <meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Matches - Staff - {tournamentName}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Edit upcoming matches for {tournamentName}" />
 </svelte:head>
 
 <div class="wrapper">

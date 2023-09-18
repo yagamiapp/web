@@ -5,6 +5,12 @@
 
 <svelte:head>
 	<title>Mappool List</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Mappools" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Browse mappools from various tournaments hosted on Yagami." />
+	<meta name="theme-color" content="#f34e87" /> <!-- var(--yagami-pink) -->
 </svelte:head>
 
 <h1>Mappools</h1>

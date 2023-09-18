@@ -5,6 +5,7 @@
 	import Matches from '$lib/components/tournament-page/TournamentMatches.svelte';
 	import Button from '$lib/components/common/LargeButton.svelte';
 	import RegistrationButton from '$lib/components/tournament-page/RegistrationButton.svelte';
+	import { scoreModeEnum, teamModeEnum } from '$lib/TournamentEnums';
 
 	export let data: {
 		tournament: db.FullyPopulatedTournament;
@@ -12,7 +13,15 @@
 		sessionUserTeam: db.TeamWithMembers | null;
 	};
 	let { tournament, editPerms } = data;
-	let { name, acronym, id, team_size } = tournament;
+	let { name, acronym, id, team_size, x_v_x_mode, team_mode, score_mode, banner_url, color } = tournament;
+
+	const tournamentSummary = `
+	${tournament.description}
+	Team Size ${tournament.team_size}, ${tournament.score_mode}
+	Team Size ${team_size}, ${x_v_x_mode}v${x_v_x_mode}
+	${teamModeEnum[team_mode]}
+	${scoreModeEnum[score_mode]}
+	`;
 
 	$: tournament = data.tournament;
 	$: sessionUserTeam = data.sessionUserTeam;
@@ -20,6 +29,13 @@
 
 <svelte:head>
 	<title>{acronym}: {name}</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content={name} />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content={tournamentSummary} />
+	<meta property="og:image" content={banner_url} />
+	<meta name="theme-color" content={color} />
 </svelte:head>
 
 <TournamentPageTemplate {tournament} header noTitle>

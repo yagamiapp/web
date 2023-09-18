@@ -17,6 +17,13 @@
 
 <svelte:head>
 	<title>Register for {tournament.name}</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Register for {tournament.name}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content={tournament.allow_registrations ? 'Registrations still open.' : 'Registrations currently closed.'} />
+	<meta property="og:image" content={tournament.banner_url} />
+	<meta name="theme-color" content={tournament.color} />
 </svelte:head>
 
 {#if tournament.team_size == 1}

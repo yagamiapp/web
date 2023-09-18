@@ -23,7 +23,8 @@
 		allow_registrations,
 		fm_mods,
 		double_pick,
-		double_ban
+		double_ban,
+		banner_url
 		// private (use 'data.tournament.private' as 'private' is a reserved keyword)
 	} = data.tournament;
 
@@ -35,6 +36,13 @@
 
 <svelte:head>
 	<title>Edit Tournament - {name}</title>
+
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="{name} Settings" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Configure main tournament settings (host only)" />
+	<meta property="og:image" content={banner_url} />
+	<meta name="theme-color" content={color} />
 </svelte:head>
 
 <CentreNarrowPanel --tournament-color={data.tournament.color}>
