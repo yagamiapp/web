@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance, type SubmitFunction } from "$app/forms";
     import { matchStates, MatchStates } from "$lib/MatchStates";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
@@ -17,13 +18,24 @@
             }
         }
     }
+
+    const confirmDelete: SubmitFunction = async ({ cancel, action }) => {
+        if (action.search == '?/delete_match') {
+            if (!confirm('Warning! This action is irreversible.\nAre you sure you want to continue?')) {
+                cancel();
+            }
+            else {
+                dispatch('clear');
+            }
+        }
+	}
 </script>
 
 <h2>Match {match.id}</h2>
 <p>Status: {matchStates[match.state]}</p>
 
 {#if match.state == MatchStates.NOT_STARTED}
-    <form method="POST" action="?/update_match">
+    <form method="POST" action="?/update_match" use:enhance={confirmDelete}>
         <input type="hidden" name="match_id" value={match.id} />
         
         <label for="rounds">Round: </label>
