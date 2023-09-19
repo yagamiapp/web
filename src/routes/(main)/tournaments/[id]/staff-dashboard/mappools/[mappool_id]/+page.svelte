@@ -3,18 +3,30 @@
 	import Setting from "$lib/components/common/Setting.svelte";
 	import MappoolSetup from "./MappoolSetup.svelte";
 	import type { ActionData, PageData, PageServerData } from "./$types";
-	import { enhance } from "$app/forms";
+	import { enhance, type SubmitFunction } from "$app/forms";
 
     export let data: PageServerData & PageData;
     export let form: ActionData;
     $: tournament = data.tournament;
     $: round = data.round;
     $: mappoolReleased = round.show_mappool;
+
+    const confirmDelete: SubmitFunction = async ({ cancel, action }) => {
+        if (action.search == '?/delete_mappool') {
+            if (!confirm('Warning! This action is irreversible.\nAre you sure you want to continue?')) {
+                cancel();
+            }
+        }
+	}
 </script>
+
+<svelte:head>
+    <meta property="og:description" content="Edit the {round.name} mappool." />
+</svelte:head>
 
 {#key round}
     <div id="mappool-settings">
-        <form method="POST" action="?/update_mappool" use:enhance>
+        <form method="POST" action="?/update_mappool" use:enhance={confirmDelete}>
             <Setting
                 name="name"
                 label="Round/Mappool Name"

@@ -9,6 +9,11 @@
 
 <svelte:head>
     <title>Mappools - Staff View - {tournament.name}</title>
+
+    <meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Mappools - Staff - {tournament.name}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Edit mappools for {tournament.name}" />
 </svelte:head>
 
 <div id="mappool-list">

@@ -10,6 +10,10 @@
     export let data: PageServerData;
     export let form: ActionData;
     let { tournamentName, tournamentColor, teams, rounds } = data;
+    $: rounds = data.rounds;
+    // For some reason, only having the reactive declaration causes a "rounds is not iterable" 500 error.
+    // No idea why when the other reactive iterable (team.Members in /teams/[team_id]/+page.svelte)
+    //  works fine with only reactive declaration
     let selectedMatch: db.MatchWithTeams | undefined = undefined;
     $: hideFinishedMatches = false;
 
@@ -41,6 +45,11 @@
 
 <svelte:head>
     <title>Matches - Staff View - {tournamentName}</title>
+
+    <meta name="twitter:card" content="summary" />
+	<meta property="og:title" content="Matches - Staff - {tournamentName}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Edit upcoming matches for {tournamentName}" />
 </svelte:head>
 
 <div class="wrapper">
@@ -48,19 +57,17 @@
         <h1>Matches</h1>
 
         <div class="match-list">
-            {#key rounds}
-                {#each rounds as round (round.id)}
-                    <div class="round">
-                        <h2>{round.name}</h2>
-                        {#each round.Match as match (match.id)}
-                            {#if !( (match.state == MatchStates.ARCHIVED || match.state == MatchStates.MATCH_CLOSED) && hideFinishedMatches ) }
-                                <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
-                                    on:select={() => selectedMatch = match}/>
-                            {/if}
-                        {/each}
-                    </div>
-                {/each}
-            {/key}
+            {#each rounds as round (round.id)}
+                <div class="round">
+                    <h2>{round.name}</h2>
+                    {#each round.Match as match (match.id)}
+                        {#if !( (match.state == MatchStates.ARCHIVED || match.state == MatchStates.MATCH_CLOSED) && hideFinishedMatches ) }
+                            <CompactMatchCard {match} selected={selectedMatch?.id == match.id}
+                                on:select={() => selectedMatch = match}/>
+                        {/if}
+                    {/each}
+                </div>
+            {/each}
         </div>
 
         <MatchController {rounds} {form} bind:selectedMatch />

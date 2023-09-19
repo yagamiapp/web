@@ -3,7 +3,6 @@ import prisma from '$lib/prisma';
 import { StatusCodes } from '$lib/StatusCodes';
 
 export const actions: Actions = {
-	// create_mappool
 	create_mappool: async ({ params }) => {
 		const tournamentId = parseInt(String(params.id));
 

@@ -5,11 +5,13 @@
 	import MatchList from '$lib/components/common/MatchList.svelte';
 	import type { PageServerData, ActionData, LayoutServerData } from './$types';
 	import Setting from '$lib/components/common/Setting.svelte';
+	import { enhance, type SubmitFunction } from '$app/forms';
 
 	export let data: PageServerData & LayoutServerData;
 	export let form: ActionData;
 	let { tournament, team, isTeamCaptain } = data;
 	let { name, Members, color, InBracketMatches, icon_url } = team;
+	$: Members = data.team.Members;
 
 	let inTeam: boolean = false;
 	function updateInTeam(memberId: number) {
@@ -19,13 +21,30 @@
 		return '';
 	}
 
-	function getMembersString() {
+	const confirmUnregister: SubmitFunction = async ({ cancel, action }) => {
+		if (action.search == '?/unregister') {
+			if (!confirm('Warning! This action is irreversible.\nAre you sure you want to continue?')) {
+				cancel();
+			}
+		}
+	}
+
+	const confirmLeaveTeam: SubmitFunction = async ({ cancel }) => {
+		if (!confirm('Are you sure you want to leave this team? You may not be invited back.')) {
+			cancel();
+		}
+		else {
+			inTeam = false;
+		}
+	}
+  
+  function getMembersString() {
 		let memberNames: string[] = [];
 		for (const member of Members) {
 			memberNames.push(member.User.username);
 		}
 		return memberNames.join(', ');
-	}
+  }
 </script>
 
 <svelte:head>
@@ -53,13 +72,13 @@
 			<h1>Players</h1>
 		{/if}
 		<div class="player_cards">
-			{#each Members as member}
+			{#each Members as member (member.User.id)}
 				<User user={member.User} bind:color={color} />
 				{updateInTeam(member.User.id)}
 			{/each}
 		</div>
-		{#if inTeam && !isTeamCaptain}
-			<form method="POST" action="?/leave_team">
+		{#if inTeam && !isTeamCaptain && tournament.allow_registrations}
+			<form method="POST" action="?/leave_team" use:enhance={confirmLeaveTeam}>
 				<button type="submit">Leave Team</button>
 			</form>
 		{/if}
@@ -72,7 +91,7 @@
 		<section class="settings">
 			<h1>Team Settings</h1>
 
-			<form id="team_settings" method="POST" action="?/update_team">
+			<form id="team_settings" method="POST" action="?/update_team" use:enhance={confirmUnregister}>
 				{#if tournament.team_size != 1}
 					<Setting
 						name="name"
