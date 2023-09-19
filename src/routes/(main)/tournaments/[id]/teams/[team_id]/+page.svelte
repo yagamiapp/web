@@ -9,7 +9,7 @@
 	export let data: PageServerData & LayoutServerData;
 	export let form: ActionData;
 	let { tournament, team, isTeamCaptain } = data;
-	let { name, Members, color, InBracketMatches } = team;
+	let { name, Members, color, InBracketMatches, icon_url } = team;
 
 	let inTeam: boolean = false;
 	function updateInTeam(memberId: number) {
@@ -17,6 +17,14 @@
 			inTeam = true;
 		}
 		return '';
+	}
+
+	function getMembersString() {
+		let memberNames: string[] = [];
+		for (const member of Members) {
+			memberNames.push(member.User.username);
+		}
+		return memberNames.join(', ');
 	}
 </script>
 
@@ -26,7 +34,8 @@
 	<meta name="twitter:card" content="summary" />
 	<meta property="og:title" content={name} />
 	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Team playing in {tournament.name}. Members: {Members.join(', ')}" />
+	<meta property="og:description" content="{getMembersString()} are competing in {tournament.name}" />
+	<meta property="og:image" content={icon_url} />
 	<meta name="theme-color" content={color} />
 </svelte:head>
 
