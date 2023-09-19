@@ -5,13 +5,6 @@
 
 <svelte:head>
 	<title>{$page.status} - {$page.error?.message ?? "No error message."}</title>
-
-	<meta name="twitter:card" content="summary" />
-	<meta property="og:title" content="Error {$page.status}" />
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="{$page.error?.message ?? "No error message."}" />
-	<meta property="og:image" content="" />
-	<meta name="theme-color" content="#ff0000" />
 </svelte:head>
 
 <div class="wrap">

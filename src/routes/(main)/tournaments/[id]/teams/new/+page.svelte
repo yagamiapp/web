@@ -18,7 +18,7 @@
 <svelte:head>
 	<title>Register for {tournament.name}</title>
 
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="og:title" content="Register for {tournament.name}" />
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content={tournament.allow_registrations ? 'Registrations still open.' : 'Registrations currently closed.'} />
