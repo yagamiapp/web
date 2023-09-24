@@ -16,12 +16,10 @@
 	let { name, acronym, id, team_size, x_v_x_mode, team_mode, score_mode, banner_url, color } = tournament;
 
 	const tournamentSummary = `
-	${tournament.description}
-	Team Size ${tournament.team_size}, ${tournament.score_mode}
-	Team Size ${team_size}, ${x_v_x_mode}v${x_v_x_mode}
-	${teamModeEnum[team_mode]}
-	${scoreModeEnum[score_mode]}
-	`;
+${tournament.description}
+Team Size ${team_size}, ${x_v_x_mode}v${x_v_x_mode}
+${teamModeEnum[team_mode]}
+${scoreModeEnum[score_mode]}`;
 
 	$: tournament = data.tournament;
 	$: sessionUserTeam = data.sessionUserTeam;
@@ -30,7 +28,7 @@
 <svelte:head>
 	<title>{acronym}: {name}</title>
 
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="og:title" content={name} />
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content={tournamentSummary} />

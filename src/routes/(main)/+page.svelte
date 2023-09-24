@@ -16,8 +16,9 @@
 	<meta property="og:title" content="Yagami" />
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content="The future of osu! tournaments" />
-	<meta property="og:image" content="https://yagami.clxxiii.dev/icons/white-gradient.png" />
-	<meta name="theme-color" content="#f34e87" /> <!-- var(--yagami-pink) -->
+	<meta property="og:image" content="https://yagami.app/icons/white-gradient.png" />
+	<meta name="theme-color" content="#f34e87" />
+	<!-- var(--yagami-pink) -->
 </svelte:head>
 
 <section id="home" on:mousemove={parallax}>

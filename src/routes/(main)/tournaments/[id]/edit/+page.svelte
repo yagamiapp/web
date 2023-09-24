@@ -24,7 +24,6 @@
 		fm_mods,
 		double_pick,
 		double_ban,
-		banner_url
 		// private (use 'data.tournament.private' as 'private' is a reserved keyword)
 	} = data.tournament;
 
