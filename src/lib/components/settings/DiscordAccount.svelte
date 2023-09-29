@@ -32,8 +32,6 @@
 		width: 100px;
 		border-radius: 10px;
 		background-color: #ff6666;
-		color: white;
-		text-decoration: none;
 		font-weight: bold;
 	}
 </style>

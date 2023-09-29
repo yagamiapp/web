@@ -22,9 +22,7 @@
 	a {
 		position: relative;
 		border-radius: 20px;
-		color: white;
 		background: linear-gradient(90deg, var(--yagami-pink), var(--yagami-orange));
-		text-decoration: none;
 		font-weight: bold;
 		width: 300px;
 		padding: 0.7rem 10px;

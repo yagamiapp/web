@@ -17,9 +17,7 @@
 	}
 	a {
 		border-radius: 25px;
-		color: white;
 		background: linear-gradient(90deg, var(--yagami-pink), var(--yagami-orange));
-		text-decoration: none;
 		font-weight: bold;
 		padding: 10px;
 		margin: 10px;

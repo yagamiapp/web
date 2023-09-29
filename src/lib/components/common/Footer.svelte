@@ -49,11 +49,9 @@
 	}
 	a {
 		font-size: 18px;
-		text-decoration: none;
 		background: var(--bg2);
 		padding: 10px;
 		/* color: rgba(255, 255, 255, 0.4); */
-		color: var(--fontColor);
 		box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 		transition: 0.1s ease-in-out;
 	}

@@ -70,3 +70,8 @@ button {
 	transition: border-color 200ms ease;
 	background-color: var(--bg1);
 }
+
+a {
+	text-decoration: none;
+	color: var(--font-color);
+}

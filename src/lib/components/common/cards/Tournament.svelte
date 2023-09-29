@@ -24,10 +24,6 @@
 </a>
 
 <style>
-	a {
-		color: var(--text-color);
-		text-decoration: none;
-	}
 	.tournament {
 		position: relative;
 		background-color: var(--bg4);
