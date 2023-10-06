@@ -3,6 +3,7 @@
 
 	export let user: User;
 	export let color = 'rgba(255, 255, 255, 0.5)';
+	export let link = '/u/' + user.id;
 
 	let { username, id, pp_rank, cover_url, country_code, pp, hit_accuracy } = user;
 
@@ -23,7 +24,9 @@
 
 	<div class="info-wrap">
 		<div class="name-flag-wrap">
-			<div class="name">{username}</div>
+			<div class="name">
+				<a href={link}>{username}</a>
+			</div>
 			<img src={flag} alt="{flag} flag" class="flag" />
 		</div>
 		<div class="label-wrap">
@@ -126,5 +129,8 @@
 		width: 85%;
 		height: 5px;
 		border-radius: 10px;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 </style>

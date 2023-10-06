@@ -46,9 +46,7 @@
 		justify-content: center;
 		border-radius: 5px;
 		align-items: center;
-		color: white;
 		gap: 5px;
-		text-decoration: none;
 	}
 
 	.icon {

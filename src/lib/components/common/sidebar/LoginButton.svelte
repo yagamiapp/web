@@ -6,8 +6,6 @@
 		margin: 5px;
 		width: 250px;
 		height: 60px;
-		color: white;
-		text-decoration: none;
 		margin: 20px;
 		display: grid;
 		place-items: center;

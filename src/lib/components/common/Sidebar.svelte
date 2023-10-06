@@ -149,8 +149,6 @@
 	}
 
 	.menu a {
-		color: var(--font-color);
-		text-decoration: none;
 		padding: 20px 0px;
 	}
 

@@ -93,11 +93,7 @@
 		padding: 10px;
 		color: rgba(255, 255, 255, 0.5);
 	}
-
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
+	
 	a:hover {
 		text-decoration: underline;
 	}

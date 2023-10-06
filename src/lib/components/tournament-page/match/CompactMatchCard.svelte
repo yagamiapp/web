@@ -52,10 +52,6 @@
         align-items: center;
         justify-content: center;
     }
-    a {
-        text-decoration: none;
-        color: var(--font-color);
-    }
 
     img {
         height: 2.5rem;

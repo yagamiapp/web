@@ -8,15 +8,15 @@
 	// Teams are sorted by who registered first (i.e. low to high ID)
 </script>
 
-<section id={tournament.team_size == 1 ? 'players' : 'teams'}>
+<section id={team_size == 1 ? 'players' : 'teams'}>
 	<div class="title">
-		<h1>{tournament.team_size == 1 ? 'Players' : 'Teams'}</h1>
+		<h1>{team_size == 1 ? 'Players' : 'Teams'}</h1>
 	</div>
 
 	{#if tournament.team_size == 1}
 		<div class="list">
 			{#each teams as team}
-				<User user={team.Members[0].User} color={team.color} />
+				<User user={team.Members[0].User} color={team.color} link="/tournaments/{tournament.id}/teams/{team.id}"/>
 			{/each}
 		</div>
 	{:else}
